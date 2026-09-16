@@ -561,16 +561,31 @@ Example:
   "data": {},
   "meta": {}
 }
+
 List responses should support:
+
 data
+
 pagination
+
 total where practical
+
 current page
+
 limit
+
 next/previous indicators
+
+
+
+---
+
 24. Error Response Structure
+
 Errors should use a consistent structure.
+
 Example:
+
 {
   "success": false,
   "error": {
@@ -578,187 +593,434 @@ Example:
     "message": "Invalid request parameters"
   }
 }
+
 API errors should use appropriate HTTP status codes.
+
 Examples:
+
 400 — Bad Request
+
 401 — Unauthorized
+
 403 — Forbidden
+
 404 — Not Found
+
 409 — Conflict
+
 422 — Validation Error
+
 429 — Rate Limited
+
 500 — Internal Error
+
+
+
+---
+
 25. Pagination
+
 Large datasets must use pagination.
+
 Recommended parameters:
+
 page
+
 limit
+
 Example:
+
 GET /api/v1/deals?page=2&limit=50
+
 Cursor-based pagination may be introduced later for very large/high-volume datasets.
+
 Maximum page size must be enforced.
+
+
+---
+
 26. Rate Limiting
+
 Public and authenticated APIs must have rate limits.
+
 Rate limits should vary by:
+
 IP
+
 User
+
 API key
+
 Endpoint
+
 Authentication level
+
 Traffic type
+
+
 Higher limits may be granted to trusted internal services.
+
 Rate limiting must protect the system from abuse and accidental overload.
+
+
+---
+
 27. Caching
+
 Read-heavy API responses should support caching.
+
 Potential cache targets:
+
 Categories
+
 Countries
+
 Merchant pages
+
 Popular deals
+
 Featured deals
+
 Search results where appropriate
+
+
 Cache invalidation must occur when relevant underlying data changes.
+
 Highly personalized responses should be handled carefully to avoid leaking user-specific data.
+
+
+---
+
 28. API Security
+
 Security requirements:
+
 HTTPS only
+
 Secure authentication
+
 Authorization checks
+
 Input validation
+
 Rate limiting
+
 CORS controls
+
 CSRF protection where applicable
+
 Secure headers
+
 Secret management
+
 Audit logs
+
 Abuse detection
+
+
 Database credentials and affiliate secrets must never be returned through API responses.
+
+
+---
+
 29. CORS
+
 CORS must allow only approved application origins.
+
 Production origins should be explicitly configured.
+
 Development origins should be separate from production.
+
 Wildcard CORS should not be used for authenticated APIs unless there is a specific controlled requirement.
+
+
+---
+
 30. API Logging
+
 The API should log important operational information.
+
 Examples:
+
 Request ID
+
 Endpoint
+
 Status code
+
 Response time
+
 Error code
+
 Service
+
 Timestamp
+
+
 Sensitive information must not be written to logs.
+
 Examples of data that should not be logged unnecessarily:
+
 Passwords
+
 Authentication secrets
+
 API keys
+
 Private tokens
+
 Sensitive personal information
+
+
+
+---
+
 31. API Monitoring
+
 Monitor:
+
 Error rate
+
 Request volume
+
 Response time
+
 Rate-limit events
+
 Authentication failures
+
 Database errors
+
 Affiliate redirect failures
+
 Third-party API failures
+
+
 Alerts should be configured for critical production failures.
+
+
+---
+
 32. API Idempotency
+
 Operations that may be retried must support idempotency where appropriate.
+
 This is especially important for:
+
 Deal imports
+
 Conversion imports
+
 Payment-related future features
+
 Notification jobs
+
 Affiliate events
+
+
 Duplicate requests must not unnecessarily create duplicate records.
+
+
+---
+
 33. Webhooks
+
 Future integrations may use webhooks for:
+
 Affiliate conversions
+
 Merchant updates
+
 Deal updates
+
 External services
+
 Notifications
+
+
 Webhook requirements:
+
 Signature verification
+
 Authentication
+
 Replay protection
+
 Idempotency
+
 Retry handling
+
 Event logging
+
+
+
+---
+
 34. Background Jobs
+
 Long-running operations should not block normal API requests.
+
 Background jobs may handle:
+
 Deal imports
+
 Data normalization
+
 Deduplication
+
 Expiry checks
+
 Affiliate synchronization
+
 Conversion synchronization
+
 Notifications
+
 Analytics processing
+
 PSEO generation
+
 Cache invalidation
+
+
+
+---
+
 35. API and Database Separation
+
 API business logic must be separated from database access.
+
 Recommended conceptual structure:
+
 API Routes → Controllers/Handlers → Services → Data Access Layer → Database
+
 This separation makes the system easier to test, maintain and scale.
+
+
+---
+
 36. API Documentation
+
 All production APIs should be documented.
+
 Documentation should include:
+
 Endpoint
+
 HTTP method
+
 Authentication
+
 Parameters
+
 Request body
+
 Response structure
+
 Error codes
+
 Examples
+
 Rate limits
+
+
 OpenAPI/Swagger may be introduced for formal API documentation.
+
+
+---
+
 37. API Environment Separation
+
 Separate environments should be maintained:
+
 Development
+
 Staging
+
 Production
+
+
 Each environment should have separate:
+
 API configuration
+
 Database credentials
+
 Secrets
+
 Affiliate credentials where applicable
+
 External service credentials
+
+
 Production secrets must never be committed to GitHub.
+
+
+---
+
 38. API Scalability
+
 The API architecture must support increasing traffic.
+
 Scaling mechanisms may include:
+
 CDN
+
 Caching
+
 Database indexing
+
 Stateless API services
+
 Horizontal scaling
+
 Queues
+
 Background workers
+
 Dedicated search infrastructure
+
 Analytics processing pipeline
+
+
 The architecture should avoid unnecessary single points of failure.
+
+
+---
+
 39. API Data Flow
+
 Website
+
 Website → API → Services → Database → API Response → Website
+
 Telegram Mini App
+
 Mini App → API → User/Deal Services → Database → API Response → Mini App
+
 Telegram Bot
+
 Telegram → Bot Service → API → Database → Bot Response
+
 Admin
+
 Admin Dashboard → Authenticated Admin API → Services → Database
+
 Affiliate
+
 User → GDN Deal → Affiliate Redirect API → Click Event → Affiliate Network → Merchant
+
+
+---
+
 40. API Architecture Principle
+
 The API must remain the central application gateway for GDN.
+
 Core rule:
+
 Website, Telegram Bot, Telegram Mini App and Admin Dashboard should share the same backend logic and centralized data layer.
+
 No distribution channel should create its own isolated business logic or deal database.
+
 This architecture allows GDN to add new channels in the future without rebuilding the core platform.
