@@ -1,0 +1,41 @@
+# Environment & secrets
+.env
+.env.*
+!.env.example
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+.next/
+.nuxt/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+
+# Temporary files
+tmp/
+temp/
+
+# Local database
+*.sqlite
+*.sqlite3
+
+# Cloudflare
+.wrangler/
+
+# Secrets
+*.pem
+*.key
