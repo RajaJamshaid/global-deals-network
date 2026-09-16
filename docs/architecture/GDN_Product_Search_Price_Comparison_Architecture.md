@@ -1,2005 +1,2815 @@
-# GDN Product Search & Price Comparison Architecture
+GDN Product Search & Price Comparison Architecture
 
-## 1. Purpose
+1. Purpose
 
-Global Deals Network (GDN) will provide a centralized product discovery and price comparison system.
+Global Deals Network (GDN) ka Product Search & Price Comparison system users ko different countries ke stores, merchants aur marketplaces se products discover, compare aur purchase karne ka centralized experience provide karega.
 
-A user can search for a product using:
+System ka core purpose:
 
-- Text
-- Product name
-- Brand
-- Model number
-- SKU/GTIN/UPC/EAN/MPN
-- Product image
-- Barcode from image where detectable
-
-The system will identify the product and search relevant stores in the user's detected country.
-
-The system will compare available offers and present the most relevant verified offer first, with price comparison as the primary commercial ranking signal.
-
----
-
-## 2. Core Principle
-
-GDN follows:
-
-**User → Automatic Country Detection → Country Store Registry → Product Search → Product Matching → Offer Collection → Price Normalization → Effective Price Calculation → Ranking → Affiliate/Direct Product Link**
-
-The user should not normally need to manually select a country.
+- Product search
+- Image-based product search
+- Product identification
+- Exact product matching
+- Similar product matching
+- Multi-store comparison
+- Price comparison
+- Discount comparison
+- Shipping comparison
+- Availability comparison
+- Coupon/offer comparison
+- Affiliate monetization
+- Country-specific marketplace discovery
+- Personalized product discovery
+- Telegram Mini App marketplace experience
 
 ---
 
-## 3. Automatic Country Detection
+2. Core Architecture Principle
 
-GDN will automatically detect the user's country using IP geolocation.
+GDN mein:
 
-Example:
+Product = Canonical Product Entity
 
-User connects from USA
-→ System detects USA
-→ USA store registry is loaded
-→ Product is searched across eligible USA stores.
+Offer = Store/merchant ka specific product listing
 
-User connects from UK
-→ System detects UK
-→ UK store registry is loaded
-→ Product is searched across eligible UK stores.
+Store = Retailer/Merchant
 
-Country detection must be treated as a default context, not an irreversible user setting.
+Country = Market Context
 
----
+Deal = Promotional/discount opportunity
 
-## 4. Manual Country Override
+Affiliate Engine = Monetization & outbound tracking
 
-Although automatic country detection is the default, users must have a visible option to change country.
+Price Comparison Engine = Offer comparison
 
-Example:
+Search Engine = Discovery
 
-- Detected: USA
-- Change Country
-- UK
-- Canada
-- Australia
-- UAE
-- etc.
+Country selection sirf product search ko control nahi karegi.
 
-Manual selection should override automatic IP detection for the current session.
-
-If the user is authenticated, the selected country may be saved as a preference.
+Selected country poori marketplace experience ka active context hoga.
 
 ---
 
-## 5. Country Store Registry
+3. Global Market Context Architecture
 
-Every supported country will have a centralized store registry.
+GDN ka marketplace experience ek centralized Market Context system use karega.
 
-Example:
+Market Context determine karega:
 
-USA
-- Store A
-- Store B
-- Store C
-- Store D
-- Store E
-- Store F
-- Store G
-- Store H
-- Store I
-- Store J
-
-UK
-- Store A
-- Store B
-- Store C
-- etc.
-
-Each store record should contain:
-
-- Store ID
-- Store name
-- Country
-- Region
-- Website
-- Store status
-- Supported categories
-- Product feed availability
-- API availability
-- Search availability
-- Affiliate availability
+- Active country
 - Currency
-- Shipping regions
-- Data source
-- Data freshness
-- Store reliability status
-
----
-
-## 6. Product Search Across Stores
-
-When a user searches for a product, GDN will search all eligible stores for the detected country.
-
-Example:
-
-USA user searches:
-
-"Apple AirPods Pro"
-
-System:
-
-1. Detect USA
-2. Load USA store registry
-3. Search all eligible USA stores
-4. Collect candidate products
-5. Match products
-6. Normalize offers
-7. Compare prices
-8. Rank results
-9. Display offers
-
-Searches should run in parallel where technically possible.
-
----
-
-## 7. Text Product Search
-
-Text search should support:
-
-- Product name
-- Brand
-- Model
-- SKU
-- UPC
-- EAN
-- GTIN
-- MPN
-- Merchant SKU
-- Natural-language product descriptions
-
-The search engine should support:
-
-- Typo tolerance
-- Synonyms
-- Stemming
-- Brand recognition
-- Model recognition
-- Autocomplete
-- Exact-match detection
-- Variant detection
-
----
-
-## 8. Image Product Search
-
-The main search interface should support product image upload.
-
-User flow:
-
-**Upload Image → Analyze Image → Identify Product → Search Stores → Match Offers → Compare Prices**
-
-The system may extract:
-
-- Product type
-- Brand
-- Product name
-- Model
-- Visible text
-- Barcode
-- Packaging information
-- Product attributes
-- Visual features
-
-Image search should work together with text search rather than being completely isolated.
-
----
-
-## 9. Image Processing Pipeline
-
-Image search pipeline:
-
-```text
-User Image
-    ↓
-Image Validation
-    ↓
-Resize / Optimize
-    ↓
-OCR
-    ↓
-Barcode Detection
-    ↓
-Visual Product Recognition
-    ↓
-Product Metadata Extraction
-    ↓
-Candidate Product Search
-    ↓
-Product Matching
-    ↓
-Offer Comparison
-
-Temporary uploaded images should not be retained longer than necessary unless the user explicitly saves them or consent requires retention.
-
-
----
-
-10. Product Identification
-
-The system should identify the most likely canonical product.
-
-Identification signals may include:
-
-GTIN
-
-UPC
-
-EAN
-
-ISBN where applicable
-
-MPN
-
-Model number
-
-Brand
-
-Product title
-
-Product attributes
-
-Image similarity
-
-OCR text
-
-Merchant metadata
-
-
-Multiple signals should be combined to improve accuracy.
-
-
----
-
-11. Product Entity
-
-A canonical Product represents the actual product.
-
-Example:
-
-Product ID:
-GDN-PROD-12345
-
-Brand:
-Apple
-
-Product:
-AirPods Pro
-
-Generation:
-2nd Generation
-
-Variant:
-USB-C
-
-Identifiers:
-UPC
-EAN
-GTIN
-MPN
-
-The Product entity is independent of any individual store.
-
-
----
-
-12. Offer Entity
-
-An Offer represents one store's listing of a Product.
-
-Example:
-
-Product:
-Apple AirPods Pro 2 USB-C
-
-Offer 1:
-Store A
-$189
-
-Offer 2:
-Store B
-$179
-
-Offer 3:
-Store C
-$199
-
-The Product is canonical.
-
-The Offers belong to individual stores.
-
-
----
-
-13. Product Matching
-
-GDN must distinguish between:
-
-Exact product
-
-Exact variant
-
-Similar product
-
-Uncertain match
-
-
-Matching should consider:
-
-Brand
-
-Model
-
-Generation
-
-Size
-
-Color
-
-Storage
-
-Quantity
-
-Package size
-
-Variant
-
-Condition
-
-Product identifiers
-
-
-A visually similar product must not automatically be treated as the same product.
-
-
----
-
-14. Exact vs Similar Results
-
-Search results should clearly identify match confidence.
-
-Example:
-
-Exact Match
-
-Apple AirPods Pro 2 USB-C
-
-Similar Match
-
-Apple AirPods Pro 2 Lightning
-
-Similar products must not be incorrectly presented as exact matches.
-
-
----
-
-15. Product Variant Matching
-
-Variant accuracy is critical.
-
-The system must avoid comparing:
-
-128GB vs 256GB
-
-Small vs Large
-
-1-pack vs 3-pack
-
-Black vs White
-
-New vs Refurbished
-
-Different generations
-
-Different model numbers
-
-
-unless the user specifically requests comparison across variants.
-
-
----
-
-16. Store Data Sources
-
-Stores may provide product data through:
-
-Official APIs
-
-Affiliate feeds
-
-Product feeds
-
-Merchant feeds
-
-Approved data integrations
-
-Other lawful and permitted sources
-
-
-GDN must respect:
-
-Store terms
-
-API terms
-
-Affiliate network rules
-
-Data licensing
-
-Robots.txt where applicable
-
-Applicable laws
-
-
-No store should be integrated through a method that violates its applicable restrictions.
-
-
----
-
-17. Offer Normalization
-
-Store data will be normalized into one common GDN Offer format.
-
-Normalization may include:
-
-Product title
-
-Brand
-
-Model
-
-Variant
-
-Product ID
-
-Store ID
-
-Price
-
-Currency
-
-Shipping
-
-Tax
-
-Discount
-
-Coupon
-
-Availability
-
-Condition
-
-Product URL
-
-Affiliate URL
-
-Last updated time
-
-
-
----
-
-18. Price Normalization
-
-Prices from different stores must be converted into a common comparison format.
-
-The system should store:
-
-Original price
-
-Original currency
-
-Converted price
-
-Conversion rate
-
-Currency conversion timestamp
-
-
-Example:
-
-Store A: $199 USD
-Store B: £145 GBP
-Store C: €170 EUR
-
-For the user's market, GDN can display prices in the appropriate local currency.
-
-
----
-
-19. Currency Conversion
-
-Currency conversion should use a centralized currency service.
-
-The system must store:
-
-Source currency
-
-Target currency
-
-Exchange rate
-
-Rate timestamp
-
-Conversion source
-
-
-Currency conversion must not overwrite the original store price.
-
-
----
-
-20. Shipping Cost
-
-Where shipping information is available, GDN should include it in effective price calculations.
-
-Example:
-
-Product Price: $180
-Shipping: $10
-Effective Price: $190
-
-If shipping information is unavailable, the result must clearly indicate:
-
-Shipping not included
-
-GDN must never invent shipping costs.
-
-
----
-
-21. Taxes
-
-Where reliable tax information is available, the system may include estimated or known taxes.
-
-If tax information is unavailable:
-
-Tax not included / calculated at checkout
-
-must be displayed where appropriate.
-
-GDN must not represent an incomplete price as a guaranteed final checkout price.
-
-
----
-
-22. Coupons & Discounts
-
-The system should detect valid:
-
-Store discounts
-
-Product discounts
-
-Coupon codes
-
-Automatic promotions
-
-Member-only pricing where clearly applicable
-
-
-Only verified and currently valid discounts should affect the effective price.
-
-
----
-
-23. Total Effective Price
-
-The primary comparison metric should be:
-
-Total Effective Price
-=
-Product Price
-+ Shipping
-+ Known Applicable Taxes
-- Valid Discount/Coupon
-
-Only known values should be included.
-
-If some components are unavailable, the system should label the limitation.
-
-
----
-
-24. Price Ranking
-
-Default offer ranking should prioritize the lowest verified effective price among sufficiently confident product matches.
-
-Example:
-
-1. Store B — $179
-2. Store A — $189
-3. Store C — $199
-4. Store D — $205
-
-A low price for the wrong product must never outrank an exact product match.
-
-Product-match confidence is therefore a prerequisite for price ranking.
-
-
----
-
-25. Alternative Sort Options
-
-Users may also sort by:
-
-Lowest price
-
-Lowest total effective price
-
-Highest discount
-
-Fastest delivery
-
-Relevance
-
-Store
-
-Availability
-
-Newest offer
-
-
-Default:
-
-Lowest verified effective price for the matching product/variant
-
-
----
-
-26. Availability
-
-Offer results should include:
-
-In stock
-
-Limited stock
-
-Out of stock
-
-Pre-order
-
-Unknown
-
-
-Out-of-stock offers may be hidden from the primary results by default but can remain accessible through filters where useful.
-
-
----
-
-27. Condition
-
-Where relevant, offers should identify:
-
-New
-
-Used
-
-Refurbished
-
-Open box
-
-Other
-
-
-Different conditions should not be silently compared as equivalent.
-
-
----
-
-28. Store Trust Metadata
-
-GDN may display store information such as:
-
-Store name
-
-Store rating where legally/technically available
-
-Availability
-
-Shipping information
-
-Return information where available
-
-Data freshness
-
-Affiliate status
-
-
-Store trust metadata must not artificially change the price ranking unless the user explicitly chooses a relevant filter.
-
-
----
-
-29. Affiliate Link Architecture
-
-Affiliate monetization is optional at the offer level.
-
-If an affiliate link exists:
-
-Offer
-→ Affiliate Engine
-→ Tracked Affiliate URL
-→ Store
-
-If an affiliate link does not exist:
-
-Offer
-→ Direct Store/Product URL
-→ Store
-
-
----
-
-30. Affiliate-Independent Product Discovery
-
-GDN must never remove a relevant store simply because it has no affiliate program.
-
-Core principle:
-
-Product Discovery First → User Value First → Affiliate Monetization Where Available
-
-A non-affiliate store can still appear in price comparison.
-
-
----
-
-31. Monetization Type
-
-Every offer should internally support:
-
-monetization_type:
-- affiliate
-- direct
-
-Potential future values:
-
-- sponsored
-- partner
-- other
-
-Monetization status must not automatically determine price ranking.
-
-
----
-
-32. Affiliate Attribution
-
-Affiliate offers should use the centralized Affiliate Engine.
-
-The Affiliate Engine handles:
-
-Affiliate network
-
-Affiliate program
-
-Affiliate account
-
-Tracking parameters
-
-SubIDs
-
-Click tracking
-
-Attribution
-
-Conversion tracking
-
-Revenue tracking
-
-
-The Product Search Engine should not independently implement affiliate tracking.
-
-
----
-
-33. Search Result Schema
-
-A normalized result may contain:
-
-Product
-├── product_id
-├── title
-├── brand
-├── model
-├── variant
-├── identifiers
-├── image
-│
-└── Offers[]
-    ├── offer_id
-    ├── store_id
-    ├── store_name
-    ├── price
-    ├── currency
-    ├── shipping
-    ├── tax
-    ├── discount
-    ├── effective_price
-    ├── availability
-    ├── condition
-    ├── match_confidence
-    ├── monetization_type
-    ├── product_url
-    └── last_updated
-
-
----
-
-34. Search Filters
-
-Users should be able to filter by:
-
-Price
-
-Store
-
-Brand
-
-Category
-
-Availability
-
-Condition
-
-Variant
-
-Discount
-
-Shipping
-
-Delivery
-
-Currency
-
-
-Country remains the primary market context.
-
-
----
-
-35. User Country & Currency
-
-Country affects:
-
-Eligible stores
-
-Store availability
-
-Product availability
-
-Currency
-
-Shipping
-
-Taxes
-
-Affiliate routing
-
-Landing-page content
-
-Deals
-
-Promotions
-
-
-Example:
-
-USA User
-→ USA Stores
-→ USD
-→ USA Shipping Context
-→ USA Product Landing Page
-
-
----
-
-36. Country-Specific Product Landing Pages
-
-Product landing pages must automatically adapt to the user's country context.
-
-Example:
-
-USA:
-Product → USA Stores → USD Prices → USA Offers
-
-UK:
-Product → UK Stores → GBP Prices → UK Offers
-
-Canada:
-Product → Canadian Stores → CAD Prices → Canadian Offers
-
-The same canonical Product can therefore have different country-specific offer views.
-
-
----
-
-37. PSEO Product Pages
-
-GDN can generate country-specific product pages such as:
-
-/us/product/product-name
-/uk/product/product-name
-/ca/product/product-name
-/au/product/product-name
-
-Pages should only be indexed when they contain sufficient useful, current, and differentiated content.
-
-Thin automatically generated pages must not be indexed simply because a URL exists.
-
-
----
-
-38. Canonical Product Architecture
-
-There should be one canonical Product entity.
-
-Country-specific pages are views of that Product using country-specific Offers.
-
-Example:
-
-Canonical Product
-        ↓
- ┌──────┼──────┐
-USA     UK     Canada
- ↓       ↓       ↓
-Offers Offers  Offers
-
-This prevents duplicate product entities.
-
-
----
-
-39. International Product Search
-
-If the user intentionally changes country, the search engine should switch the store registry.
-
-Example:
-
-Detected Country: USA
-User selects: UK
-
-USA Store Registry
-        ↓
-   replaced by
-        ↓
-UK Store Registry
-
-The same product can then be searched in UK stores.
-
-
----
-
-40. Duplicate Offer Handling
-
-The system must prevent duplicate offers from appearing due to:
-
-Multiple feeds
-
-Multiple affiliate networks
-
-Multiple data sources
-
-Duplicate merchant records
-
-URL variations
-
-
-Each offer should have a stable identity.
-
-
----
-
-41. Price Freshness
-
-Prices change frequently.
-
-Each offer should store:
-
-last_checked_at
-
-price_updated_at
-
-availability_checked_at
-
-source_timestamp
-
-
-Stale offers should be marked accordingly.
-
-Example:
-
-Price checked 8 minutes ago
-
-or:
-
-Price information may be outdated
-
-
----
-
-42. Price Validation
-
-Before displaying an offer prominently, GDN should validate:
-
-Product identity
-
-Price
-
-Currency
-
-Availability
-
-Product URL
-
-Store status
-
-
-If validation fails, the offer may be:
-
-Refreshed
-
-Temporarily hidden
-
-Marked uncertain
-
-Removed from primary ranking
-
-
-
----
-
-43. Search Index
-
-The search infrastructure should index:
-
-Products
-
-Product identifiers
-
-Brands
-
-Models
-
-Variants
-
-Stores
-
-Offers
-
-Categories
-
-Countries
-
-
-Offer indexes should support rapid price and availability updates.
-
-
----
-
-44. Product & Offer Database
-
-Core entities:
-
-Country
-Store
-Product
-ProductVariant
-ProductIdentifier
-Offer
-OfferPrice
-OfferAvailability
-OfferDiscount
-ShippingOption
-AffiliateLink
-SearchIndex
-
-These connect to the existing GDN:
-
-Deal Database
-
-Affiliate Engine
-
-User Engine
-
-Analytics Engine
-
-Search Engine
-
-PSEO Engine
-
-
-
----
-
-45. API Architecture
-
-Core APIs may include:
-
-GET  /api/v1/products/search
-POST /api/v1/products/image-search
-GET  /api/v1/products/{product_id}
-GET  /api/v1/products/{product_id}/offers
-GET  /api/v1/products/{product_id}/offers?country=US
-GET  /api/v1/stores
-GET  /api/v1/stores/{store_id}
-GET  /api/v1/price-comparison/{product_id}
-
-Country should normally be inferred from the user context rather than requiring manual selection.
-
-
----
-
-46. Image Search API
-
-Image search should support:
-
-POST /api/v1/products/image-search
-
-Processing:
-
-Image
-→ Validation
-→ OCR / Barcode / Vision
-→ Candidate Products
-→ Product Matching
-→ Store Search
-→ Offer Comparison
-→ Results
-
-
----
-
-47. Background Jobs
-
-Heavy tasks should run asynchronously where appropriate:
-
-Image processing
-
-Product matching
-
-Store feed ingestion
-
-Price updates
-
-Availability updates
-
-Product deduplication
-
-Search indexing
-
-Currency updates
-
-Affiliate link validation
-
-Stale offer cleanup
-
-
-
----
-
-48. Caching
-
-Frequently requested products and offers should be cached.
-
-Cache candidates:
-
-Product search
-
-Product details
-
-Store results
-
-Price comparison
-
-Country store registry
-
-Currency rates
-
-
-Price-sensitive data must have appropriate TTLs and invalidation rules.
-
-
----
-
-49. Analytics
-
-Track:
-
-Product searches
-
-Image searches
-
-Search queries
-
-Country
-
-Stores searched
-
-Products identified
-
-Match confidence
-
-Offers returned
-
-Price comparison views
-
-Store clicks
-
-Affiliate clicks
-
-Direct clicks
-
-Conversions
-
-Revenue
-
-Failed searches
-
-No-result searches
-
-
-These events feed the centralized Analytics Engine.
-
-
----
-
-50. User Preferences & Personalization
-
-The User Preference Engine may later personalize:
-
-Preferred stores
-
-Preferred brands
-
-Preferred categories
-
-Price range
-
-Currency
-
-Country
-
-Delivery preferences
-
-Favorite products
-
-
-Personalization must not secretly distort factual price information.
-
-The system should clearly distinguish:
-
-Lowest Price
-
-from:
-
-Recommended for You
-
-
----
-
-51. Telegram Mini App UX
-
-Primary flow:
-
-Open Telegram Mini App
-        ↓
+- Eligible stores
+- Available products
+- Available offers
+- Deals
+- Discounts
+- Shipping context
+- Product availability
+- Affiliate programs
+- Direct purchase links
+- Country-specific landing pages
+- Localized content
+- Localized recommendations
+
+Market Context Flow
+
+User
+  ↓
 Automatic Country Detection
-        ↓
-Search Bar
-        ↓
-Text OR Image Upload
-        ↓
-Product Identification
-        ↓
-Search Country Stores
-        ↓
-Compare Offers
-        ↓
-Lowest Verified Effective Price
-        ↓
-Other Offers
-        ↓
-Store / Affiliate / Direct CTA
+  ↓
+Default Market
+  ↓
+Country Selector
+  ↓
+Manual Country Override
+  ↓
+Active Market Context
+  ↓
+Mini App / Website Experience
+  ↓
+Deals + Offers + Search + Stores + Products
 
-The search interface should be extremely simple.
+---
+
+4. Automatic Country Detection
+
+GDN user ka country automatically detect karne ki koshish karega.
+
+Possible signals:
+
+- IP geolocation
+- Telegram country-related metadata where legally/technically available
+- Browser locale
+- Currency preference
+- Existing user preference
+
+Automatic detection sirf default suggestion hogi.
+
+System user ko permanently detected country mein lock nahi karega.
 
 Example:
 
-[ Search for any product... ] [📷]
+Detected Country: United States
 
-
----
-
-52. Product Comparison Result Card
-
-Each result may show:
-
-Product Image
-
-Apple AirPods Pro 2
-
-Store:
-Example Store
-
-Price:
-$179
-
-Shipping:
-Free
-
-Effective Price:
-$179
-
-Availability:
-In Stock
-
-Match:
-Exact Match
-
-Price checked:
-5 min ago
-
-[View Deal]
-
-If affiliate is unavailable, the CTA still works through the direct store URL.
-
-
----
-
-53. Website Integration
-
-The same Product Search and Price Comparison Engine should power:
-
-GDN Website
-
-Telegram Mini App
-
-Telegram Bot
-
-Future mobile apps
-
-Future browser extensions
-
-Future APIs
-
-Other distribution channels
-
-
-No channel should maintain a separate product comparison database.
-
-
----
-
-54. Telegram Bot Integration
-
-The Telegram Bot may support:
-
-/search
-/product
-/compare
-
-The Bot can send users to the Mini App for richer image-based search and comparison.
-
-
----
-
-55. AI & Vision Layer
-
-Future AI capabilities may include:
-
-Image product recognition
-
-Visual similarity search
-
-Natural-language product search
-
-Product attribute extraction
-
-Query understanding
-
-Product matching
-
-Variant detection
-
-Similar-product discovery
-
-Price comparison explanations
-
-
-AI must assist the matching system but should not blindly override verified identifiers.
-
-
----
-
-56. Search Confidence
-
-Every product identification should have a confidence score internally.
-
-Example:
-
-GTIN Match: High confidence
-Model Match: High confidence
-Image Match: Medium confidence
-OCR Match: High confidence
-
-The final match decision should combine multiple signals.
-
-
----
-
-57. Error Handling
-
-If one store fails:
-
-Store A ✓
-Store B ✓
-Store C ✗
-Store D ✓
-
-The system should continue with available stores.
-
-A single store failure must not break the complete search.
-
-If all stores fail, show a useful retry/fallback response.
-
-
----
-
-58. No-Result Handling
-
-If the exact product is unavailable:
-
-1. Search exact identifiers
-
-
-2. Search normalized product name
-
-
-3. Search related variants
-
-
-4. Search similar products
-
-
-5. Clearly label results as similar
-
-
-
-Never silently replace an exact product with a different product.
-
-
----
-
-59. Security & Privacy
-
-Image and search systems must follow the central GDN Security Architecture.
-
-Requirements include:
-
-Secure image upload
-
-File type validation
-
-File size limits
-
-Malware protection where applicable
-
-Temporary storage controls
-
-Rate limiting
-
-Abuse prevention
-
-API authentication
-
-Input validation
-
-Privacy controls
-
-Secure third-party integrations
-
-
-IP country detection should be used only for necessary localization and service functionality.
-
-
----
-
-60. Scalability
-
-The architecture must support growth from:
-
-1 Country
-→ 10 Stores
-→ 50 Stores
-→ 100+ Stores
-→ 1,000+ Stores
-
-and eventually:
-
-Many Countries
-→ Thousands of Stores
-→ Millions of Products
-→ Millions of Offers
-→ Large Global User Base
-
-Store connectors must therefore use a modular adapter architecture.
-
-
----
-
-61. Store Connector Architecture
-
-Each store integration should be isolated behind a common interface.
-
-Example:
-
-Store Connector Interface
-        ↓
- ┌──────┼────────┬────────┐
-Store A Store B Store C Store D
-
-Each connector can implement:
-
-Product search
-
-Product lookup
-
-Price retrieval
-
-Availability retrieval
-
-Shipping retrieval
-
-Product URL
-
-Affiliate URL
-
-
-The rest of GDN should not depend on store-specific implementation details.
-
-
----
-
-62. Parallel Store Search
-
-For a country with 10 stores:
-
-User Search
-     ↓
-Country Registry
-     ↓
-10 Store Connectors
-     ↓
-Parallel Search
-     ↓
-Candidate Offers
-     ↓
-Product Matching
-     ↓
-Price Comparison
-
-Parallel processing should reduce total response time.
-
-
----
-
-63. Graceful Degradation
-
-If some data is unavailable:
-
-Show available price
-
-Label missing shipping
-
-Label missing tax
-
-Show last update time
-
-Continue using working stores
-
-
-Never fabricate missing information.
-
-
----
-
-64. Testing & QA
-
-Testing must cover:
-
-Country Detection
-
+Default Market:
 USA
 
-UK
-
-Canada
-
-Australia
-
-Other supported markets
-
-
-Search
-
-Exact product
-
-Misspelled product
-
-Model number
-
-UPC/EAN/GTIN
-
-Brand search
-
-
-Image Search
-
-Clear image
-
-Blurry image
-
-Multiple products
-
-Packaging
-
-Barcode image
-
-Unsupported image
-
-
-Matching
-
-Exact product
-
-Similar product
-
-Different variant
-
-Different generation
-
-Different package quantity
-
-
-Price
-
-Different currencies
-
-Discounts
-
-Coupons
-
-Shipping
-
-Missing shipping
-
-Tax availability
-
-Stale prices
-
-
-Affiliate
-
-Affiliate URL available
-
-Affiliate URL unavailable
-
-Direct URL fallback
-
-
-Store Failure
-
-One store unavailable
-
-Multiple stores unavailable
-
-All stores unavailable
-
-
+User isay change kar sakta hai.
 
 ---
 
-65. Example: USA
+5. Manual Country Selector
 
-User opens GDN from the USA.
+Telegram Mini App mein prominent:
 
-System:
+Country Selector
 
-IP Detection
-↓
-USA
-↓
-USA Store Registry
-↓
-10 Eligible Stores
+provide kiya jayega.
 
-User searches:
+Example:
 
-Sony WH-1000XM5
+🌎 Shop Market
 
-GDN searches all 10 stores.
-
-Results:
-
-Store B — $299
-Store F — $305
-Store A — $319
-Store H — $329
+🇺🇸 United States
+🇬🇧 United Kingdom
+🇨🇦 Canada
+🇦🇺 Australia
+🇳🇿 New Zealand
+🇩🇪 Germany
+🇫🇷 France
 ...
 
-The lowest verified effective price appears first.
-
+User kisi bhi supported country ko manually select kar sakta hai.
 
 ---
 
-66. Example: Image Search
+6. Active Country / Active Market
 
-User uploads a photo of a product.
+User ke select karne ke baad selected country:
 
-System:
+Active Market Context
 
-Image
+ban jayegi.
+
+Example:
+
+Detected Country:
+USA
+
+User Selected:
+UK
+
+Active Market:
+UK
+
+Ab Mini App ka marketplace UK context mein operate karega.
+
+---
+
+7. Country Selection Scope
+
+Country selector sirf product search ke liye nahi hoga.
+
+Selected country apply hogi:
+
+- Home marketplace
+- Deals
+- Offers
+- Discounts
+- Coupons
+- Products
+- Product Search
+- Price Comparison
+- Stores
+- Merchants
+- Categories
+- Recommendations
+- Trending products
+- Price drops
+- Shipping information
+- Currency
+- Affiliate links
+- Direct purchase links
+- PSEO landing pages
+- Notifications
+- Country-specific content
+
+---
+
+8. Country Selection Example
+
+Agar user USA mein hai:
+
+Detected:
+🇺🇸 USA
+
+Active Market:
+🇺🇸 USA
+
+Mini App show kare:
+
+- USA deals
+- USA stores
+- USD prices
+- USA availability
+- USA shipping context
+- USA affiliate links
+
+Agar user manually UK select karta hai:
+
+Active Market:
+🇬🇧 United Kingdom
+
+Mini App immediately switch kare:
+
+- UK deals
+- UK offers
+- UK stores
+- GBP prices
+- UK availability
+- UK shipping context
+- UK affiliate links
+- UK landing pages
+
+---
+
+9. Country Preference Persistence
+
+User ka manually selected country persist kiya ja sakta hai.
+
+Storage:
+
+user_preferences.market_country_id
+
+Anonymous users ke liye:
+
+local storage / secure client preference
+
+Telegram authenticated users ke liye:
+
+central User Preference Engine
+
+Agar user manually country select kare, manual preference automatic detection par priority rakhegi.
+
+---
+
+10. Country Priority Logic
+
+Priority:
+
+1. Explicit User Selection
+2. Saved User Market Preference
+3. Telegram/User Profile Market Preference
+4. Automatic IP Detection
+5. Default Global Market
+
+Example:
+
+IP = USA
+Saved Preference = UK
+
+Active Market = UK
+
+---
+
+11. Country Selector UX
+
+Mini App mein Country Selector accessible hona chahiye.
+
+Possible locations:
+
+- Header
+- Top navigation
+- Home page
+- Search page
+- Marketplace page
+- Settings
+
+Example:
+
+🌎 UK ▾
+
+Click karne par country selection panel open ho.
+
+---
+
+12. Country Search
+
+Agar countries bohat zyada hon to selector mein search hona chahiye.
+
+Example:
+
+Search country...
+
+United States
+United Kingdom
+United Arab Emirates
+Canada
+Australia
+Germany
+
+---
+
+13. Country Registry
+
+GDN centralized Country Registry maintain karega.
+
+Example:
+
+countries
+---------
+id
+code
+name
+native_name
+currency
+currency_symbol
+timezone
+locale
+status
+supported_market
+created_at
+updated_at
+
+---
+
+14. Country Market Configuration
+
+Har country ka market configuration centralized hoga.
+
+Example:
+
+country_market_config
+---------------------
+country_id
+default_currency
+supported_stores
+supported_affiliate_programs
+shipping_regions
+tax_context
+market_status
+localization_status
+seo_status
+
+---
+
+15. Country-Specific Store Registry
+
+Har country ke eligible stores centrally mapped honge.
+
+Example:
+
+USA
+→ Amazon US
+→ Walmart
+→ Target
+→ Best Buy
+
+UK
+→ Amazon UK
+→ Argos
+→ Currys
+→ Tesco
+
+Canada
+→ Amazon CA
+→ Walmart CA
+→ Best Buy CA
+
+Store eligibility database-driven hogi.
+
+---
+
+16. Country-Specific Deals
+
+Selected country ke basis par deals filter honge.
+
+Example:
+
+Active Country = UK
+
+Deals API
 ↓
-OCR
+country_id = UK
 ↓
-Barcode Detection
+UK eligible deals
+
+Mini App USA deals accidentally display nahi karega jab active market UK ho.
+
+---
+
+17. Country-Specific Offers
+
+Offer comparison mein country filter mandatory market context ho sakta hai.
+
+Example:
+
+Product:
+iPhone 17
+
+Active Market:
+UK
+
+Offers:
+Amazon UK
+Currys UK
+Argos UK
+Apple UK
+
+USA offers default result set mein nahi honge jab tak user explicitly cross-market comparison enable na kare.
+
+---
+
+18. Cross-Country Comparison
+
+Future feature ke taur par user multiple countries compare kar sakta hai.
+
+Example:
+
+Compare Markets
+
+🇺🇸 USA
+🇬🇧 UK
+🇨🇦 Canada
+
+Lekin default experience:
+
+Single Active Market
+
+hoga.
+
+---
+
+19. Product Search Architecture
+
+Product search centralized Search Engine ke through operate karega.
+
+Flow:
+
+User Query
 ↓
-Visual Recognition
+Active Country
 ↓
-Brand + Model Identification
+Search Engine
 ↓
-Canonical Product
-↓
-Country Store Search
+Candidate Products
 ↓
 Offer Matching
 ↓
+Country Eligibility
+↓
+Price Comparison
+↓
+Ranking
+↓
+Results
+
+---
+
+20. Text Product Search
+
+User product name enter kar sakta hai.
+
+Examples:
+
+iPhone 17 Pro
+Nike Air Max
+Sony headphones
+Samsung TV
+MacBook Air
+
+Search engine:
+
+- keywords
+- brand
+- model
+- category
+- SKU
+- GTIN
+- UPC
+- EAN
+- MPN
+
+ko use karega.
+
+---
+
+21. Image Product Search
+
+User image upload kar sakta hai.
+
+System possible signals:
+
+- Computer vision
+- OCR
+- Barcode detection
+- Logo recognition
+- Product metadata extraction
+- Visual similarity
+
+use karega.
+
+---
+
+22. Image Search Flow
+
+Image Upload
+↓
+Image Validation
+↓
+Image Processing
+↓
+OCR / Barcode / Vision
+↓
+Product Identification
+↓
+Candidate Products
+↓
+Exact / Similar Matching
+↓
+Offer Search
+↓
 Price Comparison
 
-The user receives offers for the identified product.
+---
 
+23. Product Identification
+
+System uploaded image se:
+
+- Brand
+- Product type
+- Model
+- SKU
+- Barcode
+- Text
+- Visual characteristics
+
+extract karne ki koshish karega.
+
+Agar confidence low ho to system uncertain result ko exact product ke taur par present nahi karega.
 
 ---
 
-67. Example: Affiliate Unavailable
+24. Canonical Product Entity
 
-Product exists at:
+Canonical Product centralized database mein store hoga.
 
-Store A — Affiliate Available
-Store B — Affiliate Available
-Store C — No Affiliate Program
+Example:
 
-GDN displays all three relevant offers.
-
-Store C
-$175
-Direct Store Link
-
-Store C is not removed merely because GDN cannot monetize it.
-
+products
+--------
+id
+canonical_name
+brand_id
+category_id
+model
+gtin
+upc
+ean
+mpn
+description
+image
+status
+created_at
+updated_at
 
 ---
 
-68. Integration With Deal Engine
+25. Offer Entity
 
-Product offers may connect with the Deal Engine.
+Offer ek specific store ka product listing hoga.
+
+offers
+------
+id
+product_id
+store_id
+country_id
+url
+affiliate_link_id
+price
+currency
+shipping_cost
+tax
+discount
+coupon
+availability
+condition
+last_verified_at
+status
+
+---
+
+26. Product vs Offer
+
+Important distinction:
+
+Product
+=
+What the product is
+
+Offer
+=
+Where/how the product is currently sold
+
+Example:
+
+Product:
+Apple iPhone 17 Pro 256GB
+
+Offers:
+Amazon US
+Best Buy US
+Apple US
+Walmart US
+
+---
+
+27. Exact Product Matching
+
+Exact matching signals:
+
+- GTIN
+- UPC
+- EAN
+- SKU
+- MPN
+- Model number
+- Brand
+- Variant
+- Size
+- Color
+- Storage
+- Condition
+
+System exact product aur similar product ko mix nahi karega.
+
+---
+
+28. Similar Product Matching
+
+Agar exact product unavailable ho to similar products show kiye ja sakte hain.
+
+Label:
+
+Exact Match
+
+ya
+
+Similar Product
+
+Similar result ko exact result ke taur par represent nahi kiya jayega.
+
+---
+
+29. Variant Matching
+
+Product variants separately identify kiye ja sakte hain.
+
+Examples:
+
+- Size
+- Color
+- Storage
+- RAM
+- Capacity
+- Pack size
+- Condition
+
+Example:
+
+iPhone 17 Pro
+256GB
+Black
+
+aur
+
+iPhone 17 Pro
+512GB
+Black
+
+separate variants ho sakte hain.
+
+---
+
+30. Store Data Sources
+
+Store data lawful and technically supported sources se aa sakta hai:
+
+- Affiliate feeds
+- Merchant APIs
+- Product feeds
+- Partner APIs
+- Publicly permitted data
+- Approved data providers
+
+Unauthorized scraping ko architecture ka required dependency nahi banaya jayega.
+
+---
+
+31. Store Connector Architecture
+
+Har store ke liye modular connector architecture hoga.
+
+Example:
+
+connectors/
+    amazon/
+    walmart/
+    bestbuy/
+    target/
+
+Har connector standardized output produce karega.
+
+---
+
+32. Offer Normalization
+
+Different stores ka data standardized format mein convert hoga.
+
+Example:
+
+Store A:
+price = 99
+
+Store B:
+sale_price = 94.99
+
+Store C:
+current_price = 97
+
+System sab ko common:
+
+offer.price
+
+structure mein normalize karega.
+
+---
+
+33. Currency Normalization
+
+Har offer ke saath original currency preserve hogi.
+
+Example:
+
+price:
+99.99
+
+currency:
+USD
+
+Comparison ke liye system optional normalized currency calculate kar sakta hai.
+
+Original price kabhi overwrite nahi hogi.
+
+---
+
+34. Currency Conversion
+
+Currency conversion centralized service se hogi.
+
+Example:
+
+USD
+GBP
+EUR
+CAD
+AUD
+AED
+
+Conversion timestamp store kiya jayega.
+
+Approximate converted prices ko clearly indicate kiya jayega.
+
+---
+
+35. Shipping Cost
+
+Shipping information separately track hogi.
+
+Possible states:
+
+Free
+Paid
+Unknown
+Unavailable
+Calculated at checkout
+
+Unknown shipping ko zero assume nahi kiya jayega.
+
+---
+
+36. Taxes
+
+Tax information available hone par store/market context ke according calculate/display ki ja sakti hai.
+
+Agar tax unavailable ho:
+
+Tax not included / calculated at checkout
+
+show kiya jayega.
+
+---
+
+37. Total Effective Price
+
+Comparison engine possible total effective price calculate karega:
+
+Product Price
++
+Shipping
++
+Known Taxes
+-
+Discount
+-
+Coupon
+=
+Effective Price
+
+Sirf jab required inputs reliable hon.
+
+Agar koi component unknown ho to system false precision create nahi karega.
+
+---
+
+38. Discount Comparison
+
+System compare kar sakta hai:
+
+- Original price
+- Sale price
+- Discount percentage
+- Coupon
+- Cashback where applicable
+- Bundle discount
+
+Discount claims source data se validate hone chahiye.
+
+---
+
+39. Deal Integration
+
+Product offers aur GDN Deals Engine integrate honge.
 
 Example:
 
 Product
 ↓
-Store Offer
+Offer
 ↓
-Current Deal
+Active Deal
+↓
+Coupon
+↓
+Affiliate Link
+
+User ko product ke saath active deal available ho to show kiya ja sakta hai.
+
+---
+
+40. Price Ranking
+
+Default ranking relevance + product match + verified effective price ko consider karegi.
+
+Possible ranking factors:
+
+- Exact match
+- Effective price
+- Availability
+- Shipping
+- Store eligibility
+- Data freshness
+- User filters
+- Deal value
+- Relevance
+
+Commercial value relevance ko override nahi karegi.
+
+---
+
+41. Lowest Price Logic
+
+System lowest price ko blindly select nahi karega.
+
+Valid comparison ke liye:
+
+- Correct product
+- Correct variant
+- Correct country
+- Valid offer
+- Current price
+- Sufficient freshness
+
+required honge.
+
+---
+
+42. Offer Freshness
+
+Har offer ka:
+
+last_verified_at
+
+store hoga.
+
+Old offers ko:
+
+- refresh
+- deprioritize
+- hide
+- mark stale
+
+kiya ja sakta hai.
+
+---
+
+43. Availability
+
+Possible states:
+
+In Stock
+Low Stock
+Out of Stock
+Preorder
+Unavailable
+Unknown
+
+---
+
+44. Store Trust Metadata
+
+Store-level metadata maintain kiya ja sakta hai:
+
+- Store identity
+- Country
+- Market
+- Data source
+- Affiliate status
+- Last successful sync
+- Availability reliability
+- Price freshness
+
+System unsupported trust claims nahi karega.
+
+---
+
+45. Affiliate Link Integration
+
+Har offer ke saath centralized Affiliate Engine integrate hoga.
+
+Flow:
+
+Offer
+↓
+Affiliate Engine
+↓
+Tracked Affiliate Link
+↓
+Redirect
+↓
+Merchant
+
+Frontend affiliate links hardcode nahi karega.
+
+---
+
+46. Direct Link Fallback
+
+Agar affiliate link available nahi:
+
+monetization_type = direct
+
+aur user ko direct merchant link diya ja sakta hai.
+
+Example:
+
+monetization_type:
+affiliate
+
+or
+
+direct
+
+---
+
+47. Affiliate Attribution
+
+Affiliate Engine tracking parameters use karega.
+
+Possible identifiers:
+
+click_id
+user_id
+session_id
+offer_id
+product_id
+store_id
+country_id
+campaign_id
+channel
+
+Telegram Mini App traffic separately identify kiya ja sakta hai.
+
+---
+
+48. Product Search Result Schema
+
+Typical result:
+
+Product
+├── Product Name
+├── Image
+├── Brand
+├── Variant
+├── Match Type
+│
+└── Offers
+    ├── Store
+    ├── Price
+    ├── Currency
+    ├── Discount
+    ├── Shipping
+    ├── Availability
+    ├── Last Updated
+    └── CTA
+
+---
+
+49. Country-Aware Search Result
+
+Active market result mein visible context:
+
+Market:
+🇬🇧 United Kingdom
+
+Currency:
+GBP
+
+Stores:
+UK stores
+
+Shipping:
+UK context
+
+CTA:
+UK merchant link
+
+---
+
+50. Product Search Filters
+
+Possible filters:
+
+- Price
+- Brand
+- Category
+- Store
+- Discount
+- Rating where available
+- Availability
+- Condition
+- Size
+- Color
+- Variant
+- Shipping
+- Delivery
+- Deal type
+- Exact match
+- Similar products
+
+Country filter active market ke saath synchronized hoga.
+
+---
+
+51. User Country Override During Search
+
+User search screen se bhi country change kar sakta hai.
+
+Example:
+
+Search:
+Nike shoes
+
+Market:
+🇺🇸 USA ▾
+
+User UK select kare:
+
+Market:
+🇬🇧 UK
+
+Search results UK context mein refresh honge.
+
+---
+
+52. Marketplace Browsing Without Search
+
+User ko product search karna zaroori nahi hoga.
+
+Mini App mein user simply browse kar sakta hai:
+
+Home
+↓
+Deals
+↓
+Categories
+↓
+Stores
+↓
+Trending
+↓
+Discounts
+↓
+Price Drops
+↓
+Products
+
+Sab active country ke according display honge.
+
+---
+
+53. Country-Aware Mini App Home
+
+Example:
+
+🇬🇧 United Kingdom ▾
+
+Today's Deals
+
+🔥 Trending
+💰 Biggest Discounts
+📉 Price Drops
+🏪 Popular Stores
+🛍️ Categories
+
+Country change karne par content refresh ho.
+
+---
+
+54. Country-Aware Deals
+
+Deals API active market context receive karegi.
+
+Example:
+
+GET /api/v1/deals?country=GB
+
+Returned deals:
+
+UK eligible deals
+
+---
+
+55. Country-Aware Offers
+
+Example:
+
+GET /api/v1/offers?product_id=123&country=GB
+
+Sirf eligible UK offers return honge.
+
+---
+
+56. Country-Aware Stores
+
+Store discovery:
+
+GET /api/v1/stores?country=GB
+
+User ko relevant UK stores show honge.
+
+---
+
+57. Country-Aware Currency
+
+Active market ke basis par default display currency determine hogi.
+
+Example:
+
+USA → USD
+UK → GBP
+Canada → CAD
+Australia → AUD
+EU market → EUR
+
+User future mein display currency separately override kar sakta hai.
+
+Market country aur display currency ko technically separate concepts rakha jayega.
+
+---
+
+58. Country-Aware Shipping
+
+Shipping context active market se derive hoga.
+
+Example:
+
+Market:
+UK
+
+Shipping:
+UK delivery context
+
+Agar store international shipping deta hai to cross-border shipping separately identify ki jayegi.
+
+---
+
+59. Country-Aware Affiliate Routing
+
+Affiliate Engine active country ke basis par correct program/link select karega.
+
+Example:
+
+Product
++
+Country = UK
+↓
+UK Affiliate Program
+↓
+UK Affiliate Link
+
+USA user manually UK market select kare to UK affiliate route use ho sakta hai, subject to program availability and merchant rules.
+
+---
+
+60. Country-Aware Direct Routing
+
+Affiliate unavailable ho to country-specific direct merchant URL select kiya ja sakta hai.
+
+Example:
+
+Amazon US
+Amazon UK
+Amazon CA
+
+same canonical product se mapped ho sakte hain.
+
+---
+
+61. Country-Specific Landing Pages
+
+GDN PSEO system country-aware landing pages generate karega.
+
+Examples:
+
+/products/iphone-17-pro/
+
+and country-specific context:
+
+/us/products/iphone-17-pro/
+uk/products/iphone-17-pro/
+ca/products/iphone-17-pro/
+
+Exact URL architecture centralized PSEO architecture ke saath consistent hogi.
+
+---
+
+62. Country + Product Pages
+
+Country-specific product page show kar sakta hai:
+
+- Local stores
+- Local prices
+- Local currency
+- Local deals
+- Shipping context
+- Affiliate links
+- Availability
+- Related products
+
+---
+
+63. Country + Category Pages
+
+Examples:
+
+/uk/electronics/
+/us/electronics/
+/ca/electronics/
+
+Pages active country ke real deal/store data se powered honge.
+
+---
+
+64. Country + Merchant Pages
+
+Example:
+
+/uk/stores/amazon/
+/us/stores/amazon/
+
+Merchant availability country-specific hogi.
+
+---
+
+65. Country + Deal Pages
+
+Deal pages country context maintain karengi.
+
+Example:
+
+/uk/deals/samsung-tv/
+
+UK deal inventory show karegi.
+
+---
+
+66. Search Index Architecture
+
+Search engine mein products/offers ke saath country context indexed ho sakta hai.
+
+Example:
+
+product_id
+offer_id
+store_id
+country_id
+category_id
+brand_id
+price
+availability
+freshness
+
+---
+
+67. Product Database
+
+Central product database:
+
+products
+product_variants
+product_identifiers
+product_images
+product_categories
+product_brands
+
+---
+
+68. Offer Database
+
+Central offer database:
+
+offers
+offer_prices
+offer_shipping
+offer_availability
+offer_discounts
+offer_coupons
+offer_history
+
+---
+
+69. Store Database
+
+stores
+store_markets
+store_connectors
+store_affiliate_programs
+store_categories
+
+---
+
+70. Country Database
+
+countries
+country_markets
+country_currencies
+country_store_mappings
+country_affiliate_mappings
+country_shipping_rules
+
+---
+
+71. Image Search API
+
+Example:
+
+POST /api/v1/search/image
+
+Input:
+
+image
+country
+filters
+
+Output:
+
+identified product
+confidence
+exact matches
+similar matches
+offers
+
+---
+
+72. Product Search API
+
+Example:
+
+GET /api/v1/search/products
+
+Parameters:
+
+q
+country
+category
+brand
+store
+price_min
+price_max
+availability
+condition
+sort
+page
+limit
+
+---
+
+73. Market Context API
+
+Central endpoint:
+
+GET /api/v1/market/context
+
+Possible response:
+
+{
+  "detected_country": "US",
+  "selected_country": "GB",
+  "active_country": "GB",
+  "currency": "GBP",
+  "market_status": "active"
+}
+
+---
+
+74. Country Selection API
+
+Example:
+
+POST /api/v1/users/preferences/market
+
+Payload:
+
+{
+  "country": "GB"
+}
+
+System user ki active market preference update karega.
+
+---
+
+75. Anonymous Market Context
+
+Login required nahi hona chahiye sirf country select karne ke liye.
+
+Anonymous user:
+
+Detected Country
+↓
+Manual Country Selection
+↓
+Local Client Preference
+
+Authenticated user:
+
+Manual Selection
+↓
+Central User Preference Engine
+
+---
+
+76. Telegram Mini App Integration
+
+Telegram Mini App centralized API consume karega.
+
+Telegram Mini App
+        ↓
+Central API
+        ↓
+Market Context
+        ↓
+Search / Deals / Offers
+        ↓
+Central Database
+
+Mini App directly database access nahi karega.
+
+---
+
+77. Telegram User Identity
+
+Telegram "initData" validation ke through user identity establish ki jayegi.
+
+User identity:
+
+Telegram User
+↓
+GDN User
+↓
+User Preferences
+↓
+Active Market
+
+---
+
+78. Telegram Mini App Country UX
+
+Mini App header example:
+
+🌎 🇺🇸 USA ▾
+
+User tap kare:
+
+Choose your market
+
+🇺🇸 United States
+🇬🇧 United Kingdom
+🇨🇦 Canada
+🇦🇺 Australia
+🇳🇿 New Zealand
+...
+
+Selection ke baad:
+
+Market switched to 🇬🇧 United Kingdom
+
+---
+
+79. Country Switching Behavior
+
+Country change ke baad relevant screens refresh honge:
+
+Home
+Deals
+Offers
+Products
+Stores
+Categories
+Search
+Recommendations
+
+Cached country-specific data invalidate/refetch ki jayegi.
+
+---
+
+80. Recommendation Integration
+
+Recommendation Engine active country ko ranking signal ke taur par use karega.
+
+Example:
+
+User:
+UK
+
+Recommendations:
+UK deals
+UK stores
+UK products
+UK price drops
+
+---
+
+81. Personalized Marketplace
+
+User preferences + active country combine ho sakte hain.
+
+Example:
+
+Country:
+UK
+
+Category:
+Electronics
+
+Price:
+Under £500
+
+Preferred Stores:
+Amazon UK + Currys
+
+Recommendation Engine personalized marketplace create karega.
+
+---
+
+82. Analytics
+
+System track karega:
+
+- Country detected
+- Country selected
+- Country changed
+- Search
+- Image search
+- Product view
+- Offer view
+- Store click
+- Affiliate click
+- Direct click
+- Deal click
+- Conversion
+- Revenue
+
+---
+
+83. Country Analytics
+
+Important metrics:
+
+Users by country
+Deals by country
+Searches by country
+Clicks by country
+Affiliate revenue by country
+Conversion rate by country
+Top stores by country
+Top products by country
+
+---
+
+84. Country Switching Analytics
+
+Event:
+
+market_country_changed
+
+Properties:
+
+from_country
+to_country
+source
+user_id
+session_id
+channel
+
+---
+
+85. Offer Analytics
+
+Offer-level metrics:
+
+views
+clicks
+affiliate_clicks
+direct_clicks
+conversions
+revenue
+
+---
+
+86. Price History
+
+Future system price history maintain karega.
+
+Example:
+
+Product
+↓
+Offer
+↓
+Price History
+↓
+Price Drop Detection
+
+This supports:
+
+- Price drops
+- Historical comparison
+- Deal alerts
+- Recommendations
+
+---
+
+87. Price Drop Engine
+
+System detect kar sakta hai:
+
+Previous Price:
+$499
+
+Current Price:
+$399
+
+Then:
+
+Price Drop:
+20%
+
+Price-drop deals active country context ke according display honge.
+
+---
+
+88. Background Jobs
+
+Background processing:
+
+Store Sync
+Offer Refresh
+Price Update
+Availability Update
+Currency Update
+Deal Validation
+Image Processing
+Product Matching
+Search Indexing
+Affiliate Link Validation
+
+Queues use ki ja sakti hain.
+
+---
+
+89. Parallel Store Search
+
+Multiple stores simultaneously search kiye ja sakte hain.
+
+Example:
+
+Search
+├── Store A
+├── Store B
+├── Store C
+├── Store D
+└── Store E
+
+Results normalize hone ke baad merge honge.
+
+---
+
+90. Graceful Degradation
+
+Agar ek store unavailable ho:
+
+Store A ❌
+Store B ✅
+Store C ✅
+
+System baqi results return karega.
+
+Ek store failure poori search ko fail nahi karega.
+
+---
+
+91. No Results Handling
+
+Agar exact product nahi mila:
+
+No exact match found.
+
+Then optionally:
+
+Similar products
+
+show kiye ja sakte hain.
+
+Agar selected country mein offer nahi:
+
+No offers currently available in this market.
+
+Future mein user ko:
+
+Other Markets
+
+option diya ja sakta hai.
+
+---
+
+92. Confidence Scores
+
+Image/product matching mein confidence score internally maintain ho sakta hai.
+
+Example:
+
+Product Match Confidence:
+0.94
+
+Low-confidence results ko exact match label nahi diya jayega.
+
+---
+
+93. AI / Computer Vision Layer
+
+Future AI layer support karegi:
+
+- Image product recognition
+- OCR
+- Barcode recognition
+- Visual similarity
+- Natural language product search
+- Product attribute extraction
+- Query understanding
+- Similar product discovery
+
+AI output deterministic database validation ke baad user ko present kiya jayega.
+
+---
+
+94. AI Country Context
+
+AI search/query understanding mein active market include hoga.
+
+Example:
+
+User:
+"Find me the cheapest Nike Air Max"
+
+Active Market:
+UK
+
+AI Search Context:
+UK
+
+Result UK market mein search hoga.
+
+---
+
+95. Security
+
+System ko protect karega:
+
+- Input validation
+- File validation
+- Image size limits
+- Malware checks where applicable
+- API authentication
+- Telegram authentication
+- Rate limiting
+- Abuse prevention
+- Affiliate fraud prevention
+- SSRF protection for remote image/data URLs
+- Store connector isolation
+
+---
+
+96. Privacy
+
+Image search mein uploaded images:
+
+- minimum required duration
+- secure processing
+- controlled storage
+- deletion policies
+
+ke under handle hongi.
+
+User tracking applicable consent/privacy rules ke mutabiq design hogi.
+
+---
+
+97. Data Quality
+
+System ko validate karna hoga:
+
+- Product identity
+- Price
+- Currency
+- Country
+- Store
+- Availability
+- Shipping
+- Affiliate link
+- Last updated time
+
+Incorrect product-price pairing avoid karna critical hai.
+
+---
+
+98. Duplicate Offers
+
+Same store/product listing multiple sources se aaye to deduplication:
+
+Store
++
+Product
++
+Variant
++
+Country
++
+Canonical URL
+
+signals ke basis par ho sakti hai.
+
+---
+
+99. Canonical Product Architecture
+
+Multiple stores same product sell karte hon to:
+
+One Canonical Product
+        ↓
+Multiple Offers
+        ↓
+Multiple Stores
+        ↓
+Multiple Countries
+
+maintain kiya jayega.
+
+---
+
+100. Global Country Architecture
+
+GDN ko country-specific silos mein duplicate databases create nahi karne.
+
+Instead:
+
+Global Product
+      ↓
+Country
+      ↓
+Store
+      ↓
+Offer
+      ↓
+Deal
+      ↓
+Affiliate Link
+
+Centralized relational architecture use hogi.
+
+---
+
+101. Country Market Isolation
+
+Country filtering database/query layer par enforce ki jayegi.
+
+Frontend sirf UI filter nahi hoga.
+
+Example:
+
+Active Country = GB
+
+API
+↓
+country_id = GB
+↓
+Eligible Offers
+
+Is se wrong-market results ka risk kam hoga.
+
+---
+
+102. Market Context Propagation
+
+Active country request lifecycle mein propagate hoga:
+
+Mini App
+↓
+API
+↓
+Authentication
+↓
+Market Context
+↓
+Search
+↓
+Recommendation
+↓
+Deals
+↓
+Offers
+↓
+Affiliate
+↓
+Analytics
+
+---
+
+103. Country Context + Affiliate Attribution
+
+Affiliate tracking mein country context preserve ho sakta hai:
+
+country_id
+store_id
+offer_id
+product_id
+campaign_id
+channel
+click_id
+
+Is se country-level revenue analysis possible hoga.
+
+---
+
+104. Country Context + PSEO
+
+PSEO engine same centralized product/offer data use karega.
+
+Country
++
+Category
++
+Product
++
+Merchant
++
+Deal
+
+se controlled landing pages generate ki ja sakti hain.
+
+Thin/duplicate pages prevent karna mandatory hoga.
+
+---
+
+105. Country Context + Notifications
+
+Future alerts country-aware honge.
+
+Example:
+
+User Market:
+UK
+
+Alert:
+Nike shoes price dropped in UK
+
+USA price drop automatically UK user ko send nahi hoga unless user explicitly cross-market alert enable kare.
+
+---
+
+106. Country Context + Favorites
+
+Favorite product globally same reh sakta hai.
+
+Lekin user ka preferred offer market-specific ho sakta hai.
+
+Example:
+
+Favorite:
+iPhone 17 Pro
+
+Market:
+UK
+
+Preferred Store:
+Amazon UK
+
+---
+
+107. Country Context + Wishlist
+
+Wishlist product-level ho sakti hai.
+
+Price alerts market-level ho sakte hain.
+
+Example:
+
+Wishlist:
+Sony Headphones
+
+Alert Market:
+Canada
+
+---
+
+108. Country Context + Search History
+
+Search analytics mein country context preserve hoga.
+
+Example:
+
+Query:
+MacBook Air
+
+Country:
+UK
+
+aur:
+
+Query:
+MacBook Air
+
+Country:
+USA
+
+separate market signals honge.
+
+---
+
+109. Store Connector Scaling
+
+Initial phase mein limited high-value stores support kiye ja sakte hain.
+
+Future:
+
+10 stores
+↓
+50 stores
+↓
+100 stores
+↓
+500+ stores
+
+Modular connectors architecture scale support karega.
+
+---
+
+110. API Caching
+
+Country-aware caching keys use honge.
+
+Example:
+
+deals:GB:electronics
+offers:GB:product123
+stores:GB
+search:GB:iphone
+
+Country key cache isolation ke liye important hai.
+
+---
+
+111. Cache Invalidation
+
+Country-specific cache invalidate hogi jab:
+
+- Price change
+- Deal expire
+- Store status change
+- Offer availability change
+- Country configuration change
+
+ho.
+
+---
+
+112. Error Handling
+
+Standard errors:
+
+INVALID_COUNTRY
+MARKET_NOT_SUPPORTED
+PRODUCT_NOT_FOUND
+NO_OFFERS
+STORE_UNAVAILABLE
+OFFER_STALE
+IMAGE_INVALID
+SEARCH_FAILED
+AFFILIATE_LINK_UNAVAILABLE
+
+---
+
+113. Testing Strategy
+
+Testing categories:
+
+Product Testing
+
+- Exact match
+- Similar match
+- Variant match
+
+Country Testing
+
+- Automatic detection
+- Manual selection
+- Country switching
+- Preference persistence
+
+Offer Testing
+
+- Price
+- Currency
+- Shipping
+- Availability
+
+Affiliate Testing
+
+- Correct country affiliate route
+- Tracking
+- Redirect
+
+Mini App Testing
+
+- Mobile UX
+- Country selector
+- Search
+- Deals
+- Offers
+- Store pages
+
+---
+
+114. Country Switching QA Matrix
+
+Example:
+
+Scenario| Expected
+USA detected| USA active
+USA → UK| UK active
+UK → Canada| Canada active
+App restart| Saved country restored
+Anonymous user| Local preference works
+Logged-in user| Central preference saved
+Unsupported country| Fallback/default
+Country with no offers| Proper empty state
+
+---
+
+115. Performance
+
+Target:
+
+- Fast country switching
+- Fast search
+- Parallel store querying
+- Cached deals
+- Incremental offer updates
+- Lazy-loaded images
+- CDN delivery
+- Minimal Mini App payload
+
+---
+
+116. Scalability
+
+Architecture ko support karna chahiye:
+
+1 Country
+↓
+10 Countries
+↓
+50 Countries
+↓
+100+ Countries
+
+Aur:
+
+10 Stores
+↓
+100 Stores
+↓
+1000+ Stores
+
+without redesigning the core product model.
+
+---
+
+117. Global Marketplace Architecture
+
+Final marketplace structure:
+
+                    GDN
+                     │
+             Central Market Context
+                     │
+        ┌────────────┴────────────┐
+        │                         │
+     Country                  Currency
+        │                         │
+      Stores                   Pricing
+        │                         │
+      Offers                Comparison
+        │                         │
+      Deals                  Products
+        │                         │
+     Affiliate              Search
+        │                         │
+        └────────────┬────────────┘
+                     │
+             Telegram Mini App
+                     │
+              Website / PSEO
+
+---
+
+118. Complete Product Search Flow
+
+User
+↓
+Select / Detect Country
+↓
+Active Market Context
+↓
+Enter Product Query
+OR
+Upload Image
+↓
+Search Engine
+↓
+Product Identification
+↓
+Exact / Similar Matching
+↓
+Country Eligibility
+↓
+Offer Collection
+↓
+Offer Normalization
+↓
+Price + Shipping + Discount
+↓
+Effective Price
+↓
+Ranking
+↓
+Results
+↓
+Affiliate / Direct CTA
+↓
+Click Tracking
+↓
+Merchant
+↓
+Conversion
+↓
+Revenue Analytics
+
+---
+
+119. Complete Mini App Marketplace Flow
+
+Telegram User
+↓
+Mini App
+↓
+Detect Country
+↓
+Show Default Market
+↓
+User Can Change Country
+↓
+Active Market Context
+↓
+Home Marketplace
+├── Deals
+├── Discounts
+├── Products
+├── Categories
+├── Stores
+├── Trending
+├── Price Drops
+└── Search
+        ↓
+Country-Aware Results
+        ↓
+Product / Deal Detail
+        ↓
+Affiliate / Direct CTA
+        ↓
+Merchant
+
+---
+
+120. Complete Data Flow
+
+Store Sources
+↓
+Deal/Data Pipeline
+↓
+Normalization
+↓
+Product Matching
+↓
+Offer Database
+↓
+Central Product Database
+↓
+Search Index
+↓
+Price Comparison Engine
+↓
+Market Context
+↓
+Central API
+↓
+Website / Telegram Bot / Mini App / PSEO
+
+---
+
+121. Integration With Deal Engine
+
+Product Comparison Engine Deal Engine ko consume karega.
+
+Product
+↓
+Offer
+↓
+Deal
 ↓
 Discount
 ↓
 Coupon
-↓
-Effective Price
 
-This allows GDN to combine product discovery with deal discovery.
-
+Deal Engine independently product comparison logic duplicate nahi karega.
 
 ---
 
-69. Integration With Affiliate Engine
+122. Integration With Affiliate Engine
 
-Product Search
-      ↓
 Offer
-      ↓
+↓
 Affiliate Engine
-      ↓
-Affiliate Link Available?
-     / \
-   Yes  No
-   ↓     ↓
-Tracked Direct
-Link    URL
+↓
+Affiliate Program
+↓
+Tracked Link
+↓
+Redirect
+↓
+Merchant
 
-The Product Search Engine remains independent from affiliate monetization.
-
+Affiliate logic centralized rahegi.
 
 ---
 
-70. Integration With User Engine
+123. Integration With User Preference Engine
 
-User context can provide:
+User
+↓
+Country
+↓
+Category
+↓
+Brand
+↓
+Store
+↓
+Price Preference
+↓
+Product Preference
+
+Recommendation Engine is data ko use kar sakta hai.
+
+---
+
+124. Integration With Search Engine
+
+Search Engine:
+
+- Product discovery
+- Store discovery
+- Deal discovery
+- Category discovery
+
+handle karega.
+
+Price Comparison Engine search results ke offers ko compare karega.
+
+---
+
+125. Integration With Recommendation Engine
+
+Recommendation Engine:
+
+User Preferences
++
+Behavior
++
+Active Country
++
+Deals
++
+Product Data
++
+Offer Data
+
+combine karega.
+
+---
+
+126. Integration With Analytics
+
+Analytics centrally track karega:
 
 Country
-
-Currency
-
-Language
-
-Preferred stores
-
-Preferred brands
-
-Categories
-
-Price preferences
-
-
-Automatic country detection remains the default for anonymous users.
-
+→ Search
+→ Product
+→ Offer
+→ Click
+→ Affiliate
+→ Conversion
+→ Revenue
 
 ---
 
-71. Integration With Analytics Engine
+127. Integration With PSEO
 
-Every important event should flow into the centralized Analytics Engine.
+PSEO:
 
-Search
-↓
-Product Identification
-↓
-Offer Results
-↓
-Offer Click
-↓
-Affiliate/Direct Redirect
-↓
-Conversion
-↓
-Revenue
+Country
++
+Product
++
+Category
++
+Store
++
+Deal
++
+Search Demand
 
-This enables complete funnel measurement.
-
+use karke useful landing pages generate karega.
 
 ---
 
-72. Integration With PSEO Engine
+128. Integration With Telegram Bot
 
-The Product Search Engine provides real product and offer data to PSEO pages.
+Bot user ko:
 
-PSEO pages should never create fake products or fake prices.
+- Country selection
+- Deals
+- Product search
+- Price alerts
+- Product links
+- Store links
+
+provide kar sakta hai.
+
+Bot same central APIs consume karega.
+
+---
+
+129. Integration With Telegram Mini App
+
+Mini App full visual marketplace experience provide karega.
+
+Mini App:
+
+- Country selection
+- Deals
+- Product search
+- Image search
+- Price comparison
+- Store discovery
+- Product pages
+- Affiliate CTAs
+
+provide karega.
+
+---
+
+130. Integration With Website
+
+Website same centralized APIs consume karegi.
+
+Website country-aware experience provide kar sakti hai.
 
 Example:
 
-Product Data
+User Market:
+UK
+
+Website:
+UK deals + UK offers + GBP pricing
+
+---
+
+131. International Market Expansion
+
+New country launch karne ke liye ideally:
+
+Add Country
+↓
+Add Currency
+↓
+Add Stores
+↓
+Add Affiliate Programs
+↓
+Add Shipping Context
+↓
+Enable Deals
+↓
+Enable PSEO
+↓
+Enable Market
+
+Core product architecture change nahi honi chahiye.
+
+---
+
+132. Market Activation Status
+
+Countries ke statuses:
+
+planned
+beta
+active
+paused
+disabled
+
+Only active markets normal user experience mein available honge.
+
+---
+
+133. Unsupported Market
+
+Agar user unsupported country select kare:
+
+This market is currently unavailable.
+
+System nearest/default supported market suggest kar sakta hai without silently changing the user's selection.
+
+---
+
+134. Market Context Security
+
+Client-provided country ko blindly trust nahi kiya jayega.
+
+API:
+
+country_id
+
+validate karegi against Country Registry.
+
+Unauthorized/invalid market IDs reject honge.
+
+---
+
+135. Market Context as First-Class Architecture Component
+
+Country ko sirf filter parameter nahi samjha jayega.
+
+GDN mein:
+
+Market Context ek first-class system component hoga.
+
+Ye influence karega:
+
+Discovery
+Deals
+Offers
+Pricing
+Stores
+Shipping
+Affiliate
+Recommendations
+PSEO
+Analytics
+Notifications
+
+---
+
+136. Future Multi-Market Shopping
+
+Future mein user:
+
+Primary Market:
+UK
+
+Secondary Markets:
+USA
+Canada
+Germany
+
+enable kar sakta hai.
+
+Lekin default UX simple rahega:
+
+One Active Market at a time.
+
+---
+
+137. Future Global Price Intelligence
+
+Future system same product ki:
+
+- Country price
+- Store price
+- Historical price
+- Discount
+- Shipping
+- Tax
+- Availability
+
+compare karke global price intelligence provide kar sakta hai.
+
+---
+
+138. Future AI Shopping Assistant
+
+Future AI layer user se natural language mein request le sakti hai.
+
+Example:
+
+«"Mujhe UK mein £500 ke andar best laptop deals dikhao."»
+
+AI:
+
+Intent
 +
 Country
 +
-Real Store Offers
+Budget
 +
-Price Comparison
+Category
 +
-Useful Content
-=
-Country-Specific Product Page
+Preferences
 
-
----
-
-73. Integration With Recommendation Engine
-
-After a product search, GDN can recommend:
-
-Similar products
-
-Related products
-
-Accessories
-
-Alternative brands
-
-Price-drop alerts
-
-Related deals
-
-
-Recommendations should remain clearly distinct from exact product comparison.
-
+extract karke Search + Recommendation + Price Comparison Engine ko call karegi.
 
 ---
 
-74. Data Quality Rules
+139. AI Shopping Flow
 
-The system must prioritize:
+User Natural Language
+↓
+AI Intent Extraction
+↓
+Active Market
+↓
+Search Engine
+↓
+Product Matching
+↓
+Offer Comparison
+↓
+Recommendation
+↓
+Result
 
-1. Correct product identity
-
-
-2. Correct variant
-
-
-3. Current price
-
-
-4. Availability
-
-
-5. Shipping transparency
-
-
-6. Discount validity
-
-
-7. Correct store URL
-
-
-8. Affiliate/direct routing
-
-
-
-Commission must never override product-data accuracy.
-
+AI khud merchant price invent nahi karegi.
 
 ---
 
-75. Core Data Flow
+140. Architecture Rules
 
-USER
- ↓
-Automatic IP Country Detection
- ↓
-Country Store Registry
- ↓
-Text / Image Product Search
- ↓
-Product Identification
- ↓
-Canonical Product Matching
- ↓
-Store Connectors
- ↓
-Offer Collection
- ↓
-Offer Normalization
- ↓
-Price / Shipping / Tax / Discount Processing
- ↓
-Total Effective Price
- ↓
-Match Confidence Validation
- ↓
-Price Ranking
- ↓
-Product Comparison Results
- ↓
-Affiliate Link OR Direct Store Link
- ↓
-Analytics
+Rule 1
 
+Product data centralized rahega.
+
+Rule 2
+
+Offer data centralized rahega.
+
+Rule 3
+
+Affiliate links centralized rahengi.
+
+Rule 4
+
+Country selection centralized Market Context se control hogi.
+
+Rule 5
+
+Manual country selection automatic detection par priority rakhegi.
+
+Rule 6
+
+Country context sirf search par nahi, poori marketplace experience par apply hoga.
+
+Rule 7
+
+Frontend database ko directly access nahi karega.
+
+Rule 8
+
+Different stores ke data ko normalize kiya jayega.
+
+Rule 9
+
+Exact aur similar products ko clearly separate rakha jayega.
+
+Rule 10
+
+Unknown shipping/tax ko falsely zero nahi maana jayega.
+
+Rule 11
+
+Stale offers ko identify kiya jayega.
+
+Rule 12
+
+Commercial incentives search relevance ko override nahi karenge.
+
+Rule 13
+
+New countries modularly add kiye jayenge.
+
+Rule 14
+
+New stores modular connectors se add honge.
+
+Rule 15
+
+Website, Telegram Bot aur Telegram Mini App same centralized architecture consume karenge.
 
 ---
 
-76. Final Architecture Principle
+141. Final Architecture Principle
 
-One Canonical Product → Many Store Offers → One Central Comparison Engine → Country-Aware Search → Lowest Verified Effective Price First → Affiliate Where Available → Direct Link Where Not Available → One Unified Experience Across Website, Telegram Mini App, Telegram Bot and Future Channels.
+GDN Product Search & Price Comparison architecture ka final principle:
 
-The primary objective is:
+One Global Product System + One Central Offer System + One Market Context System + One Price Comparison Engine + One Affiliate Engine → Many Countries → Many Stores → Many Distribution Channels
 
-Help the user find the correct product at the best available verified price in their market, regardless of whether GDN earns an affiliate commission from that store.
+Aur country architecture:
+
+Automatic Detection = Default Market → Manual Country Selection = User Override → Active Market = Entire Marketplace Experience
+
+Is architecture ki wajah se GDN future mein:
+
+- global product discovery
+- country-specific deals
+- multi-store price comparison
+- image-based shopping
+- affiliate commerce
+- Telegram Mini App commerce
+- website commerce
+- PSEO commerce
+- personalized recommendations
+- AI shopping
+
+ko ek centralized global commerce infrastructure ke andar operate kar sakega.
