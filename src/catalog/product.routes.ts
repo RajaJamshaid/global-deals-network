@@ -1,5 +1,7 @@
 import type { FastifyInstance } from "fastify";
+import { getProductComparisonService } from "./product-comparison.service.js";
 import { parsePagination } from "../api/http/pagination.js";
+import { badRequest } from "../api/http/errors.js";
 import { sendData, sendList } from "../api/http/response.js";
 import { requireUuidParam } from "../api/http/validation.js";
 import {
@@ -23,6 +25,22 @@ export async function productRoutes(app: FastifyInstance): Promise<void> {
     const productId = requireUuidParam(id, "product_id");
     const product = await getProductService(productId);
     return sendData(reply, 200, product);
+  });
+
+  // Stage 1D: price comparison across active offers for this product
+  // within one market. market_id is required so results are never
+  // mixed across markets/currencies - see
+  // product-comparison.service.ts.
+  app.get("/products/:id/comparison", async (request, reply) => {
+    const { id } = request.params as { id: string };
+    const productId = requireUuidParam(id, "product_id");
+    const query = request.query as Record<string, unknown>;
+    if (typeof query.market_id !== "string") {
+      throw badRequest("market_id query parameter is required");
+    }
+    const marketId = requireUuidParam(query.market_id, "market_id");
+    const comparison = await getProductComparisonService(productId, marketId);
+    return sendData(reply, 200, comparison);
   });
 
   app.post("/products", async (request, reply) => {
