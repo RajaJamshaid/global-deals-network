@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto";
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { afterAll, describe, expect, it } from "vitest";
 import { closePool, getPool } from "../../src/config/database.js";
 
 /**
