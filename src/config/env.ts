@@ -16,6 +16,11 @@ function optionalEnv(name: string, fallback: string): string {
   return value && value.length > 0 ? value : fallback;
 }
 
+function rawEnv(name: string): string | undefined {
+  const value = process.env[name];
+  return value && value.length > 0 ? value : undefined;
+}
+
 export const env = {
   appName: optionalEnv("APP_NAME", "Global Deals Network"),
   appEnv: optionalEnv("APP_ENV", "development"),
@@ -23,6 +28,10 @@ export const env = {
   apiVersion: optionalEnv("API_VERSION", "v1"),
   port: Number(optionalEnv("PORT", "8080")),
   host: optionalEnv("HOST", "0.0.0.0"),
+  // Undefined (not a fallback string) when unset - the database layer
+  // decides what to do about a missing DATABASE_URL, since not every
+  // part of the app needs a database connection.
+  databaseUrl: rawEnv("DATABASE_URL"),
 } as const;
 
 export type Env = typeof env;
