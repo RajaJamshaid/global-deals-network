@@ -30,6 +30,15 @@ export interface DealFilters {
   categoryId?: string;
   merchantId?: string;
   status?: string;
+  /**
+   * Stage 1D addition: used internally by the price-comparison
+   * service (src/catalog/product-comparison.service.ts) to find a
+   * deal for a specific product + merchant + market combination. Not
+   * currently exposed as a public GET /deals query filter - Stage 1C
+   * didn't request one, so it isn't added to listDealsService's query
+   * parsing, only here at the repository level.
+   */
+  productId?: string;
 }
 
 export interface CreateDealInput {
@@ -94,6 +103,10 @@ export async function listDeals(
   if (filters.merchantId) {
     values.push(filters.merchantId);
     conditions.push(`merchant_id = $${values.length}`);
+  }
+  if (filters.productId) {
+    values.push(filters.productId);
+    conditions.push(`product_id = $${values.length}`);
   }
   if (filters.status) {
     values.push(filters.status);
