@@ -150,3 +150,44 @@ export function optionalDate(
   }
   return value;
 }
+
+/**
+ * Stage 1D: offer/destination URLs feed the affiliate redirect
+ * endpoint's Location header, so they're validated as well-formed
+ * http(s) URLs at write time - not just non-empty strings - per the
+ * Stage 1D task's "validated URLs... no open redirect vulnerability"
+ * security requirement.
+ */
+function isHttpUrl(value: string): boolean {
+  try {
+    const url = new URL(value);
+    return url.protocol === "http:" || url.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
+export function requireUrl(
+  body: Record<string, unknown>,
+  field: string,
+): string {
+  const value = requireString(body, field);
+  if (!isHttpUrl(value)) {
+    throw badRequest(`${field} must be a valid http(s) URL`);
+  }
+  return value;
+}
+
+export function optionalUrl(
+  body: Record<string, unknown>,
+  field: string,
+): string | undefined {
+  const value = optionalString(body, field);
+  if (value === undefined) {
+    return undefined;
+  }
+  if (!isHttpUrl(value)) {
+    throw badRequest(`${field} must be a valid http(s) URL`);
+  }
+  return value;
+}
