@@ -4,6 +4,7 @@ import { recordExists } from "../api/http/exists.js";
 import {
   optionalEnum,
   optionalNumber,
+  optionalString,
   optionalUrl,
   optionalUuid,
   requireNumber,
@@ -115,7 +116,7 @@ export async function updateOfferService(
   const offerUrl = optionalUrl(body, "offer_url");
   const price = optionalNumber(body, "price");
   const originalPrice = optionalNumber(body, "original_price");
-  const currency = optionalUuid(body, "currency") ?? undefined;
+  const currency = optionalString(body, "currency");
   const condition = optionalEnum(body, "condition", CONDITIONS);
   const availabilityStatus = optionalEnum(body, "availability_status", AVAILABILITY);
   const status = optionalEnum(body, "status", STATUSES);
