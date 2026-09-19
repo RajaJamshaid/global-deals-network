@@ -4,10 +4,11 @@ import { recordExists } from "../api/http/exists.js";
 import {
   optionalEnum,
   optionalNumber,
-  optionalString,
+  optionalUrl,
   optionalUuid,
   requireNumber,
   requireString,
+  requireUrl,
   requireUuid,
 } from "../api/http/validation.js";
 import {
@@ -56,7 +57,10 @@ export async function createOfferService(
   const productId = requireUuid(body, "product_id");
   const merchantId = requireUuid(body, "merchant_id");
   const marketId = requireUuid(body, "market_id");
-  const offerUrl = requireString(body, "offer_url");
+  // offer_url is validated as a well-formed http(s) URL, not just a
+  // non-empty string, since it feeds the Stage 1D affiliate redirect
+  // endpoint's Location header - see validation.ts's requireUrl.
+  const offerUrl = requireUrl(body, "offer_url");
   const price = requireNumber(body, "price");
   const originalPrice = optionalNumber(body, "original_price");
   const currency = requireString(body, "currency");
@@ -108,10 +112,10 @@ export async function updateOfferService(
 ): Promise<OfferRow> {
   await getOfferService(offerId);
 
-  const offerUrl = optionalString(body, "offer_url");
+  const offerUrl = optionalUrl(body, "offer_url");
   const price = optionalNumber(body, "price");
   const originalPrice = optionalNumber(body, "original_price");
-  const currency = optionalString(body, "currency");
+  const currency = optionalUuid(body, "currency") ?? undefined;
   const condition = optionalEnum(body, "condition", CONDITIONS);
   const availabilityStatus = optionalEnum(body, "availability_status", AVAILABILITY);
   const status = optionalEnum(body, "status", STATUSES);
