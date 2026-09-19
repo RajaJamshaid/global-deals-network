@@ -2,6 +2,8 @@ import Fastify, { type FastifyInstance } from "fastify";
 import { ApiError } from "./http/errors.js";
 import { healthRoutes } from "./routes/health.js";
 import { env } from "../config/env.js";
+import { affiliateRoutes } from "../affiliate/affiliate.routes.js";
+import { redirectRoutes } from "../affiliate/redirect.routes.js";
 import { categoryRoutes } from "../catalog/category.routes.js";
 import { productRoutes } from "../catalog/product.routes.js";
 import { dealRoutes } from "../deal/deal.routes.js";
@@ -13,10 +15,10 @@ import { offerRoutes } from "../offer/offer.routes.js";
  * Builds (but does not start) the GDN API server.
  *
  * All route modules are registered under /api/{version} so that future
- * modules (affiliate, search, analytics, ...) can be added here as
- * additional `app.register(...)` calls without rewriting the server
- * itself - see GDN_Implementation_Master_Roadmap.md Phase 2
- * (Backend/API Foundation).
+ * modules (search, analytics, ...) can be added here as additional
+ * `app.register(...)` calls without rewriting the server itself - see
+ * GDN_Implementation_Master_Roadmap.md Phase 2 (Backend/API
+ * Foundation).
  *
  * The centralized error handler is what turns a thrown ApiError (see
  * api/http/errors.ts) into the structured { success, error } response
@@ -59,6 +61,8 @@ export function buildServer(): FastifyInstance {
       await versioned.register(merchantRoutes);
       await versioned.register(offerRoutes);
       await versioned.register(dealRoutes);
+      await versioned.register(affiliateRoutes);
+      await versioned.register(redirectRoutes);
     },
     { prefix: `/api/${env.apiVersion}` },
   );
