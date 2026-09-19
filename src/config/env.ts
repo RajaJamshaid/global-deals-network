@@ -32,6 +32,15 @@ export const env = {
   // decides what to do about a missing DATABASE_URL, since not every
   // part of the app needs a database connection.
   databaseUrl: rawEnv("DATABASE_URL"),
+  // Amazon Associates configuration (Stage 1D). Reuses the
+  // AMAZON_AFFILIATE_TAG variable name already established in
+  // .env.example since Stage 1A, rather than introducing a
+  // differently-named variable for the same thing.
+  // AMAZON_AFFILIATE_ENABLED defaults to false: an explicit opt-in is
+  // required even if a tag is present, so a tag can be configured in
+  // an environment without immediately going live.
+  amazonAffiliateTag: rawEnv("AMAZON_AFFILIATE_TAG"),
+  amazonAffiliateEnabled: optionalEnv("AMAZON_AFFILIATE_ENABLED", "false") === "true",
 } as const;
 
 export type Env = typeof env;
