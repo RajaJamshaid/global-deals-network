@@ -30,6 +30,7 @@ jobs:
       DATABASE_URL: postgres://postgres:postgres@localhost:5432/gdn_test
       AMAZON_AFFILIATE_ENABLED: "true"
       AMAZON_AFFILIATE_TAG: "gdn-ci-fixture-20"
+      TELEGRAM_WEBHOOK_SECRET: "gdn-ci-fixture-webhook-secret"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
