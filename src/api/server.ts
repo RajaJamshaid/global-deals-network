@@ -10,6 +10,7 @@ import { dealRoutes } from "../deal/deal.routes.js";
 import { marketRoutes } from "../market/market.routes.js";
 import { merchantRoutes } from "../merchant/merchant.routes.js";
 import { offerRoutes } from "../offer/offer.routes.js";
+import { telegramRoutes } from "../telegram/telegram.routes.js";
 
 /**
  * Builds (but does not start) the GDN API server.
@@ -63,6 +64,7 @@ export function buildServer(): FastifyInstance {
       await versioned.register(dealRoutes);
       await versioned.register(affiliateRoutes);
       await versioned.register(redirectRoutes);
+      await versioned.register(telegramRoutes);
     },
     { prefix: `/api/${env.apiVersion}` },
   );
