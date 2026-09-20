@@ -41,6 +41,15 @@ export const env = {
   // an environment without immediately going live.
   amazonAffiliateTag: rawEnv("AMAZON_AFFILIATE_TAG"),
   amazonAffiliateEnabled: optionalEnv("AMAZON_AFFILIATE_ENABLED", "false") === "true",
+  // Telegram Bot configuration (Stage 1E). TELEGRAM_BOT_TOKEN has
+  // been in .env.example since Stage 1A but was unused until now.
+  // TELEGRAM_WEBHOOK_SECRET is compared against the
+  // X-Telegram-Bot-Api-Secret-Token header on every webhook call -
+  // undefined means the webhook route refuses all requests rather
+  // than silently accepting unverified ones.
+  telegramBotToken: rawEnv("TELEGRAM_BOT_TOKEN"),
+  telegramWebhookSecret: rawEnv("TELEGRAM_WEBHOOK_SECRET"),
+  telegramChannelId: rawEnv("TELEGRAM_CHANNEL_ID"),
 } as const;
 
 export type Env = typeof env;
