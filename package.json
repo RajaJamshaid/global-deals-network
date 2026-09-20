@@ -14,7 +14,9 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "db:migrate": "tsx scripts/db-migrate.ts",
-    "db:seed": "tsx scripts/db-seed.ts"
+    "db:seed": "tsx scripts/db-seed.ts",
+    "telegram:set-webhook": "tsx scripts/telegram-set-webhook.ts",
+    "telegram:post-deal": "tsx scripts/telegram-post-deal.ts"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
