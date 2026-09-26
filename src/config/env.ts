@@ -21,10 +21,23 @@ function rawEnv(name: string): string | undefined {
   return value && value.length > 0 ? value : undefined;
 }
 
+function listEnv(name: string, fallback: string[]): string[] {
+  const raw = rawEnv(name);
+  if (!raw) {
+    return fallback;
+  }
+  return raw
+    .split(",")
+    .map((value) => value.trim())
+    .filter((value) => value.length > 0);
+}
+
+const appUrl = optionalEnv("APP_URL", "http://localhost:8080");
+
 export const env = {
   appName: optionalEnv("APP_NAME", "Global Deals Network"),
   appEnv: optionalEnv("APP_ENV", "development"),
-  appUrl: optionalEnv("APP_URL", "http://localhost:8080"),
+  appUrl,
   apiVersion: optionalEnv("API_VERSION", "v1"),
   port: Number(optionalEnv("PORT", "8080")),
   host: optionalEnv("HOST", "0.0.0.0"),
@@ -50,6 +63,22 @@ export const env = {
   telegramBotToken: rawEnv("TELEGRAM_BOT_TOKEN"),
   telegramWebhookSecret: rawEnv("TELEGRAM_WEBHOOK_SECRET"),
   telegramChannelId: rawEnv("TELEGRAM_CHANNEL_ID"),
+  // Production hardening (FAST LAUNCH / production-readiness pass).
+  // CORS_ALLOWED_ORIGINS is a comma-separated allow-list of browser
+  // origins permitted to call this API cross-origin (the future
+  // Telegram Mini App frontend, once web/ is built, is the expected
+  // consumer). Defaults to just APP_URL - a real deployment adds the
+  // Mini App's own origin here once it exists. This is configuration,
+  // not a hard-coded list, per CODE QUALITY ("do not hard-code ...
+  // where configuration/data can be used").
+  corsAllowedOrigins: listEnv("CORS_ALLOWED_ORIGINS", [appUrl]),
+  // Simple per-IP request cap (see api/http/rate-limit.ts) covering
+  // docs/implementation/GDN_Repository_And_Environment_Setup.md
+  // section 26's "API Rate Limiting" Stage 1 minimum. Generous
+  // defaults so legitimate Mini App/bot traffic is never the
+  // bottleneck; tune via env per environment without a code change.
+  rateLimitMax: Number(optionalEnv("RATE_LIMIT_MAX", "300")),
+  rateLimitWindowMs: Number(optionalEnv("RATE_LIMIT_WINDOW_MS", "60000")),
 } as const;
 
 export type Env = typeof env;

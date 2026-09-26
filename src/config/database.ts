@@ -16,6 +16,28 @@ import { env } from "./env.js";
  */
 let pool: Pool | null = null;
 
+/**
+ * Supabase (and effectively every managed Postgres host) requires
+ * TLS. `rejectUnauthorized: false` is the connection pattern Supabase
+ * itself documents for the `pg` client, since verifying the full
+ * chain against Node's default CA store is not always reliable for
+ * managed providers. Local/CI Postgres (localhost, used by
+ * .github/workflows/ci.yml's service container) has no TLS listener
+ * at all, so SSL must stay off there - this is derived from the
+ * connection string's host, never hard-coded to one environment.
+ */
+function resolveSsl(databaseUrl: string): { rejectUnauthorized: boolean } | undefined {
+  try {
+    const { hostname } = new URL(databaseUrl);
+    if (hostname === "localhost" || hostname === "127.0.0.1") {
+      return undefined;
+    }
+    return { rejectUnauthorized: false };
+  } catch {
+    return { rejectUnauthorized: false };
+  }
+}
+
 export function getPool(): Pool {
   if (!env.databaseUrl) {
     throw new Error(
@@ -25,7 +47,10 @@ export function getPool(): Pool {
   }
 
   if (!pool) {
-    pool = new Pool({ connectionString: env.databaseUrl });
+    pool = new Pool({
+      connectionString: env.databaseUrl,
+      ssl: resolveSsl(env.databaseUrl),
+    });
   }
 
   return pool;

@@ -1,5 +1,7 @@
 import Fastify, { type FastifyInstance } from "fastify";
 import { ApiError } from "./http/errors.js";
+import { corsPlugin } from "./http/cors.js";
+import { rateLimitPlugin } from "./http/rate-limit.js";
 import { healthRoutes } from "./routes/health.js";
 import { env } from "../config/env.js";
 import { affiliateRoutes } from "../affiliate/affiliate.routes.js";
@@ -33,7 +35,17 @@ import { telegramRoutes } from "../telegram/telegram.routes.js";
 export function buildServer(): FastifyInstance {
   const app = Fastify({
     logger: true,
+    // Production traffic reaches this process through Cloudflare
+    // (deals.tickmarktools.com), so the raw socket address is always
+    // Cloudflare's edge, not the visitor. trustProxy makes
+    // request.ip resolve from the forwarded-for chain instead, which
+    // rate-limit.ts depends on to key per real client rather than
+    // lumping every visitor into one shared bucket.
+    trustProxy: true,
   });
+
+  app.register(corsPlugin);
+  app.register(rateLimitPlugin);
 
   app.setErrorHandler((error, request, reply) => {
     if (error instanceof ApiError) {

@@ -12,6 +12,7 @@ export type ApiErrorCode =
   | "VALIDATION_ERROR"
   | "RESOURCE_NOT_FOUND"
   | "CONFLICT"
+  | "RATE_LIMITED"
   | "INTERNAL_ERROR";
 
 export class ApiError extends Error {
@@ -35,4 +36,8 @@ export function notFound(resource: string): ApiError {
 
 export function conflict(message: string): ApiError {
   return new ApiError(409, "CONFLICT", message);
+}
+
+export function tooManyRequests(message = "Too many requests"): ApiError {
+  return new ApiError(429, "RATE_LIMITED", message);
 }
