@@ -38,6 +38,31 @@ function resolveSsl(databaseUrl: string): { rejectUnauthorized: boolean } | unde
   }
 }
 
+/**
+ * Supabase's own connection strings (including the Session Pooler
+ * one) include `?sslmode=require`. `pg`'s connection-string parser
+ * reads that query param itself and derives its own `ssl: true` from
+ * it - which, when both a parsed connection string AND an explicit
+ * top-level `ssl` option are given to `Pool`, wins over our explicit
+ * `resolveSsl()` result above. `ssl: true` means full certificate-
+ * chain verification against Node's default CA store, which is
+ * exactly what produces a "self-signed certificate in certificate
+ * chain" (SELF_SIGNED_CERT_IN_CHAIN) error - even though this file
+ * explicitly sets `rejectUnauthorized: false`. Stripping the query
+ * param here removes that conflict so our own `resolveSsl()` is the
+ * only thing deciding TLS behavior, as intended. Nothing else about
+ * the connection string (host/port/user/password/database) changes.
+ */
+function stripSslModeParam(databaseUrl: string): string {
+  try {
+    const url = new URL(databaseUrl);
+    url.searchParams.delete("sslmode");
+    return url.toString();
+  } catch {
+    return databaseUrl;
+  }
+}
+
 export function getPool(): Pool {
   if (!env.databaseUrl) {
     throw new Error(
@@ -48,7 +73,7 @@ export function getPool(): Pool {
 
   if (!pool) {
     pool = new Pool({
-      connectionString: env.databaseUrl,
+      connectionString: stripSslModeParam(env.databaseUrl),
       ssl: resolveSsl(env.databaseUrl),
     });
   }
