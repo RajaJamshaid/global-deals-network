@@ -19,6 +19,11 @@ interface Bucket {
  * `request.ip` reflects the real client behind Cloudflare rather than
  * Cloudflare's edge IP - without it every visitor would share one
  * bucket.
+ *
+ * The Telegram webhook is exempt: it is already authenticated via
+ * TELEGRAM_WEBHOOK_SECRET (see telegram.routes.ts), and that route is
+ * deliberately built to always return 200 so Telegram never retries
+ * a slow/broken handler - a 429 here would defeat that guarantee.
  */
 const buckets = new Map<string, Bucket>();
 
@@ -34,8 +39,16 @@ setInterval(() => {
   }
 }, env.rateLimitWindowMs).unref();
 
+function isExempt(url: string): boolean {
+  return url.split("?")[0].endsWith("/telegram/webhook");
+}
+
 export async function rateLimitPlugin(app: FastifyInstance): Promise<void> {
   app.addHook("onRequest", async (request, reply) => {
+    if (isExempt(request.url)) {
+      return;
+    }
+
     const key = request.ip;
     const now = Date.now();
     const bucket = buckets.get(key);
