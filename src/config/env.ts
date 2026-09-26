@@ -11,13 +11,25 @@
  */
 import "dotenv/config";
 
+/**
+ * Trims surrounding whitespace before treating a value as "set".
+ * Dashboard env-var UIs (Render included) can silently preserve a
+ * trailing newline or leading/trailing space from a copy-paste (for
+ * example, pasting a full DATABASE_URL that had a trailing newline
+ * in the clipboard). For a connection string that corrupts the host
+ * portion enough that the driver fails before ever reaching the
+ * database - producing an error with zero trace on the database
+ * server's own side, since the connection attempt never gets that
+ * far. Trimming removes this whole failure class without needing to
+ * know what the value actually is.
+ */
 function optionalEnv(name: string, fallback: string): string {
-  const value = process.env[name];
+  const value = process.env[name]?.trim();
   return value && value.length > 0 ? value : fallback;
 }
 
 function rawEnv(name: string): string | undefined {
-  const value = process.env[name];
+  const value = process.env[name]?.trim();
   return value && value.length > 0 ? value : undefined;
 }
 
