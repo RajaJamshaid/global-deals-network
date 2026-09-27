@@ -1,0 +1,190 @@
+/*
+ * GDN Mini App - Phase 1 visual shell.
+ * Header + static hero only. Mobile-first, per section 5 of
+ * docs/architecture/GDN_Website_PWA_Frontend_Architecture.md.
+ */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--gdn-color-bg);
+  color: var(--gdn-color-navy);
+  font-family: var(--gdn-font-body);
+  -webkit-font-smoothing: antialiased;
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+}
+
+/* ---------- Header ---------- */
+
+.gdn-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--gdn-color-surface);
+  border-bottom: 1px solid var(--gdn-color-border);
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+.gdn-header__inner {
+  height: var(--gdn-header-height);
+  display: flex;
+  align-items: center;
+  gap: var(--gdn-space-sm);
+  padding: 0 var(--gdn-space-md);
+}
+
+.gdn-header__back {
+  display: none;
+}
+
+.gdn-header__brand {
+  font-family: var(--gdn-font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gdn-header__nav {
+  display: none;
+}
+
+.gdn-header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--gdn-space-xs);
+  margin-left: auto;
+}
+
+.gdn-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--gdn-radius-sm);
+  border: none;
+  background: transparent;
+  color: var(--gdn-color-navy);
+  cursor: pointer;
+}
+
+.gdn-icon-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.gdn-icon-btn:hover {
+  background: var(--gdn-color-surface-muted);
+}
+
+/* ---------- Hero ---------- */
+
+.hero {
+  position: relative;
+  margin: var(--gdn-space-md);
+  border-radius: var(--gdn-radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--gdn-color-border);
+  /* Slightly taller than the desktop reference proportion, per the
+     brief's explicit mobile-hero-height adjustment (section 4/26). */
+  min-height: 260px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.hero-media {
+  position: absolute;
+  inset: 0;
+  /* Placeholder gradient standing in for real deal photography -
+     see the HTML comment above this element. */
+  background: linear-gradient(160deg, #2a2016 0%, #1c1712 55%, #0f0d0a 100%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  color: #fdfaf3;
+  padding: var(--gdn-space-lg) var(--gdn-space-md);
+  width: 100%;
+}
+
+.hero-eyebrow {
+  margin: 0 0 var(--gdn-space-xs);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gdn-color-gold);
+}
+
+.hero-title {
+  margin: 0 0 var(--gdn-space-sm);
+  font-family: var(--gdn-font-display);
+  font-weight: 600;
+  font-size: 1.6rem;
+  line-height: 1.15;
+}
+
+.hero-subtitle {
+  margin: 0;
+  max-width: 32ch;
+  font-size: 0.9rem;
+  color: #e3ddce;
+}
+
+/* ---------- Desktop ---------- */
+
+@media (min-width: 960px) {
+  .gdn-header__inner {
+    padding: 0 var(--gdn-space-xl);
+  }
+
+  .gdn-header__brand {
+    font-size: 1.3rem;
+  }
+
+  .gdn-header__nav {
+    display: flex;
+    gap: var(--gdn-space-md);
+    margin-left: var(--gdn-space-xl);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--gdn-color-navy-soft);
+  }
+
+  .gdn-header__nav .is-active {
+    color: var(--gdn-color-navy);
+  }
+
+  .hero {
+    margin: var(--gdn-space-xl);
+    min-height: 360px;
+  }
+
+  .hero-content {
+    padding: var(--gdn-space-xl);
+  }
+
+  .hero-title {
+    font-size: 2.75rem;
+    max-width: 16ch;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+}

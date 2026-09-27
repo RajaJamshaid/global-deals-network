@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Global Deals Network</title>
+    <meta name="description" content="Global Deals Network - curated deals across trusted stores." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/tokens.css" />
+    <link rel="stylesheet" href="/styles/main.css" />
+  </head>
+  <body>
+    <!--
+      GDN Mini App - Phase 1 (visual shell only).
+      Per docs/architecture/GDN_Website_PWA_Frontend_Architecture.md:
+      this is presentation only - no business logic, no affiliate
+      links, no API calls live here yet. Hero content below is
+      placeholder/demo markup for layout purposes only (see the
+      comment on .hero-media) - it is not real deal data and must
+      not be treated as such.
+    -->
+    <header class="gdn-header">
+      <div class="gdn-header__inner">
+        <button class="gdn-icon-btn gdn-header__back" aria-label="Back" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+
+        <a class="gdn-header__brand" href="/">Global Deals Network</a>
+
+        <nav class="gdn-header__nav" aria-label="Primary">
+          <a href="#" class="is-active">All</a>
+          <a href="#">Tech</a>
+          <a href="#">Home</a>
+          <a href="#">Fashion</a>
+          <a href="#">Travel</a>
+          <a href="#">Sports</a>
+        </nav>
+
+        <div class="gdn-header__actions">
+          <button class="gdn-icon-btn" aria-label="Search" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <circle cx="11" cy="11" r="7" />
+              <path d="M21 21l-4.3-4.3" stroke-linecap="round" />
+            </svg>
+          </button>
+          <button class="gdn-icon-btn" aria-label="Saved deals" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path d="M6 4h12a1 1 0 0 1 1 1v15l-7-4-7 4V5a1 1 0 0 1 1-1z" stroke-linejoin="round" />
+            </svg>
+          </button>
+          <button class="gdn-icon-btn" aria-label="Menu" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" aria-label="Featured deal">
+        <!--
+          Placeholder hero media: this UI-development build has no real
+          photography or live deal asset wired in yet, so a plain
+          gradient stands in for the eventual product photo. This is
+          demo/dev-only markup, never to be mistaken for a production
+          deal. Phase 3 replaces this with the rotating deal-array
+          component described in the design brief.
+        -->
+        <div class="hero-media" role="img" aria-label="Placeholder - featured deal photography goes here"></div>
+        <div class="hero-content">
+          <p class="hero-eyebrow">Global Deals Network</p>
+          <h1 class="hero-title">Curated Deals,<br />Trusted Stores</h1>
+          <p class="hero-subtitle">
+            Placeholder hero copy - Phase 3 wires this to a live, rotating deal feed.
+          </p>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
