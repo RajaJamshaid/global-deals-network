@@ -16,13 +16,15 @@
   </head>
   <body>
     <!--
-      GDN Mini App - Phase 1 (visual shell), homepage structure update.
+      GDN Mini App - Phase 1 (visual shell), navigation-box update.
       Per docs/architecture/GDN_Website_PWA_Frontend_Architecture.md:
       this is presentation only - no business logic, no affiliate
       links, no API calls live here yet. Every card/price/store below
       this point is clearly-labelled demo/placeholder markup for
-      layout purposes only, not real GDN data (see each section's
-      "Demo preview" note) - Phase 9 wires these to the live API.
+      layout purposes only, not real GDN data - Phase 9 wires these to
+      the live API. Store names (Amazon, Nike, Samsung, Airbnb,
+      Walmart, Best Buy) are illustrative examples only, matching the
+      approved reference image - not implying any live connection.
     -->
     <header class="gdn-header">
       <div class="gdn-header__inner">
@@ -67,12 +69,13 @@
     <main>
       <section class="hero" aria-label="Featured deal">
         <!--
-          Placeholder hero media: this UI-development build has no real
-          photography or live deal asset wired in yet, so a plain
-          gradient stands in for the eventual product photo. This is
-          demo/dev-only markup, never to be mistaken for a production
-          deal. Phase 3 replaces this with the rotating deal-array
-          component described in the design brief.
+          Placeholder hero media: no real photography asset is wired in
+          yet (and none is fetched from the web here, to avoid using
+          unlicensed images). A richer multi-tone gradient plus a gold
+          corner flourish (matching the reference's gold corner accent)
+          stands in for real deal photography for now - intentionally
+          not a flat placeholder card. Phase 3 replaces this with the
+          rotating deal-array component described in the design brief.
         -->
         <div class="hero-media" role="img" aria-label="Placeholder - featured deal photography goes here"></div>
         <div class="hero-content">
@@ -84,124 +87,301 @@
         </div>
       </section>
 
-      <!-- HOME -->
-      <section class="gdn-section gdn-home-intro" aria-label="Home">
-        <p class="gdn-section__eyebrow">Home</p>
-        <h2 class="gdn-section__title">Your curated starting point</h2>
-        <p class="gdn-section__lede">
-          Stores, categories, and today's top deals - one continuous GDN experience.
-        </p>
-      </section>
+      <!-- Main navigation boxes: Home / Stores / Categories / TrendTop Deals.
+           These ARE the navigation - no extra heading sits above them. -->
+      <nav class="nav-grid" aria-label="Sections">
+        <button class="nav-box is-active" type="button" data-panel="home" aria-pressed="true">
+          <span class="nav-box__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11 12 4l9 7" stroke-linecap="round" stroke-linejoin="round" /><path d="M5 10v10h14V10" stroke-linejoin="round" /></svg>
+          </span>
+          <span class="nav-box__label">Home</span>
+        </button>
+        <button class="nav-box" type="button" data-panel="stores" aria-pressed="false">
+          <span class="nav-box__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 10 5 4h14l1 6" stroke-linejoin="round" /><path d="M4 10a2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0" stroke-linejoin="round" /><path d="M5 10v9h14v-9" /></svg>
+          </span>
+          <span class="nav-box__label">Stores</span>
+        </button>
+        <button class="nav-box" type="button" data-panel="categories" aria-pressed="false">
+          <span class="nav-box__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3.5" y="3.5" width="7" height="7" rx="1.2" /><rect x="13.5" y="3.5" width="7" height="7" rx="1.2" /><rect x="3.5" y="13.5" width="7" height="7" rx="1.2" /><rect x="13.5" y="13.5" width="7" height="7" rx="1.2" /></svg>
+          </span>
+          <span class="nav-box__label">Categories</span>
+        </button>
+        <button class="nav-box" type="button" data-panel="trendtop" aria-pressed="false">
+          <span class="nav-box__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 17 9.5 10.5 13.5 14.5 21 6" stroke-linecap="round" stroke-linejoin="round" /><path d="M15 6h6v6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          </span>
+          <span class="nav-box__label">TrendTop Deals</span>
+        </button>
+      </nav>
 
-      <!-- STORES -->
-      <section class="gdn-section" aria-label="Stores">
-        <div class="gdn-section__head">
-          <div>
-            <p class="gdn-section__eyebrow">Stores</p>
-            <h2 class="gdn-section__title">Shop by store</h2>
+      <div class="gdn-panels">
+        <!-- HOME -->
+        <section id="panel-home" class="gdn-panel" data-panel-content="home">
+          <div class="gdn-subsection">
+            <div class="gdn-subsection__head">
+              <p class="gdn-subsection__title">Featured</p>
+              <p class="gdn-demo-note">Demo preview</p>
+            </div>
+            <div class="deal-grid deal-grid--single">
+              <a class="deal-card" href="#">
+                <span class="deal-card__store-tag">Amazon</span>
+                <span class="deal-card__media" aria-hidden="true">
+                  <span class="deal-card__badge">-30%</span>
+                </span>
+                <span class="deal-card__body">
+                  <span class="deal-card__title">Sample Wireless Headphones</span>
+                  <span class="deal-card__price-row">
+                    <span class="deal-card__price">$69.99</span>
+                    <span class="deal-card__price-was">$99.99</span>
+                  </span>
+                </span>
+              </a>
+            </div>
           </div>
-          <p class="gdn-demo-note">Demo preview - stores shown are illustrative, not yet connected merchants</p>
-        </div>
-        <div class="store-grid">
-          <a class="store-card" href="#"><span class="store-card__name">Amazon</span><span class="store-card__tag">Exclusive tech discounts</span></a>
-          <a class="store-card" href="#"><span class="store-card__name">Nike</span><span class="store-card__tag">Seasonal athletic offers</span></a>
-          <a class="store-card" href="#"><span class="store-card__name">Samsung</span><span class="store-card__tag">Premium electronics deals</span></a>
-          <a class="store-card" href="#"><span class="store-card__name">Airbnb</span><span class="store-card__tag">Premium stay offers</span></a>
-          <a class="store-card" href="#"><span class="store-card__name">Walmart</span><span class="store-card__tag">Everyday value</span></a>
-          <a class="store-card" href="#"><span class="store-card__name">Best Buy</span><span class="store-card__tag">Electronics &amp; more</span></a>
-        </div>
-      </section>
 
-      <!-- CATEGORIES -->
-      <section class="gdn-section" aria-label="Categories">
-        <div class="gdn-section__head">
-          <div>
-            <p class="gdn-section__eyebrow">Categories</p>
-            <h2 class="gdn-section__title">Browse by category</h2>
+          <div class="gdn-subsection">
+            <div class="gdn-subsection__head">
+              <p class="gdn-subsection__title">Top Popular</p>
+              <p class="gdn-demo-note">Demo preview - ranking not yet from backend</p>
+            </div>
+            <div class="deal-grid">
+              <a class="deal-card" href="#">
+                <span class="deal-card__store-tag">Nike</span>
+                <span class="deal-card__media" aria-hidden="true">
+                  <span class="deal-card__badge">-20%</span>
+                </span>
+                <span class="deal-card__body">
+                  <span class="deal-card__title">Sample Running Shoes</span>
+                  <span class="deal-card__price-row">
+                    <span class="deal-card__price">$79.99</span>
+                    <span class="deal-card__price-was">$99.99</span>
+                  </span>
+                </span>
+              </a>
+              <a class="deal-card" href="#">
+                <span class="deal-card__store-tag">Samsung</span>
+                <span class="deal-card__media" aria-hidden="true">
+                  <span class="deal-card__badge">-12%</span>
+                </span>
+                <span class="deal-card__body">
+                  <span class="deal-card__title">Sample Galaxy Earbuds</span>
+                  <span class="deal-card__price-row">
+                    <span class="deal-card__price">$109.00</span>
+                    <span class="deal-card__price-was">$124.00</span>
+                  </span>
+                </span>
+              </a>
+            </div>
           </div>
-        </div>
-        <div class="category-row">
-          <a class="category-card" href="#">
-            <span class="category-card__icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="12" rx="1.5" /><path d="M2 19h20" stroke-linecap="round" /></svg>
-            </span>
-            <span class="category-card__label">Tech</span>
-          </a>
-          <a class="category-card" href="#">
-            <span class="category-card__icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2z" /><path d="M12 7 3 12l1.5 2L9 12v9h6v-9l4.5 2L21 12l-9-5z" stroke-linejoin="round" /></svg>
-            </span>
-            <span class="category-card__label">Fashion</span>
-          </a>
-          <a class="category-card" href="#">
-            <span class="category-card__icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11 12 4l9 7" stroke-linecap="round" stroke-linejoin="round" /><path d="M5 10v10h14V10" stroke-linejoin="round" /></svg>
-            </span>
-            <span class="category-card__label">Home</span>
-          </a>
-          <a class="category-card" href="#">
-            <span class="category-card__icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2.5 16.5 21 9l-2.5-2.5-16 4.5 1.5 2 4-1 2.5 2.5-3 1.5 1.5 1.5 3-1.5 2.5 2.5-1 4 2-1.5 2-6z" stroke-linejoin="round" /></svg>
-            </span>
-            <span class="category-card__label">Travel</span>
-          </a>
-          <a class="category-card" href="#">
-            <span class="category-card__icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 9v6M2 10v4M20 9v6M22 10v4M7 12h10" stroke-linecap="round" /><rect x="4" y="9" width="3" height="6" rx="0.8" /><rect x="17" y="9" width="3" height="6" rx="0.8" /></svg>
-            </span>
-            <span class="category-card__label">Sports</span>
-          </a>
-        </div>
-      </section>
 
-      <!-- TOP DEALS / TRENDING DEALS -->
-      <section class="gdn-section" aria-label="Top deals">
-        <div class="gdn-section__head">
-          <div>
-            <p class="gdn-section__eyebrow">Trending</p>
-            <h2 class="gdn-section__title">Top deals</h2>
+          <div class="gdn-subsection">
+            <div class="gdn-subsection__head">
+              <p class="gdn-subsection__title">Popular Stores</p>
+              <p class="gdn-demo-note">Demo preview - curated subset only</p>
+            </div>
+            <div class="plate-grid plate-grid--compact">
+              <a class="store-plate store-plate--amazon" href="#">
+                <span class="store-plate__name">amazon</span>
+                <span class="store-plate__tag">Exclusive tech discounts</span>
+              </a>
+              <a class="store-plate store-plate--nike" href="#">
+                <span class="store-plate__name">Nike</span>
+                <span class="store-plate__tag">Seasonal athletic offers</span>
+              </a>
+            </div>
           </div>
-          <p class="gdn-demo-note">Demo preview - sample cards, no live prices yet</p>
-        </div>
-        <div class="deal-grid">
-          <a class="deal-card" href="#">
-            <span class="deal-card__media" aria-hidden="true"></span>
-            <span class="deal-card__badge">-30%</span>
-            <span class="deal-card__body">
-              <span class="deal-card__title">Sample Wireless Headphones</span>
-              <span class="deal-card__price-row">
-                <span class="deal-card__price">$69.99</span>
-                <span class="deal-card__price-was">$99.99</span>
+
+          <div class="gdn-subsection">
+            <div class="gdn-subsection__head">
+              <p class="gdn-subsection__title">Top Selling Products</p>
+              <p class="gdn-demo-note">Demo preview - sales data not yet connected</p>
+            </div>
+            <div class="deal-grid">
+              <a class="deal-card" href="#">
+                <span class="deal-card__store-tag">Walmart</span>
+                <span class="deal-card__media" aria-hidden="true">
+                  <span class="deal-card__badge">-15%</span>
+                </span>
+                <span class="deal-card__body">
+                  <span class="deal-card__title">Sample Leather Weekender Bag</span>
+                  <span class="deal-card__price-row">
+                    <span class="deal-card__price">$212.00</span>
+                    <span class="deal-card__price-was">$249.00</span>
+                  </span>
+                </span>
+              </a>
+              <a class="deal-card" href="#">
+                <span class="deal-card__store-tag">Best Buy</span>
+                <span class="deal-card__media" aria-hidden="true">
+                  <span class="deal-card__badge">-18%</span>
+                </span>
+                <span class="deal-card__body">
+                  <span class="deal-card__title">Sample 4K Monitor</span>
+                  <span class="deal-card__price-row">
+                    <span class="deal-card__price">$229.00</span>
+                    <span class="deal-card__price-was">$279.00</span>
+                  </span>
+                </span>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <!-- STORES -->
+        <section id="panel-stores" class="gdn-panel" data-panel-content="stores" hidden>
+          <div class="gdn-subsection">
+            <div class="gdn-subsection__head">
+              <p class="gdn-subsection__title">Popular Stores</p>
+              <p class="gdn-demo-note">Demo grouping - real ranking arrives from backend</p>
+            </div>
+            <div class="plate-grid">
+              <a class="store-plate store-plate--amazon" href="#">
+                <span class="store-plate__name">amazon</span>
+                <span class="store-plate__tag">Exclusive tech discounts</span>
+              </a>
+              <a class="store-plate store-plate--nike" href="#">
+                <span class="store-plate__name">Nike</span>
+                <span class="store-plate__tag">Seasonal athletic offers</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="gdn-subsection">
+            <div class="gdn-subsection__head">
+              <p class="gdn-subsection__title">High-Selling Stores</p>
+            </div>
+            <div class="plate-grid">
+              <a class="store-plate store-plate--samsung" href="#">
+                <span class="store-plate__name">SAMSUNG</span>
+                <span class="store-plate__tag">Premium electronics deals</span>
+              </a>
+              <a class="store-plate store-plate--walmart" href="#">
+                <span class="store-plate__name">Walmart</span>
+                <span class="store-plate__tag">Everyday value</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="gdn-subsection">
+            <div class="gdn-subsection__head">
+              <p class="gdn-subsection__title">Remaining Stores</p>
+            </div>
+            <div class="plate-grid">
+              <a class="store-plate store-plate--airbnb" href="#">
+                <span class="store-plate__name">airbnb</span>
+                <span class="store-plate__tag">Premium stay offers</span>
+              </a>
+              <a class="store-plate store-plate--bestbuy" href="#">
+                <span class="store-plate__name">BEST BUY</span>
+                <span class="store-plate__tag">Electronics &amp; more</span>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <!-- CATEGORIES -->
+        <section id="panel-categories" class="gdn-panel" data-panel-content="categories" hidden>
+          <div class="category-row">
+            <a class="category-card" href="#">
+              <span class="category-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="12" rx="1.5" /><path d="M2 19h20" stroke-linecap="round" /></svg>
               </span>
-              <span class="deal-card__store">Demo store</span>
-            </span>
-          </a>
-          <a class="deal-card" href="#">
-            <span class="deal-card__media" aria-hidden="true"></span>
-            <span class="deal-card__badge">-15%</span>
-            <span class="deal-card__body">
-              <span class="deal-card__title">Sample Leather Weekender Bag</span>
-              <span class="deal-card__price-row">
-                <span class="deal-card__price">$212.00</span>
-                <span class="deal-card__price-was">$249.00</span>
+              <span class="category-card__label">Tech</span>
+            </a>
+            <a class="category-card" href="#">
+              <span class="category-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2z" /><path d="M12 7 3 12l1.5 2L9 12v9h6v-9l4.5 2L21 12l-9-5z" stroke-linejoin="round" /></svg>
               </span>
-              <span class="deal-card__store">Demo store</span>
-            </span>
-          </a>
-          <a class="deal-card" href="#">
-            <span class="deal-card__media" aria-hidden="true"></span>
-            <span class="deal-card__badge">-20%</span>
-            <span class="deal-card__body">
-              <span class="deal-card__title">Sample Running Shoes</span>
-              <span class="deal-card__price-row">
-                <span class="deal-card__price">$79.99</span>
-                <span class="deal-card__price-was">$99.99</span>
+              <span class="category-card__label">Fashion</span>
+            </a>
+            <a class="category-card" href="#">
+              <span class="category-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11 12 4l9 7" stroke-linecap="round" stroke-linejoin="round" /><path d="M5 10v10h14V10" stroke-linejoin="round" /></svg>
               </span>
-              <span class="deal-card__store">Demo store</span>
-            </span>
-          </a>
-        </div>
-      </section>
+              <span class="category-card__label">Home</span>
+            </a>
+            <a class="category-card" href="#">
+              <span class="category-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2.5 16.5 21 9l-2.5-2.5-16 4.5 1.5 2 4-1 2.5 2.5-3 1.5 1.5 1.5 3-1.5 2.5 2.5-1 4 2-1.5 2-6z" stroke-linejoin="round" /></svg>
+              </span>
+              <span class="category-card__label">Travel</span>
+            </a>
+            <a class="category-card" href="#">
+              <span class="category-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 9v6M2 10v4M20 9v6M22 10v4M7 12h10" stroke-linecap="round" /><rect x="4" y="9" width="3" height="6" rx="0.8" /><rect x="17" y="9" width="3" height="6" rx="0.8" /></svg>
+              </span>
+              <span class="category-card__label">Sports</span>
+            </a>
+          </div>
+        </section>
+
+        <!-- TRENDTOP DEALS (one combined section - trending + top deals) -->
+        <section id="panel-trendtop" class="gdn-panel" data-panel-content="trendtop" hidden>
+          <div class="gdn-subsection">
+            <div class="gdn-subsection__head">
+              <p class="gdn-demo-note">Demo preview - combined trending + top deals view; ranking arrives from backend</p>
+            </div>
+            <div class="deal-grid">
+              <a class="deal-card" href="#">
+                <span class="deal-card__store-tag">Amazon</span>
+                <span class="deal-card__media" aria-hidden="true">
+                  <span class="deal-card__badge">-30%</span>
+                </span>
+                <span class="deal-card__body">
+                  <span class="deal-card__title">Sample Wireless Headphones</span>
+                  <span class="deal-card__price-row">
+                    <span class="deal-card__price">$69.99</span>
+                    <span class="deal-card__price-was">$99.99</span>
+                  </span>
+                </span>
+              </a>
+              <a class="deal-card" href="#">
+                <span class="deal-card__store-tag">Walmart</span>
+                <span class="deal-card__media" aria-hidden="true">
+                  <span class="deal-card__badge">-15%</span>
+                </span>
+                <span class="deal-card__body">
+                  <span class="deal-card__title">Sample Leather Weekender Bag</span>
+                  <span class="deal-card__price-row">
+                    <span class="deal-card__price">$212.00</span>
+                    <span class="deal-card__price-was">$249.00</span>
+                  </span>
+                </span>
+              </a>
+              <a class="deal-card" href="#">
+                <span class="deal-card__store-tag">Nike</span>
+                <span class="deal-card__media" aria-hidden="true">
+                  <span class="deal-card__badge">-20%</span>
+                </span>
+                <span class="deal-card__body">
+                  <span class="deal-card__title">Sample Running Shoes</span>
+                  <span class="deal-card__price-row">
+                    <span class="deal-card__price">$79.99</span>
+                    <span class="deal-card__price-was">$99.99</span>
+                  </span>
+                </span>
+              </a>
+              <a class="deal-card" href="#">
+                <span class="deal-card__store-tag">Best Buy</span>
+                <span class="deal-card__media" aria-hidden="true">
+                  <span class="deal-card__badge">-18%</span>
+                </span>
+                <span class="deal-card__body">
+                  <span class="deal-card__title">Sample 4K Monitor</span>
+                  <span class="deal-card__price-row">
+                    <span class="deal-card__price">$229.00</span>
+                    <span class="deal-card__price-was">$279.00</span>
+                  </span>
+                </span>
+              </a>
+            </div>
+          </div>
+        </section>
+      </div>
     </main>
+
+    <script src="/scripts/app.js"></script>
   </body>
 </html>
