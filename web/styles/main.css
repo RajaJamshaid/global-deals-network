@@ -1,8 +1,8 @@
 /*
  * GDN Mini App - Phase 1 visual shell.
  * Direct match of the approved mobile reference: Header, Hero,
- * Categories row, Stores grid. Mobile-first, per section 5 of
- * docs/architecture/GDN_Website_PWA_Frontend_Architecture.md.
+ * Categories row, metallic Store plates. Mobile-first, per section 5
+ * of docs/architecture/GDN_Website_PWA_Frontend_Architecture.md.
  */
 
 * {
@@ -101,33 +101,29 @@ button {
   border-radius: var(--gdn-radius-lg);
   overflow: hidden;
   border: 1px solid var(--gdn-color-border);
-  /* Slightly taller than the desktop reference proportion, per the
-     brief's explicit mobile-hero-height adjustment. */
-  min-height: 240px;
+  min-height: 260px;
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
 }
 
 .hero-media {
   position: absolute;
   inset: 0;
-  /* Warm brown-toned gradient standing in for the reference's desk
-     photo (see the HTML comment above this element) - no image
-     fetched/embedded from the web. */
+  /* Layered wood-tone gradient standing in for the reference's
+     wood-panelled office photo (see the HTML comment above this
+     element) - no image fetched/embedded from the web. Vertical
+     bands approximate wood-panel grain; radial highlight approximates
+     the desk-lamp glow on the right side of the reference photo. */
   background:
-    radial-gradient(120% 90% at 15% 0%, rgba(182, 146, 79, 0.3), transparent 55%),
-    linear-gradient(155deg, #3c2c1c 0%, #241a10 45%, #100c08 100%);
-}
-
-.hero-media::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 56px;
-  height: 56px;
-  background: linear-gradient(135deg, transparent 50%, var(--gdn-color-gold) 50%);
-  opacity: 0.85;
+    radial-gradient(70% 60% at 78% 55%, rgba(214, 176, 118, 0.28), transparent 65%),
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.12) 0px,
+      rgba(0, 0, 0, 0.12) 2px,
+      transparent 2px,
+      transparent 26px
+    ),
+    linear-gradient(165deg, #4a3420 0%, #2c1f13 45%, #170f09 100%);
 }
 
 .hero-content {
@@ -139,17 +135,26 @@ button {
 }
 
 .hero-title {
-  margin: 0 0 var(--gdn-space-xs);
+  margin: 0 0 var(--gdn-space-sm);
   font-family: var(--gdn-font-display);
-  font-weight: 600;
-  font-size: 1.5rem;
-  line-height: 1.18;
+  font-weight: 700;
+  font-size: 1.4rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+.hero-rule {
+  width: 46px;
+  margin: 0 0 var(--gdn-space-sm);
+  border: none;
+  border-top: 1.5px solid var(--gdn-color-gold);
 }
 
 .hero-subtitle {
   margin: 0;
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: #e3ddce;
 }
@@ -170,8 +175,8 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--gdn-space-xs);
-  padding: var(--gdn-space-sm) var(--gdn-space-xs);
+  gap: var(--gdn-space-sm);
+  padding: var(--gdn-space-md) var(--gdn-space-xs);
   border-radius: var(--gdn-radius-md);
   background: var(--gdn-color-surface-muted);
 }
@@ -180,23 +185,25 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
+  width: 46px;
+  height: 46px;
   color: var(--gdn-color-navy);
 }
 
 .category-card__icon svg {
-  width: 22px;
-  height: 22px;
+  width: 34px;
+  height: 34px;
 }
 
 .category-card__label {
-  font-size: 0.7rem;
-  font-weight: 500;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
   color: var(--gdn-color-navy);
 }
 
-/* ---------- Stores ---------- */
+/* ---------- Stores: metallic riveted plates ---------- */
 
 .store-section {
   padding: var(--gdn-space-lg) var(--gdn-space-md) var(--gdn-space-xl);
@@ -205,79 +212,157 @@ button {
 .plate-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: var(--gdn-space-md) var(--gdn-space-sm);
+  gap: var(--gdn-space-lg) var(--gdn-space-sm);
 }
 
 .store-plate-wrap {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--gdn-space-xs);
+  gap: var(--gdn-space-sm);
 }
 
 .store-plate {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 64px;
-  border-radius: var(--gdn-radius-md);
-  border: 1px solid var(--gdn-color-border);
-  background: var(--gdn-color-surface);
+  height: 76px;
+  padding: var(--gdn-space-sm);
+  border-radius: var(--gdn-radius-sm);
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  /* Brand-tinted brushed-metal sheen (--plate-gradient, set per
+     modifier below) plus 4 corner rivet dots - CSS-only, no extra
+     markup, matching the mockup's embossed metal-plate treatment. */
+  background-image:
+    radial-gradient(circle 2.6px at 9px 9px, rgba(0, 0, 0, 0.4), transparent 72%),
+    radial-gradient(circle 2.6px at calc(100% - 9px) 9px, rgba(0, 0, 0, 0.4), transparent 72%),
+    radial-gradient(circle 2.6px at 9px calc(100% - 9px), rgba(0, 0, 0, 0.4), transparent 72%),
+    radial-gradient(circle 2.6px at calc(100% - 9px) calc(100% - 9px), rgba(0, 0, 0, 0.4), transparent 72%),
+    var(--plate-gradient);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 1px 3px rgba(0, 0, 0, 0.18);
 }
 
-.store-plate__name {
+.store-plate--amazon {
+  --plate-gradient: linear-gradient(135deg, #f6dfa0 0%, #cda233 35%, #8a6b1a 62%, #e8c876 100%);
+}
+
+.store-plate--nike,
+.store-plate--samsung,
+.store-plate--walmart {
+  --plate-gradient: linear-gradient(135deg, #fafafa 0%, #d6d6d6 35%, #a8a8a8 62%, #efefef 100%);
+}
+
+.store-plate--airbnb {
+  --plate-gradient: linear-gradient(135deg, #fbf9f6 0%, #ded8d0 35%, #b9b0a5 62%, #f2eee8 100%);
+}
+
+.store-plate--bestbuy {
+  --plate-gradient: linear-gradient(135deg, #1b3a63 0%, #0a1d3b 55%, #14315c 100%);
+}
+
+.brand-mark {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.brand-mark__word {
   font-family: var(--gdn-font-display);
   font-weight: 700;
-  font-size: 1.1rem;
+  line-height: 1.05;
+}
+
+.brand-mark--amazon {
+  flex-direction: column;
+  gap: 0;
+}
+
+.brand-mark--amazon .brand-mark__word {
+  font-size: 1.15rem;
+  color: #14110c;
+  text-transform: lowercase;
+}
+
+.brand-mark--amazon .brand-mark__smile {
+  width: 46px;
+  height: auto;
+  margin-top: -2px;
+}
+
+.brand-mark--nike {
+  width: 58px;
+  height: auto;
+  color: #16181a;
+}
+
+.brand-mark--samsung {
+  font-family: var(--gdn-font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+  color: #1428a0;
+}
+
+.brand-mark--airbnb {
+  flex-direction: column;
+  gap: 0.1rem;
+  color: #ff5a5f;
+}
+
+.brand-mark--airbnb svg {
+  width: 22px;
+  height: 22px;
+}
+
+.brand-mark--airbnb .brand-mark__word {
+  font-size: 0.9rem;
+  text-transform: lowercase;
+  color: #ff5a5f;
+}
+
+.brand-mark--walmart {
+  color: #0071ce;
+}
+
+.brand-mark--walmart .brand-mark__word {
+  font-size: 1.05rem;
+}
+
+.brand-mark--walmart .brand-mark__spark {
+  width: 16px;
+  height: 16px;
+}
+
+.brand-mark--bestbuy {
+  color: #fdfaf3;
+}
+
+.brand-mark--bestbuy .brand-mark__word {
+  font-size: 0.85rem;
+  text-align: left;
+  letter-spacing: 0.02em;
+}
+
+.brand-mark--bestbuy .brand-mark__tag {
+  width: 26px;
+  height: 26px;
 }
 
 .store-plate__caption {
   margin: 0;
-  font-size: 0.65rem;
-  letter-spacing: 0.04em;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
   text-transform: uppercase;
-  color: var(--gdn-color-navy-soft);
+  color: var(--gdn-color-navy);
   text-align: center;
-}
-
-.store-plate--amazon {
-  background: linear-gradient(155deg, #211c14, #14110c);
-  border-color: #4a3a1f;
-  color: #f2d99b;
-}
-
-.store-plate--nike {
-  background: var(--gdn-color-surface);
-  color: #16181a;
-}
-
-.store-plate--samsung {
-  background: #eef1fb;
-  border-color: #c9d3f2;
-  color: #1428a0;
-}
-
-.store-plate--airbnb {
-  background: #fff1ef;
-  border-color: #ffd6d1;
-  color: #ff5a5f;
-}
-
-.store-plate--walmart {
-  background: #eaf2fb;
-  border-color: #c7dcf5;
-  color: #0071ce;
-}
-
-.store-plate--bestbuy {
-  background: linear-gradient(155deg, #0f2a52, #0a1d3b);
-  border-color: #16407a;
-  color: #ffe000;
+  line-height: 1.3;
 }
 
 .gdn-demo-note {
-  margin: var(--gdn-space-md) 0 0;
+  margin: var(--gdn-space-lg) 0 0;
   font-size: 0.7rem;
   color: var(--gdn-color-navy-soft);
 }
@@ -320,12 +405,12 @@ button {
   }
 
   .hero-title {
-    font-size: 2.5rem;
+    font-size: 2.3rem;
     max-width: 18ch;
   }
 
   .hero-subtitle {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
 
   .category-section {
