@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/styles/tokens.css" />
@@ -18,16 +18,17 @@
     <!--
       GDN Mini App - Phase 1 (visual shell).
       Direct, literal match of the approved mobile reference mockup:
-      Header -> Hero -> Categories row -> Stores grid, stacked in
-      that order with no tab-switching (a previous iteration added a
-      Home/Stores/Categories/TrendTop tab abstraction that drifted
-      from the reference image - reverted here in favor of matching
-      the picture exactly). Per
+      Header -> Hero -> Categories row -> Stores grid (metallic
+      riveted plates). Per
       docs/architecture/GDN_Website_PWA_Frontend_Architecture.md this
       is presentation only - no business logic, no API calls yet.
-      Store names (Amazon, Nike, Samsung, Airbnb, Walmart, Best Buy)
-      are illustrative examples only, matching the reference image -
-      not implying any live connection.
+      Store names/marks (Amazon, Nike, Samsung, Airbnb, Walmart, Best
+      Buy) are illustrative examples matching the reference image, not
+      implying a live connection. Logo marks below are simplified SVG
+      approximations of each brand's shape (swoosh/spark/tag/etc.),
+      not extracted from real brand asset files - drawn this way for
+      licensing safety, matched as closely as possible to the
+      reference's wordmark styling and plate coloring.
     -->
     <header class="gdn-header">
       <div class="gdn-header__inner">
@@ -70,78 +71,140 @@
     </header>
 
     <main>
-      <!-- HERO - copy matches the reference mockup's own hero text exactly -->
+      <!-- HERO -->
       <section class="hero" aria-label="Featured deal">
         <!--
           Placeholder hero media: no real photography asset is wired in
           yet (and none is fetched from the web here, to avoid using
-          unlicensed images) - a warm brown-toned gradient plus a gold
-          corner flourish stands in for the reference's desk photo.
-          Phase 3 replaces this with the rotating deal-array component.
+          unlicensed images) - a layered wood-tone gradient stands in
+          for the reference's wood-panelled office photo. Phase 3
+          replaces this with the rotating deal-array component.
         -->
         <div class="hero-media" role="img" aria-label="Placeholder - featured deal photography goes here"></div>
         <div class="hero-content">
-          <h1 class="hero-title">Curated Deals,<br />America's Craftsmanship</h1>
-          <p class="hero-subtitle">GLOBAL DEALS NETWORK...</p>
+          <h1 class="hero-title">Curated Deals,<br />America's<br />Craftsmanship</h1>
+          <hr class="hero-rule" />
+          <p class="hero-subtitle">Global Deals Network...</p>
         </div>
       </section>
 
-      <!-- CATEGORIES - single row of 4, matching the mobile reference exactly -->
+      <!-- CATEGORIES -->
       <section class="category-section" aria-label="Categories">
         <div class="category-row">
           <a class="category-card" href="#">
             <span class="category-card__icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="12" rx="1.5" /><path d="M2 19h20" stroke-linecap="round" /></svg>
+              <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4">
+                <rect x="3" y="6" width="19" height="13" rx="1.2" />
+                <path d="M2 21h21" stroke-linecap="round" />
+                <rect x="23" y="12" width="7" height="12" rx="1.4" />
+                <circle cx="26.5" cy="21.3" r="0.6" fill="currentColor" stroke="none" />
+              </svg>
             </span>
             <span class="category-card__label">Tech</span>
           </a>
           <a class="category-card" href="#">
             <span class="category-card__icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2z" /><path d="M12 7 3 12l1.5 2L9 12v9h6v-9l4.5 2L21 12l-9-5z" stroke-linejoin="round" /></svg>
+              <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4">
+                <path d="M16 4a2.3 2.3 0 0 1 2.3 2.3A2.3 2.3 0 0 1 16 8.6a2.3 2.3 0 0 1-2.3-2.3A2.3 2.3 0 0 1 16 4z" />
+                <path d="M16 9 4 16l2 3 8-4.5V27h4V14.5L26 19l2-3z" stroke-linejoin="round" />
+              </svg>
             </span>
             <span class="category-card__label">Fashion</span>
           </a>
           <a class="category-card" href="#">
             <span class="category-card__icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11 12 4l9 7" stroke-linecap="round" stroke-linejoin="round" /><path d="M5 10v10h14V10" stroke-linejoin="round" /></svg>
+              <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4">
+                <path d="M5 15 15 6l10 9" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M7 14v12h16V14" stroke-linejoin="round" />
+                <rect x="19" y="19" width="9" height="6" rx="1.2" />
+                <circle cx="21.5" cy="26" r="1.1" fill="currentColor" stroke="none" />
+                <circle cx="26" cy="26" r="1.1" fill="currentColor" stroke="none" />
+              </svg>
             </span>
             <span class="category-card__label">Home</span>
           </a>
           <a class="category-card" href="#">
             <span class="category-card__icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 9v6M2 10v4M20 9v6M22 10v4M7 12h10" stroke-linecap="round" /><rect x="4" y="9" width="3" height="6" rx="0.8" /><rect x="17" y="9" width="3" height="6" rx="0.8" /></svg>
+              <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4">
+                <circle cx="14" cy="14" r="10" />
+                <path d="M4 14h20M14 4c3 3 4.5 6.5 4.5 10S17 21 14 24c-3-3-4.5-6.5-4.5-10S11 7 14 4z" />
+                <path d="M22 18c3 0 6 3 6 6.5S25 30 22 30s-6-2-6-5.5 3-6.5 6-6.5z" />
+                <circle cx="22" cy="23.5" r="1.6" fill="currentColor" stroke="none" />
+              </svg>
             </span>
             <span class="category-card__label">Sports</span>
           </a>
         </div>
       </section>
 
-      <!-- STORES - 2-column grid, caption below each plate, matching the reference -->
+      <!-- STORES - metallic riveted plates -->
       <section class="store-section" aria-label="Stores">
         <div class="plate-grid">
           <div class="store-plate-wrap">
-            <a class="store-plate store-plate--amazon" href="#"><span class="store-plate__name">amazon</span></a>
-            <p class="store-plate__caption">Exclusive tech discounts</p>
+            <a class="store-plate store-plate--amazon" href="#">
+              <span class="brand-mark brand-mark--amazon">
+                <span class="brand-mark__word">amazon</span>
+                <svg class="brand-mark__smile" viewBox="0 0 60 16" fill="none" aria-hidden="true">
+                  <path d="M2 2c14 9 42 9 56 0" stroke="#e08a1e" stroke-width="2.4" stroke-linecap="round" />
+                  <path d="M52 2.5 58 1l-1.5 6" stroke="#e08a1e" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+            </a>
+            <p class="store-plate__caption">Exclusive Tech<br />Discounts</p>
           </div>
+
           <div class="store-plate-wrap">
-            <a class="store-plate store-plate--nike" href="#"><span class="store-plate__name">Nike</span></a>
-            <p class="store-plate__caption">Seasonal athletic offers</p>
+            <a class="store-plate store-plate--nike" href="#">
+              <svg class="brand-mark brand-mark--nike" viewBox="0 0 100 40" fill="currentColor" aria-label="Nike">
+                <path d="M4 29c22-2 58-11 93-25-31 27-57 35-80 35-7.5 0-11.5-4-13-10z" />
+              </svg>
+            </a>
+            <p class="store-plate__caption">Seasonal<br />Athletic Offers</p>
           </div>
+
           <div class="store-plate-wrap">
-            <a class="store-plate store-plate--samsung" href="#"><span class="store-plate__name">SAMSUNG</span></a>
-            <p class="store-plate__caption">Premium electronics deals</p>
+            <a class="store-plate store-plate--samsung" href="#">
+              <span class="brand-mark brand-mark--samsung">SAMSUNG</span>
+            </a>
+            <p class="store-plate__caption">Premium<br />Electronics Deals</p>
           </div>
+
           <div class="store-plate-wrap">
-            <a class="store-plate store-plate--airbnb" href="#"><span class="store-plate__name">airbnb</span></a>
-            <p class="store-plate__caption">Premium athletic offers</p>
+            <a class="store-plate store-plate--airbnb" href="#">
+              <span class="brand-mark brand-mark--airbnb">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+                  <path d="M12 3.5c3.2 4.2 6.2 8.3 6.2 11.7a6.2 6.2 0 0 1-12.4 0c0-3.4 3-7.5 6.2-11.7z" />
+                  <path d="M7.3 15.6a4.9 4.9 0 0 0 4.7 3.6" stroke-linecap="round" />
+                </svg>
+                <span class="brand-mark__word">airbnb</span>
+              </span>
+            </a>
+            <p class="store-plate__caption">Premium<br />Stay Offers</p>
           </div>
+
           <div class="store-plate-wrap">
-            <a class="store-plate store-plate--walmart" href="#"><span class="store-plate__name">Walmart</span></a>
-            <p class="store-plate__caption">Walmart</p>
+            <a class="store-plate store-plate--walmart" href="#">
+              <span class="brand-mark brand-mark--walmart">
+                <span class="brand-mark__word">Walmart</span>
+                <svg class="brand-mark__spark" viewBox="0 0 24 24" stroke="#ffc220" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+                  <path d="M12 2v20M3.5 7l17 10M20.5 7l-17 10M2 12h20M4.5 3.5l15 17M19.5 3.5l-15 17" />
+                </svg>
+              </span>
+            </a>
+            <p class="store-plate__caption">Everyday<br />Value</p>
           </div>
+
           <div class="store-plate-wrap">
-            <a class="store-plate store-plate--bestbuy" href="#"><span class="store-plate__name">BEST BUY</span></a>
-            <p class="store-plate__caption">Best Buy</p>
+            <a class="store-plate store-plate--bestbuy" href="#">
+              <span class="brand-mark brand-mark--bestbuy">
+                <span class="brand-mark__word">BEST<br />BUY</span>
+                <svg class="brand-mark__tag" viewBox="0 0 24 24" fill="#ffe000" aria-hidden="true">
+                  <path d="M3 4h8l10 10-8 8L3 12V4z" />
+                  <circle cx="7.5" cy="8.5" r="1.5" fill="#0a1d3b" />
+                </svg>
+              </span>
+            </a>
+            <p class="store-plate__caption">Electronics<br />&amp; More</p>
           </div>
         </div>
         <p class="gdn-demo-note gdn-demo-note--center">Demo preview - stores shown are illustrative, not yet connected merchants</p>
