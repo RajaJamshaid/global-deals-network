@@ -10,33 +10,65 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <style>
-    /* Exact 3D Brushed Metallic Plate Textures */
+    /*
+     * Real-metal plate textures.
+     * Each plate layers three things, back to front:
+     *  1. a repeating-linear-gradient at a slight angle - the fine
+     *     "brushed metal" streaks a flat gradient alone can't fake.
+     *  2. the brand-tone gradient (gold / silver / navy).
+     *  3. box-shadow: an inset highlight (top-left, like light
+     *     catching a raised edge), an inset shadow (bottom-right,
+     *     like the edge falling into shade), and an outer drop
+     *     shadow so the whole plate reads as sitting proud of the
+     *     page rather than flat against it.
+     */
     .plate-amazon-gold {
-      background: linear-gradient(135deg, #a37930 0%, #e0bd63 25%, #fff1aa 48%, #cfa043 75%, #7a581c 100%);
-      border: 1.5px solid #634716;
-      box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.95), inset 0 -2.5px 4px rgba(0, 0, 0, 0.45), 0 5px 12px rgba(0, 0, 0, 0.3);
+      background:
+        repeating-linear-gradient(115deg, rgba(255,255,255,0.18) 0px, rgba(255,255,255,0.18) 1px, transparent 1px, transparent 4px),
+        linear-gradient(135deg, #6b4d18 0%, #cfa043 22%, #fff1aa 42%, #e0bd63 58%, #a37930 78%, #543c11 100%);
+      border: 1.5px solid #43300e;
+      box-shadow:
+        inset 0 2px 3px rgba(255, 255, 255, 0.9),
+        inset 0 -3px 5px rgba(0, 0, 0, 0.5),
+        0 6px 14px rgba(0, 0, 0, 0.35),
+        0 1px 0 rgba(255, 255, 255, 0.35);
     }
 
     .plate-brushed-silver {
-      background: linear-gradient(135deg, #8e949a 0%, #d1d7dc 25%, #ffffff 50%, #b1b7bd 75%, #6a7075 100%);
-      border: 1.5px solid #676d72;
-      box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.95), inset 0 -2.5px 4px rgba(0, 0, 0, 0.4), 0 5px 12px rgba(0, 0, 0, 0.25);
+      background:
+        repeating-linear-gradient(115deg, rgba(255,255,255,0.4) 0px, rgba(255,255,255,0.4) 1px, transparent 1px, transparent 3px),
+        linear-gradient(135deg, #5c6166 0%, #a8aeb3 20%, #ffffff 42%, #eef0f2 50%, #c1c7cc 65%, #85898e 85%, #4d5155 100%);
+      border: 1.5px solid #4d5155;
+      box-shadow:
+        inset 0 2px 3px rgba(255, 255, 255, 0.95),
+        inset 0 -3px 5px rgba(0, 0, 0, 0.45),
+        0 6px 14px rgba(0, 0, 0, 0.28),
+        0 1px 0 rgba(255, 255, 255, 0.4);
     }
 
     .plate-bestbuy-navy {
-      background: linear-gradient(135deg, #06182c 0%, #0c2b4d 40%, #153c69 60%, #07192d 100%);
-      border: 1.5px solid #030d1a;
-      box-shadow: inset 0 1.5px 2px rgba(255, 255, 255, 0.3), inset 0 -2.5px 4px rgba(0, 0, 0, 0.7), 0 5px 12px rgba(0, 0, 0, 0.35);
+      background:
+        repeating-linear-gradient(115deg, rgba(255,255,255,0.08) 0px, rgba(255,255,255,0.08) 1px, transparent 1px, transparent 4px),
+        linear-gradient(135deg, #020810 0%, #153c69 30%, #1e4a7d 48%, #0c2b4d 68%, #020810 100%);
+      border: 1.5px solid #010509;
+      box-shadow:
+        inset 0 1.5px 2px rgba(255, 255, 255, 0.25),
+        inset 0 -3px 5px rgba(0, 0, 0, 0.8),
+        0 6px 14px rgba(0, 0, 0, 0.4);
     }
 
-    /* 3D Realistic Metal Screws/Rivets */
+    /* Metal screws/rivets - deeper socket + brighter catch-light so
+       they read as recessed metal, not flat dots. */
     .screw {
       position: absolute;
-      width: 6px;
-      height: 6px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #ffffff 0%, #a2a8ae 50%, #3e4348 100%);
-      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.8), 0 0.5px 1px rgba(255, 255, 255, 0.8);
+      background: radial-gradient(circle at 35% 30%, #ffffff 0%, #d4d8db 30%, #8a9096 55%, #3e4348 80%, #1c1f22 100%);
+      box-shadow:
+        inset 0 1px 1.5px rgba(0, 0, 0, 0.9),
+        inset 0 -0.5px 0.5px rgba(255, 255, 255, 0.6),
+        0 0.5px 1px rgba(255, 255, 255, 0.5);
     }
 
     .screw-tl { top: 7px; left: 7px; }
@@ -175,7 +207,9 @@
             
             <div class="flex items-center">
               <span class="text-xl font-black text-[#0071dc] tracking-tight">Walmart</span>
-              <span class="text-[#ffc220] font-black text-xl ml-0.5">✱</span>
+              <svg class="w-5 h-5 ml-0.5" viewBox="0 0 24 24" fill="none" stroke="#ffc220" stroke-width="2.4" stroke-linecap="round">
+                <path d="M12 2v20M3.5 7l17 10M20.5 7l-17 10M2 12h20M4.5 3.5l15 17M19.5 3.5l-15 17"/>
+              </svg>
             </div>
           </div>
           <p class="text-[10px] font-black text-gray-900 leading-tight tracking-wider uppercase">
@@ -194,10 +228,11 @@
             <div class="relative flex flex-col items-center justify-center">
               <span class="text-lg font-black text-white leading-none tracking-tight">BEST</span>
               <span class="text-lg font-black text-white leading-none tracking-tight">BUY</span>
-              <!-- Yellow Tag -->
-              <div class="absolute -bottom-2 -right-4 bg-[#fff200] text-black px-1 py-0.2 rounded-xs text-[8px] font-extrabold shadow-sm">
-                TAG
-              </div>
+              <!-- Yellow price-tag icon, replacing the earlier text badge -->
+              <svg class="absolute -bottom-2.5 -right-5" width="20" height="20" viewBox="0 0 24 24" fill="#fff200" stroke="#0a1d3b" stroke-width="0.6">
+                <path d="M3 4h8l10 10-8 8L3 12V4z"/>
+                <circle cx="7.5" cy="8.5" r="1.6" fill="#0a1d3b" stroke="none"/>
+              </svg>
             </div>
           </div>
           <p class="text-[10px] font-black text-gray-900 leading-tight tracking-wider uppercase">
