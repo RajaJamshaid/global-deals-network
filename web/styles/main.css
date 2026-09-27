@@ -1,7 +1,7 @@
 /*
  * GDN Mini App - Phase 1 visual shell.
- * Header + hero + nav-box sections (Home / Stores / Categories /
- * TrendTop Deals). Mobile-first, per section 5 of
+ * Direct match of the approved mobile reference: Header, Hero,
+ * Categories row, Stores grid. Mobile-first, per section 5 of
  * docs/architecture/GDN_Website_PWA_Frontend_Architecture.md.
  */
 
@@ -47,13 +47,13 @@ button {
 }
 
 .gdn-header__back {
-  display: none;
+  display: inline-flex;
 }
 
 .gdn-header__brand {
   font-family: var(--gdn-font-display);
   font-weight: 700;
-  font-size: 1.05rem;
+  font-size: 1rem;
   letter-spacing: 0.01em;
   white-space: nowrap;
   overflow: hidden;
@@ -103,7 +103,7 @@ button {
   border: 1px solid var(--gdn-color-border);
   /* Slightly taller than the desktop reference proportion, per the
      brief's explicit mobile-hero-height adjustment. */
-  min-height: 260px;
+  min-height: 240px;
   display: flex;
   align-items: flex-end;
 }
@@ -111,23 +111,21 @@ button {
 .hero-media {
   position: absolute;
   inset: 0;
-  /* Richer multi-tone gradient standing in for real deal photography
-     (see the HTML comment above this element) - deliberately not a
-     flat single-tone placeholder. */
+  /* Warm brown-toned gradient standing in for the reference's desk
+     photo (see the HTML comment above this element) - no image
+     fetched/embedded from the web. */
   background:
-    radial-gradient(120% 90% at 15% 0%, rgba(182, 146, 79, 0.35), transparent 55%),
-    linear-gradient(155deg, #362a1c 0%, #241b12 45%, #110d09 100%);
+    radial-gradient(120% 90% at 15% 0%, rgba(182, 146, 79, 0.3), transparent 55%),
+    linear-gradient(155deg, #3c2c1c 0%, #241a10 45%, #100c08 100%);
 }
 
 .hero-media::after {
-  /* Gold corner flourish, echoing the reference image's gold corner
-     accent - a thin folded-corner triangle, not a photo. */
   content: '';
   position: absolute;
   top: 0;
   right: 0;
-  width: 64px;
-  height: 64px;
+  width: 56px;
+  height: 56px;
   background: linear-gradient(135deg, transparent 50%, var(--gdn-color-gold) 50%);
   opacity: 0.85;
 }
@@ -140,151 +138,107 @@ button {
   width: 100%;
 }
 
-.hero-eyebrow {
-  margin: 0 0 var(--gdn-space-xs);
-  font-size: 0.7rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--gdn-color-gold);
-}
-
 .hero-title {
-  margin: 0 0 var(--gdn-space-sm);
+  margin: 0 0 var(--gdn-space-xs);
   font-family: var(--gdn-font-display);
   font-weight: 600;
-  font-size: 1.6rem;
-  line-height: 1.15;
+  font-size: 1.5rem;
+  line-height: 1.18;
 }
 
 .hero-subtitle {
   margin: 0;
-  max-width: 32ch;
-  font-size: 0.9rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: #e3ddce;
 }
 
-/* ---------- Main navigation boxes ---------- */
+/* ---------- Categories ---------- */
 
-.nav-grid {
+.category-section {
+  padding: var(--gdn-space-md) var(--gdn-space-md) 0;
+}
+
+.category-row {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: var(--gdn-space-sm);
-  margin: var(--gdn-space-md);
 }
 
-.nav-box {
+.category-card {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: var(--gdn-space-sm);
-  padding: var(--gdn-space-sm) var(--gdn-space-md);
+  gap: var(--gdn-space-xs);
+  padding: var(--gdn-space-sm) var(--gdn-space-xs);
   border-radius: var(--gdn-radius-md);
-  border: 1px solid var(--gdn-color-border);
-  background: var(--gdn-color-surface);
-  cursor: pointer;
-  text-align: left;
+  background: var(--gdn-color-surface-muted);
 }
 
-.nav-box__icon {
+.category-card__icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  flex: 0 0 auto;
-  border-radius: var(--gdn-radius-sm);
-  background: var(--gdn-color-surface-muted);
+  width: 38px;
+  height: 38px;
   color: var(--gdn-color-navy);
 }
 
-.nav-box__icon svg {
-  width: 18px;
-  height: 18px;
+.category-card__icon svg {
+  width: 22px;
+  height: 22px;
 }
 
-.nav-box__label {
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--gdn-color-navy-soft);
-}
-
-.nav-box.is-active {
-  border-color: var(--gdn-color-gold);
-  background: var(--gdn-color-surface);
-}
-
-.nav-box.is-active .nav-box__icon {
-  background: var(--gdn-color-navy);
-  color: #fdfaf3;
-}
-
-.nav-box.is-active .nav-box__label {
-  color: var(--gdn-color-navy);
-}
-
-/* ---------- Panels / subsections ---------- */
-
-.gdn-panels {
-  padding: 0 var(--gdn-space-md) var(--gdn-space-xl);
-}
-
-.gdn-subsection {
-  padding-top: var(--gdn-space-lg);
-}
-
-.gdn-subsection__head {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: var(--gdn-space-sm);
-  margin-bottom: var(--gdn-space-sm);
-}
-
-.gdn-subsection__title {
-  margin: 0;
-  font-family: var(--gdn-font-display);
-  font-weight: 600;
-  font-size: 1.05rem;
-  color: var(--gdn-color-navy);
-}
-
-.gdn-demo-note {
-  margin: 0;
+.category-card__label {
   font-size: 0.7rem;
-  color: var(--gdn-color-navy-soft);
-  text-align: right;
-  max-width: 20ch;
+  font-weight: 500;
+  color: var(--gdn-color-navy);
 }
 
-/* ---------- Store plates ---------- */
+/* ---------- Stores ---------- */
+
+.store-section {
+  padding: var(--gdn-space-lg) var(--gdn-space-md) var(--gdn-space-xl);
+}
 
 .plate-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: var(--gdn-space-sm);
+  gap: var(--gdn-space-md) var(--gdn-space-sm);
+}
+
+.store-plate-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--gdn-space-xs);
 }
 
 .store-plate {
   display: flex;
-  flex-direction: column;
-  gap: var(--gdn-space-xs);
-  padding: var(--gdn-space-md);
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 64px;
   border-radius: var(--gdn-radius-md);
   border: 1px solid var(--gdn-color-border);
-  /* Base (light) plate - brand modifiers below override background,
-     text color and border to reflect each brand's own identity while
-     keeping the same shape/radius/border-weight design system. */
   background: var(--gdn-color-surface);
 }
 
 .store-plate__name {
   font-family: var(--gdn-font-display);
   font-weight: 700;
-  font-size: 1.05rem;
+  font-size: 1.1rem;
 }
 
-.store-plate__tag {
-  font-size: 0.72rem;
-  opacity: 0.8;
+.store-plate__caption {
+  margin: 0;
+  font-size: 0.65rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--gdn-color-navy-soft);
+  text-align: center;
 }
 
 .store-plate--amazon {
@@ -295,7 +249,6 @@ button {
 
 .store-plate--nike {
   background: var(--gdn-color-surface);
-  border-color: var(--gdn-color-border);
   color: #16181a;
 }
 
@@ -323,146 +276,14 @@ button {
   color: #ffe000;
 }
 
-/* ---------- Categories ---------- */
-
-.category-row {
-  display: flex;
-  gap: var(--gdn-space-sm);
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.category-row::-webkit-scrollbar {
-  display: none;
-}
-
-.category-card {
-  flex: 0 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--gdn-space-xs);
-  width: 84px;
-  padding: var(--gdn-space-sm);
-  border-radius: var(--gdn-radius-md);
-  background: var(--gdn-color-surface-muted);
-  border: 1px solid transparent;
-}
-
-.category-card:hover {
-  border-color: var(--gdn-color-border);
-}
-
-.category-card__icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  color: var(--gdn-color-navy);
-}
-
-.category-card__icon svg {
-  width: 24px;
-  height: 24px;
-}
-
-.category-card__label {
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: var(--gdn-color-navy);
-}
-
-/* ---------- Deal / product cards ---------- */
-
-.deal-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--gdn-space-md);
-}
-
-.deal-grid--single {
-  grid-template-columns: 1fr;
-}
-
-.deal-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid var(--gdn-color-border);
-  border-radius: var(--gdn-radius-md);
-  background: var(--gdn-color-surface);
-  overflow: hidden;
-}
-
-.deal-card:hover {
-  border-color: var(--gdn-color-gold);
-}
-
-.deal-card__store-tag {
-  display: inline-block;
-  margin: var(--gdn-space-sm) var(--gdn-space-sm) 0;
-  padding: 0.15rem 0.5rem;
-  align-self: flex-start;
-  border-radius: 999px;
-  background: var(--gdn-color-surface-muted);
-  color: var(--gdn-color-navy-soft);
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.deal-card__media {
-  position: relative;
-  display: block;
-  height: 140px;
-  margin-top: var(--gdn-space-sm);
-  background: linear-gradient(145deg, var(--gdn-color-surface-muted), #e9e4d6);
-}
-
-.deal-card__badge {
-  position: absolute;
-  top: var(--gdn-space-sm);
-  left: var(--gdn-space-sm);
-  padding: 0.2rem 0.55rem;
-  border-radius: 999px;
-  background: var(--gdn-color-navy);
-  color: #fdfaf3;
+.gdn-demo-note {
+  margin: var(--gdn-space-md) 0 0;
   font-size: 0.7rem;
-  font-weight: 600;
-}
-
-.deal-card__body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-  padding: var(--gdn-space-sm) var(--gdn-space-md) var(--gdn-space-md);
-}
-
-.deal-card__title {
-  font-size: 0.92rem;
-  font-weight: 500;
-  color: var(--gdn-color-navy);
-}
-
-.deal-card__price-row {
-  display: flex;
-  align-items: baseline;
-  gap: var(--gdn-space-xs);
-}
-
-.deal-card__price {
-  font-family: var(--gdn-font-display);
-  font-weight: 700;
-  font-size: 1.05rem;
-  color: var(--gdn-color-navy);
-}
-
-.deal-card__price-was {
-  font-size: 0.8rem;
   color: var(--gdn-color-navy-soft);
-  text-decoration: line-through;
+}
+
+.gdn-demo-note--center {
+  text-align: center;
 }
 
 /* ---------- Desktop ---------- */
@@ -491,7 +312,7 @@ button {
 
   .hero {
     margin: var(--gdn-space-xl);
-    min-height: 360px;
+    min-height: 340px;
   }
 
   .hero-content {
@@ -499,41 +320,27 @@ button {
   }
 
   .hero-title {
-    font-size: 2.75rem;
-    max-width: 16ch;
+    font-size: 2.5rem;
+    max-width: 18ch;
   }
 
   .hero-subtitle {
-    font-size: 1rem;
+    font-size: 0.85rem;
   }
 
-  .nav-grid {
-    grid-template-columns: repeat(4, 1fr);
-    margin: var(--gdn-space-xl);
-  }
-
-  .gdn-panels {
-    padding: 0 var(--gdn-space-xl) var(--gdn-space-xl);
-  }
-
-  .plate-grid {
-    grid-template-columns: repeat(4, 1fr);
+  .category-section {
+    padding: var(--gdn-space-xl) var(--gdn-space-xl) 0;
   }
 
   .category-row {
-    overflow-x: visible;
+    grid-template-columns: repeat(5, 1fr);
   }
 
-  .category-card {
-    width: auto;
-    flex: 1 1 0;
+  .store-section {
+    padding: var(--gdn-space-xl);
   }
 
-  .deal-grid {
+  .plate-grid {
     grid-template-columns: repeat(3, 1fr);
-  }
-
-  .deal-grid--single {
-    grid-template-columns: minmax(0, 360px);
   }
 }
