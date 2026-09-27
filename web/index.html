@@ -3,48 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Curated Deals - Premium Landing Page</title>
+  <title>Curated Deals - Premium Metallic Landing Page</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <style>
-    /* Premium Metallic Plate Styles */
-    .gold-plate {
-      background: linear-gradient(135deg, #d4af37 0%, #fff3a3 35%, #aa7c11 100%);
-      border: 1px solid #b8860b;
-      box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.8), 0 4px 10px rgba(0, 0, 0, 0.15);
-    }
-    
-    .silver-plate {
-      background: linear-gradient(135deg, #cfd9df 0%, #e2ebf0 40%, #a1a8ad 100%);
-      border: 1px solid #9aa0a6;
-      box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.9), 0 4px 10px rgba(0, 0, 0, 0.12);
-    }
-    
-    .blue-plate {
-      background: linear-gradient(135deg, #0d2a4a 0%, #174174 50%, #051329 100%);
-      border: 1px solid #081d38;
-      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2), 0 4px 10px rgba(0, 0, 0, 0.25);
+    /* Exact 3D Brushed Metallic Plate Textures */
+    .plate-amazon-gold {
+      background: linear-gradient(135deg, #a37930 0%, #e0bd63 25%, #fff1aa 48%, #cfa043 75%, #7a581c 100%);
+      border: 1.5px solid #634716;
+      box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.95), inset 0 -2.5px 4px rgba(0, 0, 0, 0.45), 0 5px 12px rgba(0, 0, 0, 0.3);
     }
 
-    /* Metallic Screw/Rivet Details */
-    .rivet {
-      width: 5px;
-      height: 5px;
-      background: #5b6268;
-      border-radius: 50%;
-      box-shadow: inset 1px 1px 1px rgba(0,0,0,0.8), 0.5px 0.5px 1px rgba(255,255,255,0.8);
+    .plate-brushed-silver {
+      background: linear-gradient(135deg, #8e949a 0%, #d1d7dc 25%, #ffffff 50%, #b1b7bd 75%, #6a7075 100%);
+      border: 1.5px solid #676d72;
+      box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.95), inset 0 -2.5px 4px rgba(0, 0, 0, 0.4), 0 5px 12px rgba(0, 0, 0, 0.25);
     }
+
+    .plate-bestbuy-navy {
+      background: linear-gradient(135deg, #06182c 0%, #0c2b4d 40%, #153c69 60%, #07192d 100%);
+      border: 1.5px solid #030d1a;
+      box-shadow: inset 0 1.5px 2px rgba(255, 255, 255, 0.3), inset 0 -2.5px 4px rgba(0, 0, 0, 0.7), 0 5px 12px rgba(0, 0, 0, 0.35);
+    }
+
+    /* 3D Realistic Metal Screws/Rivets */
+    .screw {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #ffffff 0%, #a2a8ae 50%, #3e4348 100%);
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.8), 0 0.5px 1px rgba(255, 255, 255, 0.8);
+    }
+
+    .screw-tl { top: 7px; left: 7px; }
+    .screw-tr { top: 7px; right: 7px; }
+    .screw-bl { bottom: 7px; left: 7px; }
+    .screw-br { bottom: 7px; right: 7px; }
   </style>
 </head>
 <body class="bg-white text-gray-900 font-sans min-h-screen w-full m-0 p-0 antialiased">
 
-  <!-- Main Container: Full Width Edge-to-Edge -->
+  <!-- Full Width Edge-to-Edge Container -->
   <div class="w-full max-w-md mx-auto min-h-screen bg-white flex flex-col justify-start">
     
-    <!-- Hero Section -->
+    <!-- Hero Banner -->
     <div class="relative w-full h-44 bg-cover bg-center flex flex-col justify-center px-6 py-4" 
          style="background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.85)), url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=80');">
       <h1 class="text-white text-sm font-black tracking-widest leading-snug font-serif uppercase">
@@ -57,30 +63,26 @@
       </p>
     </div>
 
-    <!-- Category Section (Tech, Fashion, Home, Sports) -->
+    <!-- Category Icons Section -->
     <div class="w-full px-4 py-4 bg-white">
       <div class="grid grid-cols-4 gap-2.5">
         
-        <!-- Tech -->
-        <div class="bg-[#f2f4f7] rounded-2xl p-3 flex flex-col items-center justify-center text-center shadow-xs">
+        <div class="bg-[#f2f4f7] rounded-2xl p-3 flex flex-col items-center justify-center text-center">
           <i class="fa-solid fa-laptop text-gray-700 text-xl mb-1.5"></i>
           <span class="text-[10px] font-black tracking-wider text-gray-800 uppercase">TECH</span>
         </div>
 
-        <!-- Fashion -->
-        <div class="bg-[#f2f4f7] rounded-2xl p-3 flex flex-col items-center justify-center text-center shadow-xs">
+        <div class="bg-[#f2f4f7] rounded-2xl p-3 flex flex-col items-center justify-center text-center">
           <i class="fa-solid fa-shirt text-gray-700 text-xl mb-1.5"></i>
           <span class="text-[10px] font-black tracking-wider text-gray-800 uppercase">FASHION</span>
         </div>
 
-        <!-- Home -->
-        <div class="bg-[#f2f4f7] rounded-2xl p-3 flex flex-col items-center justify-center text-center shadow-xs">
+        <div class="bg-[#f2f4f7] rounded-2xl p-3 flex flex-col items-center justify-center text-center">
           <i class="fa-solid fa-house text-gray-700 text-xl mb-1.5"></i>
           <span class="text-[10px] font-black tracking-wider text-gray-800 uppercase">HOME</span>
         </div>
 
-        <!-- Sports -->
-        <div class="bg-[#f2f4f7] rounded-2xl p-3 flex flex-col items-center justify-center text-center shadow-xs">
+        <div class="bg-[#f2f4f7] rounded-2xl p-3 flex flex-col items-center justify-center text-center">
           <i class="fa-solid fa-earth-americas text-gray-700 text-xl mb-1.5"></i>
           <span class="text-[10px] font-black tracking-wider text-gray-800 uppercase">SPORTS</span>
         </div>
@@ -88,36 +90,43 @@
       </div>
     </div>
 
-    <!-- Metallic Brand Grid -->
-    <div class="w-full px-4 pb-8 space-y-4">
-      <div class="grid grid-cols-2 gap-3.5">
+    <!-- Same-To-Same Metallic Plates Grid -->
+    <div class="w-full px-4 pb-8">
+      <div class="grid grid-cols-2 gap-4">
 
-        <!-- 1. Amazon Card -->
+        <!-- 1. Amazon Gold Metallic Plate -->
         <div class="text-center">
-          <div class="gold-plate rounded-2xl h-24 relative flex items-center justify-center p-3 mb-2">
-            <div class="absolute top-2 left-2 rivet"></div>
-            <div class="absolute top-2 right-2 rivet"></div>
-            <div class="absolute bottom-2 left-2 rivet"></div>
-            <div class="absolute bottom-2 right-2 rivet"></div>
+          <div class="plate-amazon-gold rounded-2xl h-24 relative flex items-center justify-center p-3 mb-2">
+            <div class="screw screw-tl"></div>
+            <div class="screw screw-tr"></div>
+            <div class="screw screw-bl"></div>
+            <div class="screw screw-br"></div>
             
-            <span class="text-2xl font-black text-black tracking-tighter">amazon</span>
+            <div class="flex flex-col items-center pt-1">
+              <span class="text-2xl font-black text-black tracking-tighter leading-none">amazon</span>
+              <!-- Smile Arrow -->
+              <svg class="w-12 h-3.5 text-[#ff9900]" viewBox="0 0 100 30" fill="none">
+                <path d="M 10 8 Q 50 30 90 8" stroke="#ff9900" stroke-width="8" stroke-linecap="round"/>
+                <path d="M 80 4 L 95 10 L 85 20 Z" fill="#ff9900"/>
+              </svg>
+            </div>
           </div>
           <p class="text-[10px] font-black text-gray-900 leading-tight tracking-wider uppercase">
             EXCLUSIVE TECH<br>DISCOUNTS
           </p>
         </div>
 
-        <!-- 2. Nike Card -->
+        <!-- 2. Nike Silver Metallic Plate -->
         <div class="text-center">
-          <div class="silver-plate rounded-2xl h-24 relative flex items-center justify-center p-3 mb-2">
-            <div class="absolute top-2 left-2 rivet"></div>
-            <div class="absolute top-2 right-2 rivet"></div>
-            <div class="absolute bottom-2 left-2 rivet"></div>
-            <div class="absolute bottom-2 right-2 rivet"></div>
+          <div class="plate-brushed-silver rounded-2xl h-24 relative flex items-center justify-center p-3 mb-2">
+            <div class="screw screw-tl"></div>
+            <div class="screw screw-tr"></div>
+            <div class="screw screw-bl"></div>
+            <div class="screw screw-br"></div>
             
-            <!-- Nike Swoosh SVG -->
-            <svg class="w-14 h-10 fill-black" viewBox="0 0 24 24">
-              <path d="M21.707 6.293a1 1 0 00-1.414 0L9.5 17.086l-4.793-4.793a1 1 0 00-1.414 1.414l5.5 5.5a1 1 0 001.414 0l11.5-11.5a1 1 0 000-1.414z"/>
+            <!-- Exact Nike Swoosh SVG -->
+            <svg class="w-16 h-10 fill-black" viewBox="0 0 24 24">
+              <path d="M21.707 5.293a1 1 0 010 1.414l-11 11a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L10 15.586 20.293 5.293a1 1 0 011.414 0z"/>
             </svg>
           </div>
           <p class="text-[10px] font-black text-gray-900 leading-tight tracking-wider uppercase">
@@ -125,28 +134,28 @@
           </p>
         </div>
 
-        <!-- 3. Samsung Card -->
+        <!-- 3. Samsung Silver Metallic Plate -->
         <div class="text-center">
-          <div class="silver-plate rounded-2xl h-24 relative flex items-center justify-center p-3 mb-2">
-            <div class="absolute top-2 left-2 rivet"></div>
-            <div class="absolute top-2 right-2 rivet"></div>
-            <div class="absolute bottom-2 left-2 rivet"></div>
-            <div class="absolute bottom-2 right-2 rivet"></div>
+          <div class="plate-brushed-silver rounded-2xl h-24 relative flex items-center justify-center p-3 mb-2">
+            <div class="screw screw-tl"></div>
+            <div class="screw screw-tr"></div>
+            <div class="screw screw-bl"></div>
+            <div class="screw screw-br"></div>
             
-            <span class="text-lg font-black text-[#034ea2] tracking-wider uppercase">SAMSUNG</span>
+            <span class="text-xl font-black text-[#034ea2] tracking-widest uppercase">SAMSUNG</span>
           </div>
           <p class="text-[10px] font-black text-gray-900 leading-tight tracking-wider uppercase">
             PREMIUM<br>ELECTRONICS DEALS
           </p>
         </div>
 
-        <!-- 4. Airbnb Card -->
+        <!-- 4. Airbnb Silver Metallic Plate -->
         <div class="text-center">
-          <div class="silver-plate rounded-2xl h-24 relative flex flex-col items-center justify-center p-3 mb-2">
-            <div class="absolute top-2 left-2 rivet"></div>
-            <div class="absolute top-2 right-2 rivet"></div>
-            <div class="absolute bottom-2 left-2 rivet"></div>
-            <div class="absolute bottom-2 right-2 rivet"></div>
+          <div class="plate-brushed-silver rounded-2xl h-24 relative flex flex-col items-center justify-center p-3 mb-2">
+            <div class="screw screw-tl"></div>
+            <div class="screw screw-tr"></div>
+            <div class="screw screw-bl"></div>
+            <div class="screw screw-br"></div>
             
             <i class="fa-brands fa-airbnb text-2xl text-[#FF5A5F] mb-0.5"></i>
             <span class="text-xs font-bold text-[#FF5A5F] tracking-tight">airbnb</span>
@@ -156,34 +165,39 @@
           </p>
         </div>
 
-        <!-- 5. Walmart Card -->
+        <!-- 5. Walmart Silver Metallic Plate -->
         <div class="text-center">
-          <div class="silver-plate rounded-2xl h-24 relative flex items-center justify-center p-3 mb-2">
-            <div class="absolute top-2 left-2 rivet"></div>
-            <div class="absolute top-2 right-2 rivet"></div>
-            <div class="absolute bottom-2 left-2 rivet"></div>
-            <div class="absolute bottom-2 right-2 rivet"></div>
+          <div class="plate-brushed-silver rounded-2xl h-24 relative flex items-center justify-center p-3 mb-2">
+            <div class="screw screw-tl"></div>
+            <div class="screw screw-tr"></div>
+            <div class="screw screw-bl"></div>
+            <div class="screw screw-br"></div>
             
-            <span class="text-lg font-black text-[#0071dc] tracking-tight">
-              Walmart<span class="text-[#ffc220] font-black ml-0.5">*</span>
-            </span>
+            <div class="flex items-center">
+              <span class="text-xl font-black text-[#0071dc] tracking-tight">Walmart</span>
+              <span class="text-[#ffc220] font-black text-xl ml-0.5">✱</span>
+            </div>
           </div>
           <p class="text-[10px] font-black text-gray-900 leading-tight tracking-wider uppercase">
             WALMART
           </p>
         </div>
 
-        <!-- 6. Best Buy Card -->
+        <!-- 6. Best Buy Navy Blue Metallic Plate -->
         <div class="text-center">
-          <div class="blue-plate rounded-2xl h-24 relative flex items-center justify-center p-3 mb-2">
-            <div class="absolute top-2 left-2 rivet"></div>
-            <div class="absolute top-2 right-2 rivet"></div>
-            <div class="absolute bottom-2 left-2 rivet"></div>
-            <div class="absolute bottom-2 right-2 rivet"></div>
+          <div class="plate-bestbuy-navy rounded-2xl h-24 relative flex items-center justify-center p-3 mb-2">
+            <div class="screw screw-tl"></div>
+            <div class="screw screw-tr"></div>
+            <div class="screw screw-bl"></div>
+            <div class="screw screw-br"></div>
             
-            <div class="text-center">
-              <span class="text-base font-black text-white leading-none block tracking-tight">BEST</span>
-              <span class="text-base font-black text-white leading-none block tracking-tight">BUY</span>
+            <div class="relative flex flex-col items-center justify-center">
+              <span class="text-lg font-black text-white leading-none tracking-tight">BEST</span>
+              <span class="text-lg font-black text-white leading-none tracking-tight">BUY</span>
+              <!-- Yellow Tag -->
+              <div class="absolute -bottom-2 -right-4 bg-[#fff200] text-black px-1 py-0.2 rounded-xs text-[8px] font-extrabold shadow-sm">
+                TAG
+              </div>
             </div>
           </div>
           <p class="text-[10px] font-black text-gray-900 leading-tight tracking-wider uppercase">
