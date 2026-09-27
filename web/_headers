@@ -1,0 +1,24 @@
+/*
+  Cache-Control for the Mini App static assets.
+
+  Root cause of the "new HTML, old CSS" bug: Cloudflare Pages serves
+  /styles/main.css and /scripts/app.js at the same URL on every
+  deploy (filenames aren't content-hashed), so browsers and
+  Cloudflare's own edge cache can keep serving a stale copy after a
+  new deploy - which is exactly what happened (metallic plate/rivet/
+  icon-sizing rules never loaded, leaving unstyled SVGs and flat
+  fallback colors from an earlier commit). no-cache forces a
+  revalidation request on every load instead of serving a cached copy
+  blindly.
+*/
+/styles/*
+  Cache-Control: no-cache
+
+/scripts/*
+  Cache-Control: no-cache
+
+/
+  Cache-Control: no-cache
+
+/index.html
+  Cache-Control: no-cache
