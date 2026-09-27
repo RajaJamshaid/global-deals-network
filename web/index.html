@@ -1,226 +1,188 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>Global Deals Network</title>
-    <meta name="description" content="Global Deals Network - curated deals across trusted stores." />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="/styles/tokens.css?v=2" />
-    <link rel="stylesheet" href="/styles/main.css?v=2" />
-  </head>
-  <body>
-    <!--
-      GDN Mini App - Phase 1 (visual shell).
-      Direct, literal match of the approved mobile reference mockup:
-      Header -> Hero -> Categories row -> Stores grid (metallic
-      riveted plates). Per
-      docs/architecture/GDN_Website_PWA_Frontend_Architecture.md this
-      is presentation only - no business logic, no API calls yet.
-      Store names/marks (Amazon, Nike, Samsung, Airbnb, Walmart, Best
-      Buy) are illustrative examples matching the reference image, not
-      implying a live connection. Logo marks below are simplified SVG
-      approximations of each brand's shape (swoosh/spark/tag/etc.),
-      not extracted from real brand asset files - drawn this way for
-      licensing safety, matched as closely as possible to the
-      reference's wordmark styling and plate coloring.
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Curated Deals - Mobile View</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    /* Custom Metallic Textures & Metallic Plate Styling */
+    .gold-card {
+      background: linear-gradient(135deg, #e5ca76 0%, #fffbd8 40%, #b8860b 100%);
+      border: 1px solid #c59b27;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 4px 6px rgba(0,0,0,0.15);
+    }
+    
+    .silver-card {
+      background: linear-gradient(135deg, #e2e8f0 0%, #ffffff 50%, #cbd5e1 100%);
+      border: 1px solid #94a3b8;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 4px 6px rgba(0,0,0,0.12);
+    }
+    
+    .dark-blue-card {
+      background: linear-gradient(135deg, #0a2540 0%, #1e3a8a 50%, #030b1e 100%);
+      border: 1px solid #1e293b;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 4px 6px rgba(0,0,0,0.2);
+    }
 
-      NOTE: CSS/font links carry a ?v=2 cache-bust query string - see
-      web/_headers (added this commit) for why: Cloudflare Pages
-      serves these at fixed URLs across deploys, so a stale cached
-      copy could otherwise keep loading after a new deploy, which is
-      exactly what caused the earlier "unstyled icons / flat plate
-      colors" report. Bump this version string if a future asset
-      change ever needs to force one more manual refresh.
-    -->
-    <header class="gdn-header">
-      <div class="gdn-header__inner">
-        <button class="gdn-icon-btn gdn-header__back" aria-label="Back" type="button">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-            <path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-        </button>
+    /* Metallic Screw/Rivet Effect on Corners */
+    .rivet {
+      width: 4px;
+      height: 4px;
+      background: #71717a;
+      border-radius: 50%;
+      box-shadow: inset 1px 1px 1px rgba(0,0,0,0.6);
+    }
+  </style>
+</head>
+<body class="bg-gray-200 flex justify-center items-center min-h-screen p-2 sm:p-6 font-sans">
 
-        <a class="gdn-header__brand" href="/">Global Deals Network</a>
+  <!-- Mobile Screen Container -->
+  <div class="w-full max-w-[390px] bg-white rounded-[36px] shadow-2xl overflow-hidden border-[6px] border-gray-900">
+    
+    <!-- Top Hero Banner -->
+    <div class="relative bg-gray-900 text-white p-6 bg-cover bg-center h-36 flex flex-col justify-center" 
+         style="background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=80');">
+      <h1 class="text-base font-bold tracking-wider uppercase leading-tight font-serif text-gray-100">
+        Curated Deals,<br>Americics<br>Craftsmsnship
+      </h1>
+      <p class="text-[9px] text-gray-400 mt-1 tracking-widest uppercase">Global Select Network</p>
+    </div>
 
-        <nav class="gdn-header__nav" aria-label="Primary">
-          <a href="#" class="is-active">All</a>
-          <a href="#">Tech</a>
-          <a href="#">Home</a>
-          <a href="#">Fashion</a>
-          <a href="#">Travel</a>
-          <a href="#">Sports</a>
-        </nav>
-
-        <div class="gdn-header__actions">
-          <button class="gdn-icon-btn" aria-label="Search" type="button">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-              <circle cx="11" cy="11" r="7" />
-              <path d="M21 21l-4.3-4.3" stroke-linecap="round" />
-            </svg>
-          </button>
-          <button class="gdn-icon-btn" aria-label="Saved deals" type="button">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-              <path d="M6 4h12a1 1 0 0 1 1 1v15l-7-4-7 4V5a1 1 0 0 1 1-1z" stroke-linejoin="round" />
-            </svg>
-          </button>
-          <button class="gdn-icon-btn" aria-label="Menu" type="button">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-              <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" />
-            </svg>
-          </button>
+    <div class="p-4 space-y-5">
+      
+      <!-- Top Categories Grid (Tech, Fashion, Home, Sports) -->
+      <div class="grid grid-cols-4 gap-2">
+        
+        <div class="bg-gray-100 p-2.5 rounded-xl flex flex-col items-center justify-center text-center shadow-xs border border-gray-200">
+          <i class="fa-solid fa-laptop text-gray-700 text-lg mb-1"></i>
+          <span class="text-[10px] font-extrabold tracking-wider text-gray-800">TECH</span>
         </div>
+
+        <div class="bg-gray-100 p-2.5 rounded-xl flex flex-col items-center justify-center text-center shadow-xs border border-gray-200">
+          <i class="fa-solid fa-shirt text-gray-700 text-lg mb-1"></i>
+          <span class="text-[10px] font-extrabold tracking-wider text-gray-800">FASHION</span>
+        </div>
+
+        <div class="bg-gray-100 p-2.5 rounded-xl flex flex-col items-center justify-center text-center shadow-xs border border-gray-200">
+          <i class="fa-solid fa-house text-gray-700 text-lg mb-1"></i>
+          <span class="text-[10px] font-extrabold tracking-wider text-gray-800">HOME</span>
+        </div>
+
+        <div class="bg-gray-100 p-2.5 rounded-xl flex flex-col items-center justify-center text-center shadow-xs border border-gray-200">
+          <i class="fa-solid fa-earth-americas text-gray-700 text-lg mb-1"></i>
+          <span class="text-[10px] font-extrabold tracking-wider text-gray-800">SPORTS</span>
+        </div>
+
       </div>
-    </header>
 
-    <main>
-      <!-- HERO -->
-      <section class="hero" aria-label="Featured deal">
-        <!--
-          Placeholder hero media: no real photography asset is wired in
-          yet (and none is fetched from the web here, to avoid using
-          unlicensed images) - a layered wood-tone gradient stands in
-          for the reference's wood-panelled office photo. Phase 3
-          replaces this with the rotating deal-array component.
-        -->
-        <div class="hero-media" role="img" aria-label="Placeholder - featured deal photography goes here"></div>
-        <div class="hero-content">
-          <h1 class="hero-title">Curated Deals,<br />America's<br />Craftsmanship</h1>
-          <hr class="hero-rule" />
-          <p class="hero-subtitle">Global Deals Network...</p>
+      <!-- Brand Metallic Cards Grid -->
+      <div class="grid grid-cols-2 gap-3">
+
+        <!-- 1. Amazon Card -->
+        <div class="text-center">
+          <div class="gold-card rounded-xl h-20 relative flex items-center justify-center p-2 mb-1.5">
+            <div class="absolute top-1.5 left-1.5 rivet"></div>
+            <div class="absolute top-1.5 right-1.5 rivet"></div>
+            <div class="absolute bottom-1.5 left-1.5 rivet"></div>
+            <div class="absolute bottom-1.5 right-1.5 rivet"></div>
+            
+            <span class="text-2xl font-black text-black tracking-tighter">amazon</span>
+          </div>
+          <p class="text-[9px] font-black text-gray-900 leading-tight tracking-wider uppercase">
+            Exclusive Tech<br>Discounts
+          </p>
         </div>
-      </section>
 
-      <!-- CATEGORIES -->
-      <section class="category-section" aria-label="Categories">
-        <div class="category-row">
-          <a class="category-card" href="#">
-            <span class="category-card__icon">
-              <svg width="34" height="34" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4">
-                <rect x="3" y="6" width="19" height="13" rx="1.2" />
-                <path d="M2 21h21" stroke-linecap="round" />
-                <rect x="23" y="12" width="7" height="12" rx="1.4" />
-                <circle cx="26.5" cy="21.3" r="0.6" fill="currentColor" stroke="none" />
-              </svg>
-            </span>
-            <span class="category-card__label">Tech</span>
-          </a>
-          <a class="category-card" href="#">
-            <span class="category-card__icon">
-              <!-- Hanger: hook + triangular bar only, deliberately no
-                   extra strokes that could read ambiguously at small
-                   size. -->
-              <svg width="34" height="34" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6">
-                <path d="M16 5c1.4 0 2.5 1.1 2.5 2.4 0 1-.6 1.9-1.6 2.2" stroke-linecap="round" />
-                <path d="M16 9.6 4 18l1.6 2.6L16 14l10.4 6.6L28 18 16 9.6z" stroke-linejoin="round" stroke-linecap="round" />
-                <path d="M9 20.4h14" stroke-linecap="round" />
-              </svg>
-            </span>
-            <span class="category-card__label">Fashion</span>
-          </a>
-          <a class="category-card" href="#">
-            <span class="category-card__icon">
-              <svg width="34" height="34" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4">
-                <path d="M5 15 15 6l10 9" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M7 14v12h16V14" stroke-linejoin="round" />
-                <rect x="19" y="19" width="9" height="6" rx="1.2" />
-                <circle cx="21.5" cy="26" r="1.1" fill="currentColor" stroke="none" />
-                <circle cx="26" cy="26" r="1.1" fill="currentColor" stroke="none" />
-              </svg>
-            </span>
-            <span class="category-card__label">Home</span>
-          </a>
-          <a class="category-card" href="#">
-            <span class="category-card__icon">
-              <svg width="34" height="34" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4">
-                <circle cx="14" cy="14" r="10" />
-                <path d="M4 14h20M14 4c3 3 4.5 6.5 4.5 10S17 21 14 24c-3-3-4.5-6.5-4.5-10S11 7 14 4z" />
-                <path d="M22 18c3 0 6 3 6 6.5S25 30 22 30s-6-2-6-5.5 3-6.5 6-6.5z" />
-                <circle cx="22" cy="23.5" r="1.6" fill="currentColor" stroke="none" />
-              </svg>
-            </span>
-            <span class="category-card__label">Sports</span>
-          </a>
+        <!-- 2. Nike Card -->
+        <div class="text-center">
+          <div class="silver-card rounded-xl h-20 relative flex items-center justify-center p-2 mb-1.5">
+            <div class="absolute top-1.5 left-1.5 rivet"></div>
+            <div class="absolute top-1.5 right-1.5 rivet"></div>
+            <div class="absolute bottom-1.5 left-1.5 rivet"></div>
+            <div class="absolute bottom-1.5 right-1.5 rivet"></div>
+            
+            <!-- Nike Swoosh -->
+            <svg class="w-12 h-12 fill-black" viewBox="0 0 24 24">
+              <path d="M21.707 5.293a1 1 0 010 1.414l-11 11a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L10 15.586 20.293 5.293a1 1 0 011.414 0z"/>
+            </svg>
+          </div>
+          <p class="text-[9px] font-black text-gray-900 leading-tight tracking-wider uppercase">
+            Seasonal<br>Athletic Offers
+          </p>
         </div>
-      </section>
 
-      <!-- STORES - metallic riveted plates -->
-      <section class="store-section" aria-label="Stores">
-        <div class="plate-grid">
-          <div class="store-plate-wrap">
-            <a class="store-plate store-plate--amazon" href="#">
-              <span class="brand-mark brand-mark--amazon">
-                <span class="brand-mark__word">amazon</span>
-                <svg class="brand-mark__smile" width="46" height="12" viewBox="0 0 60 16" fill="none" aria-hidden="true">
-                  <path d="M2 2c14 9 42 9 56 0" stroke="#e08a1e" stroke-width="2.4" stroke-linecap="round" />
-                  <path d="M52 2.5 58 1l-1.5 6" stroke="#e08a1e" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-              </span>
-            </a>
-            <p class="store-plate__caption">Exclusive Tech<br />Discounts</p>
+        <!-- 3. Samsung Card -->
+        <div class="text-center">
+          <div class="silver-card rounded-xl h-20 relative flex items-center justify-center p-2 mb-1.5">
+            <div class="absolute top-1.5 left-1.5 rivet"></div>
+            <div class="absolute top-1.5 right-1.5 rivet"></div>
+            <div class="absolute bottom-1.5 left-1.5 rivet"></div>
+            <div class="absolute bottom-1.5 right-1.5 rivet"></div>
+            
+            <span class="text-base font-black text-blue-900 tracking-widest uppercase">SAMSUNG</span>
           </div>
-
-          <div class="store-plate-wrap">
-            <a class="store-plate store-plate--nike" href="#">
-              <svg class="brand-mark brand-mark--nike" width="58" height="24" viewBox="0 0 100 40" fill="currentColor" aria-label="Nike">
-                <path d="M4 29c22-2 58-11 93-25-31 27-57 35-80 35-7.5 0-11.5-4-13-10z" />
-              </svg>
-            </a>
-            <p class="store-plate__caption">Seasonal<br />Athletic Offers</p>
-          </div>
-
-          <div class="store-plate-wrap">
-            <a class="store-plate store-plate--samsung" href="#">
-              <span class="brand-mark brand-mark--samsung">SAMSUNG</span>
-            </a>
-            <p class="store-plate__caption">Premium<br />Electronics Deals</p>
-          </div>
-
-          <div class="store-plate-wrap">
-            <a class="store-plate store-plate--airbnb" href="#">
-              <span class="brand-mark brand-mark--airbnb">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
-                  <path d="M12 3.5c3.2 4.2 6.2 8.3 6.2 11.7a6.2 6.2 0 0 1-12.4 0c0-3.4 3-7.5 6.2-11.7z" />
-                  <path d="M7.3 15.6a4.9 4.9 0 0 0 4.7 3.6" stroke-linecap="round" />
-                </svg>
-                <span class="brand-mark__word">airbnb</span>
-              </span>
-            </a>
-            <p class="store-plate__caption">Premium<br />Stay Offers</p>
-          </div>
-
-          <div class="store-plate-wrap">
-            <a class="store-plate store-plate--walmart" href="#">
-              <span class="brand-mark brand-mark--walmart">
-                <span class="brand-mark__word">Walmart</span>
-                <svg class="brand-mark__spark" width="16" height="16" viewBox="0 0 24 24" stroke="#ffc220" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
-                  <path d="M12 2v20M3.5 7l17 10M20.5 7l-17 10M2 12h20M4.5 3.5l15 17M19.5 3.5l-15 17" />
-                </svg>
-              </span>
-            </a>
-            <p class="store-plate__caption">Everyday<br />Value</p>
-          </div>
-
-          <div class="store-plate-wrap">
-            <a class="store-plate store-plate--bestbuy" href="#">
-              <span class="brand-mark brand-mark--bestbuy">
-                <span class="brand-mark__word">BEST<br />BUY</span>
-                <svg class="brand-mark__tag" width="26" height="26" viewBox="0 0 24 24" fill="#ffe000" aria-hidden="true">
-                  <path d="M3 4h8l10 10-8 8L3 12V4z" />
-                  <circle cx="7.5" cy="8.5" r="1.5" fill="#0a1d3b" />
-                </svg>
-              </span>
-            </a>
-            <p class="store-plate__caption">Electronics<br />&amp; More</p>
-          </div>
+          <p class="text-[9px] font-black text-gray-900 leading-tight tracking-wider uppercase">
+            Premium<br>Electronics Deals
+          </p>
         </div>
-        <p class="gdn-demo-note gdn-demo-note--center">Demo preview - stores shown are illustrative, not yet connected merchants</p>
-      </section>
-    </main>
-  </body>
+
+        <!-- 4. Airbnb Card -->
+        <div class="text-center">
+          <div class="silver-card rounded-xl h-20 relative flex flex-col items-center justify-center p-2 mb-1.5">
+            <div class="absolute top-1.5 left-1.5 rivet"></div>
+            <div class="absolute top-1.5 right-1.5 rivet"></div>
+            <div class="absolute bottom-1.5 left-1.5 rivet"></div>
+            <div class="absolute bottom-1.5 right-1.5 rivet"></div>
+            
+            <i class="fa-brands fa-airbnb text-2xl text-red-500"></i>
+            <span class="text-xs font-bold text-red-500 tracking-tight">airbnb</span>
+          </div>
+          <p class="text-[9px] font-black text-gray-900 leading-tight tracking-wider uppercase">
+            Premium<br>Athletic Offers
+          </p>
+        </div>
+
+        <!-- 5. Walmart Card -->
+        <div class="text-center">
+          <div class="silver-card rounded-xl h-20 relative flex items-center justify-center p-2 mb-1.5">
+            <div class="absolute top-1.5 left-1.5 rivet"></div>
+            <div class="absolute top-1.5 right-1.5 rivet"></div>
+            <div class="absolute bottom-1.5 left-1.5 rivet"></div>
+            <div class="absolute bottom-1.5 right-1.5 rivet"></div>
+            
+            <span class="text-lg font-black text-blue-600 tracking-tight">Walmart<span class="text-yellow-500 font-bold">*</span></span>
+          </div>
+          <p class="text-[9px] font-black text-gray-900 leading-tight tracking-wider uppercase">
+            Walmart
+          </p>
+        </div>
+
+        <!-- 6. Best Buy Card -->
+        <div class="text-center">
+          <div class="dark-blue-card rounded-xl h-20 relative flex flex-col items-center justify-center p-2 mb-1.5">
+            <div class="absolute top-1.5 left-1.5 rivet"></div>
+            <div class="absolute top-1.5 right-1.5 rivet"></div>
+            <div class="absolute bottom-1.5 left-1.5 rivet"></div>
+            <div class="absolute bottom-1.5 right-1.5 rivet"></div>
+            
+            <span class="text-sm font-black text-white leading-none tracking-tight">BEST</span>
+            <span class="text-sm font-black text-white leading-none tracking-tight">BUY</span>
+          </div>
+          <p class="text-[9px] font-black text-gray-900 leading-tight tracking-wider uppercase">
+            Best Buy
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</body>
 </html>
