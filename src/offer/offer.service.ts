@@ -2,6 +2,7 @@ import { translateDbError } from "../api/http/db-errors.js";
 import { badRequest, notFound } from "../api/http/errors.js";
 import { recordExists } from "../api/http/exists.js";
 import {
+  optionalBoolean,
   optionalEnum,
   optionalNumber,
   optionalString,
@@ -68,6 +69,8 @@ export async function createOfferService(
   const condition = optionalEnum(body, "condition", CONDITIONS);
   const availabilityStatus = optionalEnum(body, "availability_status", AVAILABILITY);
   const status = optionalEnum(body, "status", STATUSES);
+  // Optional marker for sample/test offers (defaults to false = real).
+  const isFixture = optionalBoolean(body, "is_fixture");
 
   if (price < 0) {
     throw badRequest("price must be zero or greater");
@@ -97,6 +100,7 @@ export async function createOfferService(
       condition,
       availabilityStatus,
       status,
+      isFixture,
     });
   } catch (error) {
     throw translateDbError(
@@ -120,6 +124,7 @@ export async function updateOfferService(
   const condition = optionalEnum(body, "condition", CONDITIONS);
   const availabilityStatus = optionalEnum(body, "availability_status", AVAILABILITY);
   const status = optionalEnum(body, "status", STATUSES);
+  const isFixture = optionalBoolean(body, "is_fixture");
 
   if (price !== undefined && price < 0) {
     throw badRequest("price must be zero or greater");
@@ -137,6 +142,7 @@ export async function updateOfferService(
       condition,
       availabilityStatus,
       status,
+      isFixture,
     });
     if (!updated) {
       throw notFound("Offer");

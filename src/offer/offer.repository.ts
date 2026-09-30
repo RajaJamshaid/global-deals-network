@@ -12,6 +12,8 @@ export interface OfferRow {
   condition: string;
   availability_status: string;
   status: string;
+  /** true = sample/test offer, never live merchant pricing (migration 015). */
+  is_fixture: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -34,6 +36,7 @@ export interface CreateOfferInput {
   condition?: string;
   availabilityStatus?: string;
   status?: string;
+  isFixture?: boolean;
 }
 
 /**
@@ -51,6 +54,7 @@ export interface UpdateOfferInput {
   condition?: string;
   availabilityStatus?: string;
   status?: string;
+  isFixture?: boolean;
 }
 
 export async function listOffers(
@@ -100,11 +104,16 @@ export async function getOfferById(offerId: string): Promise<OfferRow | null> {
   return rows[0] ?? null;
 }
 
+/**
+ * Price observations (product_price_history) are recorded by a
+ * database trigger on offers - see migration 015 - so this function
+ * does not write history itself.
+ */
 export async function createOffer(input: CreateOfferInput): Promise<OfferRow> {
   const pool = getPool();
   const { rows } = await pool.query<OfferRow>(
-    `INSERT INTO offers (product_id, merchant_id, market_id, offer_url, price, original_price, currency, condition, availability_status, status)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, COALESCE($8, 'new'), COALESCE($9, 'in_stock'), COALESCE($10, 'active'))
+    `INSERT INTO offers (product_id, merchant_id, market_id, offer_url, price, original_price, currency, condition, availability_status, status, is_fixture)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, COALESCE($8, 'new'), COALESCE($9, 'in_stock'), COALESCE($10, 'active'), COALESCE($11, FALSE))
      RETURNING *`,
     [
       input.productId,
@@ -117,6 +126,7 @@ export async function createOffer(input: CreateOfferInput): Promise<OfferRow> {
       input.condition ?? null,
       input.availabilityStatus ?? null,
       input.status ?? null,
+      input.isFixture ?? null,
     ],
   );
   return rows[0];
@@ -142,6 +152,7 @@ export async function updateOffer(
   if (input.condition !== undefined) set("condition", input.condition);
   if (input.availabilityStatus !== undefined) set("availability_status", input.availabilityStatus);
   if (input.status !== undefined) set("status", input.status);
+  if (input.isFixture !== undefined) set("is_fixture", input.isFixture);
 
   if (sets.length === 0) {
     return getOfferById(offerId);
