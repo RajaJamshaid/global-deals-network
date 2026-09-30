@@ -1,249 +1,692 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Global Deals Network</title>
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- FontAwesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <style>
-    /*
-     * Real-metal plate textures.
-     * Each plate layers three things, back to front:
-     *  1. a repeating-linear-gradient at a slight angle - the fine
-     *     "brushed metal" streaks a flat gradient alone can't fake.
-     *  2. the brand-tone gradient (gold / silver / navy).
-     *  3. box-shadow: an inset highlight (top-left, like light
-     *     catching a raised edge), an inset shadow (bottom-right,
-     *     like the edge falling into shade), and an outer drop
-     *     shadow so the whole plate reads as sitting proud of the
-     *     page rather than flat against it.
-     */
-    .plate-amazon-gold {
-      background:
-        repeating-linear-gradient(115deg, rgba(255,255,255,0.18) 0px, rgba(255,255,255,0.18) 1px, transparent 1px, transparent 4px),
-        linear-gradient(135deg, #6b4d18 0%, #cfa043 22%, #fff1aa 42%, #e0bd63 58%, #a37930 78%, #543c11 100%);
-      border: 1.5px solid #43300e;
-      box-shadow:
-        inset 0 2px 3px rgba(255, 255, 255, 0.9),
-        inset 0 -3px 5px rgba(0, 0, 0, 0.5),
-        0 6px 14px rgba(0, 0, 0, 0.35),
-        0 1px 0 rgba(255, 255, 255, 0.35);
-    }
 
-    .plate-brushed-silver {
-      background:
-        repeating-linear-gradient(115deg, rgba(255,255,255,0.4) 0px, rgba(255,255,255,0.4) 1px, transparent 1px, transparent 3px),
-        linear-gradient(135deg, #5c6166 0%, #a8aeb3 20%, #ffffff 42%, #eef0f2 50%, #c1c7cc 65%, #85898e 85%, #4d5155 100%);
-      border: 1.5px solid #4d5155;
-      box-shadow:
-        inset 0 2px 3px rgba(255, 255, 255, 0.95),
-        inset 0 -3px 5px rgba(0, 0, 0, 0.45),
-        0 6px 14px rgba(0, 0, 0, 0.28),
-        0 1px 0 rgba(255, 255, 255, 0.4);
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><title>Global Deals Network</title><link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@100..900&amp;family=Space+Grotesk:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "surface": "#faf9f6", "on-secondary": "#ffffff", "on-primary-fixed": "#221a16", "on-tertiary-fixed": "#131d23", "background": "#faf9f6", "error-container": "#ffdad6", "primary-container": "#221a16", "surface-variant": "#e3e2df", "surface-container": "#efeeeb", "inverse-on-surface": "#f2f1ee", "outline": "#807570", "on-primary": "#ffffff", "inverse-primary": "#d3c3bd", "on-surface-variant": "#4e4541", "outline-variant": "#d1c4be", "on-tertiary-container": "#7b858d", "surface-container-lowest": "#ffffff", "primary": "#000000", "on-error": "#ffffff", "on-secondary-container": "#79570d", "on-primary-container": "#8e817b", "surface-container-low": "#f4f3f0", "on-secondary-fixed-variant": "#5e4200", "on-secondary-fixed": "#271900", "on-tertiary": "#ffffff", "surface-bright": "#faf9f6", "surface-container-highest": "#e3e2df", "inverse-surface": "#2f312f", "on-background": "#1a1c1a", "tertiary-fixed": "#dae4ec", "surface-tint": "#685c57", "primary-fixed-dim": "#d3c3bd", "secondary-container": "#ffd07d", "surface-dim": "#dbdad7", "tertiary-container": "#131d23", "on-tertiary-fixed-variant": "#3e484f", "secondary-fixed-dim": "#edc06e", "on-surface": "#1a1c1a", "error": "#ba1a1a", "tertiary-fixed-dim": "#bec8d0", "secondary": "#7a580e", "on-primary-fixed-variant": "#4f4540", "secondary-fixed": "#ffdea8", "tertiary": "#000000", "surface-container-high": "#e9e8e5", "primary-fixed": "#f0dfd8", "on-error-container": "#93000a" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "gutter": "0.75rem", "space-xl": "1.75rem", "margin": "1rem", "space-md": "0.75rem", "space-xs": "0.25rem", "space-lg": "1.25rem", "space-sm": "0.5rem" }, fontFamily: { "label-sm": ["Space Grotesk"], "label-lg": ["Space Grotesk"], "body-lg": ["Space Grotesk"], "headline-lg": ["EB Garamond"], "title-sm": ["Space Grotesk"], "body-md": ["Space Grotesk"], "headline-sm": ["EB Garamond"], "title-md": ["Space Grotesk"], "display-lg": ["EB Garamond"] }, fontSize: { "label-sm": ["10px", { "lineHeight": "12px", "letterSpacing": "0.06em", "fontWeight": "600" }], "label-lg": ["11px", { "lineHeight": "14px", "letterSpacing": "0.08em", "fontWeight": "700" }], "body-lg": ["15px", { "lineHeight": "22px", "fontWeight": "400" }], "headline-lg": ["26px", { "lineHeight": "32px", "letterSpacing": "0.02em", "fontWeight": "600" }], "title-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0.05em", "fontWeight": "700" }], "body-md": ["13px", { "lineHeight": "18px", "fontWeight": "400" }], "headline-sm": ["20px", { "lineHeight": "26px", "fontWeight": "500" }], "title-md": ["15px", { "lineHeight": "20px", "letterSpacing": "0.04em", "fontWeight": "700" }], "display-lg": ["36px", { "lineHeight": "42px", "letterSpacing": "-0.02em", "fontWeight": "600" }] } } } }</script><style>
+    body {
+      min-height: max(884px, 100dvh);
     }
-
-    .plate-bestbuy-navy {
-      background:
-        repeating-linear-gradient(115deg, rgba(255,255,255,0.08) 0px, rgba(255,255,255,0.08) 1px, transparent 1px, transparent 4px),
-        linear-gradient(135deg, #020810 0%, #153c69 30%, #1e4a7d 48%, #0c2b4d 68%, #020810 100%);
-      border: 1.5px solid #010509;
-      box-shadow:
-        inset 0 1.5px 2px rgba(255, 255, 255, 0.25),
-        inset 0 -3px 5px rgba(0, 0, 0, 0.8),
-        0 6px 14px rgba(0, 0, 0, 0.4);
+    .store-slab {
+      transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.25s ease, filter 0.2s ease;
+      will-change: transform, box-shadow;
+      position: relative;
+      cursor: pointer;
     }
-
-    /* Metal screws/rivets - deeper socket + brighter catch-light so
-       they read as recessed metal, not flat dots. */
-    .screw {
-      position: absolute;
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 35% 30%, #ffffff 0%, #d4d8db 30%, #8a9096 55%, #3e4348 80%, #1c1f22 100%);
-      box-shadow:
-        inset 0 1px 1.5px rgba(0, 0, 0, 0.9),
-        inset 0 -0.5px 0.5px rgba(255, 255, 255, 0.6),
-        0 0.5px 1px rgba(255, 255, 255, 0.5);
+    .store-slab:active {
+      transform: scale(0.98);
     }
-
-    .screw-tl { top: 7px; left: 7px; }
-    .screw-tr { top: 7px; right: 7px; }
-    .screw-bl { bottom: 7px; left: 7px; }
-    .screw-br { bottom: 7px; right: 7px; }
+    [data-deal], [data-cat], [data-store], [data-action] { cursor: pointer; }
+    .material-symbols-outlined.filled { font-variation-settings: 'FILL' 1; }
+    :focus-visible { outline: 2px solid #7a580e; outline-offset: 2px; }
+    #sheet { transition: transform 0.25s cubic-bezier(0.2, 0, 0, 1); }
+    #toast { transition: opacity 0.2s ease; }
+    @media (prefers-reduced-motion: reduce) { #sheet, #toast, .store-slab { transition: none; } }
   </style>
-</head>
-<body class="bg-white text-gray-900 font-sans min-h-screen w-full m-0 p-0 antialiased">
+</head><body class="bg-surface font-body-md text-on-surface flex flex-col min-h-screen selection:bg-secondary-container selection:text-on-secondary-fixed"><header class="fixed top-0 inset-x-0 z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(30,22,18,0.06)] pt-safe"><div class="h-16 px-margin flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm"><img alt="GDN Luxury Wordmark Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VG5qSch37xvv3tHnb-jySx7J4yNq-IFIXHZdVZhMumEr0Hov2vAEWNpC2dwND9r_UtydCbzvGCjRP68sQgsjMrYUtJ7QSYhpANvLxRUI-ao5e_FycHce15yaXHD3310PdaIgf6gYhBJyNfiu53KAxGVjy_vblVXX0XUNbetsrXAc_zcYJJ1R4G5sOCVdD-x4McOtsl1rRzGVPTiEsh5fM1exQAQ4rPt2bIcV_zDSvAa7Ca5JFvtQ7ZLw9c"/><div class="flex flex-col"><span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Executive Club</span><span id="hdr-title" class="font-headline-sm text-headline-sm tracking-tight text-primary leading-none">Home</span></div></div><div class="flex items-center gap-space-xs"><button data-action="currency" class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-high" aria-label="Market and currency"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span><span class="font-label-lg text-label-lg uppercase text-on-surface">USD</span></button><button data-action="notif" aria-label="Notifications" class="relative w-11 h-11 flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-secondary ring-2 ring-surface"></span></button><button data-action="profile" aria-label="Profile" class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0 ml-1"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></button></div></div></header>
+<!-- ============ STORE PAGE (drill-down from a store slab) ============ -->
+<div id="store-overlay" class="fixed inset-0 z-[55] bg-surface hidden overflow-y-auto">
+<header class="sticky top-0 w-full z-10 pt-safe bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+<div class="h-28 px-margin flex flex-col justify-between py-space-xs">
+<div class="flex items-center justify-between w-full h-11">
+<button data-action="storeback" aria-label="Go back" class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface hover:text-secondary active:scale-95 transition-all" type="button"><span class="material-symbols-outlined text-[20px]">arrow_back_ios_new</span></button>
+<div class="flex items-center gap-space-sm">
+<div class="w-7 h-7 rounded-full bg-secondary-fixed flex items-center justify-center shadow-inner"><span class="material-symbols-outlined text-secondary text-[16px]">verified</span></div>
+<h1 id="store-title" class="font-headline-sm text-headline-sm text-on-surface tracking-tight truncate max-w-[170px]"></h1>
+</div>
+<div class="flex items-center gap-space-xs">
+<button data-action="storeshare" aria-label="Share store" class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface active:scale-95 transition-all" type="button"><span class="material-symbols-outlined text-[20px]">share</span></button>
+<button data-action="storesave" aria-label="Add to favorites" class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface-variant hover:text-secondary active:scale-95 transition-all" type="button"><span class="material-symbols-outlined text-[20px]">bookmark</span></button>
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center ml-space-xs shadow-sm"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div>
+</div>
+</div>
+<div id="store-chips" class="w-full flex items-center gap-space-xs overflow-x-auto no-scrollbar pb-space-xs"></div>
+</div>
+</header>
+<main class="flex flex-col relative w-full bg-surface min-h-screen pb-safe">
+<div class="flex flex-col w-full">
+<div class="w-full px-margin pt-space-md pb-space-sm flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="inline-block w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span id="store-vault" class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-bold"></span>
+</div>
+<div class="flex items-center gap-1 bg-surface-container-high px-space-sm py-0.5 rounded-full">
+<span class="material-symbols-outlined text-[14px] text-secondary">verified_user</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface">Official Tier</span>
+</div>
+</div>
+<div id="store-products" class="flex flex-col px-margin gap-space-lg py-space-md"></div>
+<div class="w-full px-margin py-space-xl text-center">
+<span id="store-footer" class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant"></span>
+</div>
+</div>
+</main>
+</div>
 
-  <!-- Full Width Edge-to-Edge Container -->
-  <div class="w-full max-w-md mx-auto min-h-screen bg-white flex flex-col justify-start">
-    
-    <!-- Hero Banner -->
-    <div class="relative w-full h-44 bg-cover bg-center flex flex-col justify-center px-6 py-4" 
-         style="background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.85)), url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=80');">
-      <h1 class="text-white text-sm font-black tracking-widest leading-snug font-serif uppercase">
-        CURATED DEALS,<br>
-        AMERICA'S<br>
-        CRAFTSMANSHIP
-      </h1>
-      <p class="text-[9px] text-gray-400 tracking-widest uppercase mt-2 font-semibold">
-        GLOBAL DEALS NETWORK
-      </p>
-    </div>
 
-    <!-- Category Icons Section -->
-    <div class="w-full px-4 py-4 bg-white">
-      <div class="grid grid-cols-4 gap-2.5">
-        
-        <div class="bg-[#f2f4f7] rounded-2xl p-3 flex flex-col items-center justify-center text-center">
-          <i class="fa-solid fa-laptop text-gray-700 text-xl mb-1.5"></i>
-          <span class="text-[10px] font-black tracking-wider text-gray-800 uppercase">TECH</span>
-        </div>
+<main class="flex flex-col relative w-full px-margin pt-16 pb-24 bg-surface">
 
-        <div class="bg-[#f2f4f7] rounded-2xl p-3 flex flex-col items-center justify-center text-center">
-          <i class="fa-solid fa-shirt text-gray-700 text-xl mb-1.5"></i>
-          <span class="text-[10px] font-black tracking-wider text-gray-800 uppercase">FASHION</span>
-        </div>
-
-        <div class="bg-[#f2f4f7] rounded-2xl p-3 flex flex-col items-center justify-center text-center">
-          <i class="fa-solid fa-house text-gray-700 text-xl mb-1.5"></i>
-          <span class="text-[10px] font-black tracking-wider text-gray-800 uppercase">HOME</span>
-        </div>
-
-        <div class="bg-[#f2f4f7] rounded-2xl p-3 flex flex-col items-center justify-center text-center">
-          <i class="fa-solid fa-earth-americas text-gray-700 text-xl mb-1.5"></i>
-          <span class="text-[10px] font-black tracking-wider text-gray-800 uppercase">SPORTS</span>
-        </div>
-
+<!-- ============ VIEW: HOME ============ -->
+<div id="view-home" class="flex flex-col w-full pb-6 space-y-5">
+<!-- Executive Hero Panel with Smoked Walnut / Leather Office Ambience -->
+<section data-action="viewall" role="button" tabindex="0" aria-label="See all deals" class="relative w-full rounded-2xl overflow-hidden shadow-xl bg-primary-container text-on-primary">
+<div class="w-full h-40 bg-cover bg-center relative" data-alt="Rich executive wood-paneled corner office at dusk with dark smoked mahogany desk, warm brass desk lamp glowing, premium stitched saddle leather accessories, brushed aluminum laptop, and fountain pen, cinematic warm heritage lighting, luxury club aesthetic" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAJp-E6__HAnuDSlGbGx59mFbHVrINIUln82UFUH-ASVXlePT61tyJ9g3n7U4kHtsbcSX4LbG4QDH8jhrIl38R3G7OZcTs011-1pny9N9oHHuDSDckIsCpejBpJ9EpscuaefxP5tlm_0HEnhRqquPCcuQFRmAwLVQzWZ8L37aTQ033nSgv2l0-H-6Qd43N48row66hfHrfdCLJ1k0zvB27sWxYGrkPOhDlBBecIeC_xU8NoCj8Lw6q69w')">
+<div class="absolute inset-0 bg-gradient-to-t from-primary-container via-primary-container/70 to-transparent"></div>
+<div class="absolute inset-0 p-margin flex flex-col justify-end">
+<div class="flex items-center gap-1.5 mb-2">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-fixed text-label-sm font-label-sm uppercase tracking-wider">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+            14,820 Verified Live
+          </span>
+<span class="text-on-primary-container text-label-sm font-label-sm tracking-wider uppercase">GDN Algorithmic Feed</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-primary leading-tight font-semibold tracking-wide">
+          CURATED DEALS.<br/>EXECUTIVE CRAFTSMANSHIP.
+        </h1>
+<p class="font-body-md text-body-md text-primary-fixed-dim mt-1 max-w-[280px]">
+          Machine-verified price anomalies across premier global merchants.
+        </p>
+</div>
+</div>
+</section>
+<!-- Search & Visual Lens Bar -->
+<section class="relative w-full">
+<div class="flex items-center bg-surface-container-lowest rounded-xl p-1.5 shadow-md">
+<button data-action="homesearch" aria-label="Search" class="flex items-center justify-center w-10 h-10 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</button>
+<input class="w-full bg-transparent text-on-surface placeholder:text-on-surface-variant/70 font-body-md text-body-md focus:outline-none px-1" id="dealSearchInput" placeholder="Search curated brands, models, hardware..." type="text" enterkeyhint="search"/>
+<div class="flex items-center gap-1 shrink-0 pr-1">
+<button data-action="mic" aria-label="Voice input" class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[19px]">mic</span>
+</button>
+<button data-action="lens" aria-label="Visual Lens search" class="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-primary-container text-secondary-fixed hover:bg-black transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[17px]">photo_camera</span>
+<span class="font-label-sm text-label-sm tracking-wide">LENS</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Top 5 best-selling categories (demo order for now - real ranking arrives from the backend) -->
+<section class="w-full">
+<div class="grid grid-cols-5 gap-2">
+<button data-cat="phones" class="flex flex-col items-center justify-center p-2.5 rounded-xl bg-surface-container-lowest hover:bg-surface-container-low shadow-sm transition-transform active:scale-95 group">
+<div class="w-10 h-10 rounded-lg flex items-center justify-center text-on-surface group-hover:text-secondary transition-colors"><span class="material-symbols-outlined text-[26px]">smartphone</span></div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface mt-1">Phones</span>
+</button>
+<button data-cat="audio" class="flex flex-col items-center justify-center p-2.5 rounded-xl bg-surface-container-lowest hover:bg-surface-container-low shadow-sm transition-transform active:scale-95 group">
+<div class="w-10 h-10 rounded-lg flex items-center justify-center text-on-surface group-hover:text-secondary transition-colors"><span class="material-symbols-outlined text-[26px]">headphones</span></div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface mt-1">Audio</span>
+</button>
+<button data-cat="sneakers" class="flex flex-col items-center justify-center p-2.5 rounded-xl bg-surface-container-lowest hover:bg-surface-container-low shadow-sm transition-transform active:scale-95 group">
+<div class="w-10 h-10 rounded-lg flex items-center justify-center text-on-surface group-hover:text-secondary transition-colors"><span class="material-symbols-outlined text-[26px]">directions_run</span></div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface mt-1">Sneakers</span>
+</button>
+<button data-cat="laptops" class="flex flex-col items-center justify-center p-2.5 rounded-xl bg-surface-container-lowest hover:bg-surface-container-low shadow-sm transition-transform active:scale-95 group">
+<div class="w-10 h-10 rounded-lg flex items-center justify-center text-on-surface group-hover:text-secondary transition-colors"><span class="material-symbols-outlined text-[26px]">laptop_mac</span></div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface mt-1">Laptops</span>
+</button>
+<button data-cat="watches" class="flex flex-col items-center justify-center p-2.5 rounded-xl bg-surface-container-lowest hover:bg-surface-container-low shadow-sm transition-transform active:scale-95 group">
+<div class="w-10 h-10 rounded-lg flex items-center justify-center text-on-surface group-hover:text-secondary transition-colors"><span class="material-symbols-outlined text-[26px]">watch</span></div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface mt-1">Watches</span>
+</button>
+</div>
+</section>
+<!-- Popular Stores -->
+<section id="home-stores-section" class="w-full space-y-2.5">
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-3 bg-secondary rounded-full"></span>
+<h2 class="font-title-md text-title-md uppercase tracking-wider text-on-surface">Popular Stores</h2>
+</div>
+<div id="home-stores" class="grid grid-cols-2 gap-gutter">
+<!-- 1. Amazon -->
+<div data-store="amazon" role="button" tabindex="0" aria-label="Amazon deals" class="store-slab h-28 rounded-2xl bg-gradient-to-br from-[#1c1d22] via-[#111215] to-[#0a0a0d] border border-amber-500/20 shadow-[0_8px_20px_rgba(0,0,0,0.35),inset_0_1px_1px_rgba(255,255,255,0.08)] flex items-center justify-center relative overflow-hidden group">
+<div class="absolute -top-10 -right-10 w-28 h-28 bg-amber-500/10 rounded-full blur-xl pointer-events-none"></div>
+<div class="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-amber-500/5 to-transparent pointer-events-none"></div>
+<div class="relative z-10 flex flex-col items-center justify-center transition-transform group-hover:scale-105 duration-300">
+<span class="font-display-lg text-[32px] tracking-tight font-extrabold text-[#fafafa] leading-none drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
+            amazon
+          </span>
+<svg class="w-12 h-3.5 -mt-0.5 text-amber-400 drop-shadow-[0_0_6px_rgba(251,191,36,0.5)] fill-current" viewBox="0 0 100 24">
+<path d="M10 6 C 36 24, 70 24, 90 8 C 91 7, 92 8, 91 9 C 70 26, 34 26, 9 8 C 8 7, 9 6, 10 6 Z"></path>
+<path d="M85 4 L 94 8 L 89 15 Z"></path>
+</svg>
+</div>
+</div>
+<!-- 2. Nike -->
+<div data-store="nike" role="button" tabindex="0" aria-label="Nike deals" class="store-slab h-28 rounded-2xl bg-gradient-to-br from-[#18181b] via-[#0d0d10] to-[#040405] border border-red-500/25 shadow-[0_8px_20px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(255,255,255,0.1)] flex items-center justify-center relative overflow-hidden group">
+<div class="absolute -top-8 -left-8 w-24 h-24 bg-red-600/15 rounded-full blur-xl pointer-events-none"></div>
+<div class="absolute -bottom-6 -right-6 w-20 h-20 bg-red-600/10 rounded-full blur-lg pointer-events-none"></div>
+<div class="relative z-10 flex flex-col items-center justify-center transition-transform group-hover:scale-105 duration-300">
+<svg class="w-16 h-8 text-white fill-current drop-shadow-[0_3px_10px_rgba(255,255,255,0.35)]" viewBox="0 0 24 24">
+<path d="M21.707 5.293c-2.316 2.316-6.602 4.67-11.458 6.002L6.15 9.77a.5.5 0 0 0-.822.467c.753 3.655 4.025 6.763 8.379 6.763 4.887 0 9.293-4.406 9.293-9.293a2.38 2.38 0 0 0-.083-.623.5.5 0 0 0-.21-.392.5.5 0 0 0-.44-.047c-.554.218-1.07.447-1.56.654z"></path>
+</svg>
+<span class="font-title-md text-[17px] font-black tracking-widest text-white mt-1 drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]">NIKE</span>
+</div>
+</div>
+<!-- 3. Samsung -->
+<div data-store="samsung" role="button" tabindex="0" aria-label="Samsung deals" class="store-slab h-28 rounded-2xl bg-gradient-to-br from-[#141b2d] via-[#0f172a] to-[#070b14] border border-cyan-400/25 shadow-[0_8px_20px_rgba(15,23,42,0.45),inset_0_1px_1px_rgba(147,197,253,0.2)] flex items-center justify-center relative overflow-hidden group">
+<div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-400/10 via-transparent to-transparent pointer-events-none"></div>
+<div class="relative z-10 flex items-center justify-center transition-transform group-hover:scale-105 duration-300">
+<span class="font-title-md text-[20px] font-black tracking-[0.22em] text-transparent bg-clip-text bg-gradient-to-r from-sky-100 via-white to-sky-200 drop-shadow-[0_0_14px_rgba(56,189,248,0.45)] uppercase pl-1">
+            SAMSUNG
+          </span>
+</div>
+</div>
+<!-- 4. Airbnb -->
+<div data-store="airbnb" role="button" tabindex="0" aria-label="Airbnb deals" class="store-slab h-28 rounded-2xl bg-gradient-to-br from-[#3b1219] via-[#240b10] to-[#140508] border border-rose-400/25 shadow-[0_8px_20px_rgba(244,63,94,0.15),inset_0_1px_1px_rgba(255,255,255,0.12)] flex items-center justify-center relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-rose-500/25 to-amber-500/10 rounded-full blur-xl pointer-events-none"></div>
+<div class="relative z-10 flex items-center gap-2 transition-transform group-hover:scale-105 duration-300">
+<svg class="w-8 h-8 text-[#ff385c] fill-current drop-shadow-[0_0_12px_rgba(255,56,92,0.6)]" viewBox="0 0 32 32">
+<path d="M16 1c2.008 0 3.463.963 4.751 3.269l.533.987c2.146 4.048 5.716 11.238 5.716 15.744 0 5.485-4.148 9.5-11 9.5s-11-4.015-11-9.5c0-4.506 3.57-11.696 5.716-15.744l.533-.987C7.537 1.963 8.992 1 11 1h5zm0 2.5h-5c-1.127 0-2.029.563-3.082 2.443l-.533.987C5.378 10.741 2 17.653 2 21c0 4.146 3.018 7 8.5 7 4.116 0 6.643-1.603 7.828-4.331a9.553 9.553 0 0 1-2.328-3.669c-.933-2.617-.557-5.068.799-6.398 1.488-1.458 3.713-1.458 5.202 0 1.356 1.33 1.732 3.781.799 6.398a9.553 9.553 0 0 1-2.328 3.669C21.857 26.397 24.384 28 28.5 28c5.482 0 8.5-2.854 8.5-7 0-3.347-3.378-10.259-5.385-14.07l-.533-.987C30.029 4.063 29.127 3.5 28 3.5h-5v-.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0-.5.5v.5zm0 11c-.722 0-1.341.34-1.815.805-.623.61-.88 1.834-.236 3.642.548 1.536 1.378 2.766 2.051 3.553.673-.787 1.503-2.017 2.051-3.553.644-1.808.387-3.032-.236-3.642-.474-.465-1.093-.805-1.815-.805z"></path>
+</svg>
+<span class="font-title-md text-[21px] font-extrabold tracking-tight text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
+            airbnb
+          </span>
+</div>
+</div>
+<!-- 5. Walmart -->
+<div data-store="walmart" role="button" tabindex="0" aria-label="Walmart deals" class="store-slab h-28 rounded-2xl bg-gradient-to-br from-[#0c2340] via-[#003876] to-[#002244] border border-sky-400/30 shadow-[0_8px_20px_rgba(0,56,118,0.35),inset_0_1px_1px_rgba(255,255,255,0.2)] flex items-center justify-center relative overflow-hidden group">
+<div class="absolute -top-6 -right-6 w-24 h-24 bg-amber-400/20 rounded-full blur-xl pointer-events-none"></div>
+<div class="relative z-10 flex items-center gap-1.5 transition-transform group-hover:scale-105 duration-300">
+<span class="font-title-md text-[21px] font-black tracking-tight text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)]">
+            Walmart
+          </span>
+<svg class="w-6 h-6 text-[#ffc220] fill-current drop-shadow-[0_0_8px_rgba(255,194,32,0.8)]" viewBox="0 0 24 24">
+<path d="M12 2a1.2 1.2 0 0 1 1.2 1.2v3.6a1.2 1.2 0 0 1-2.4 0V3.2A1.2 1.2 0 0 1 12 2zm0 14a1.2 1.2 0 0 1 1.2 1.2v3.6a1.2 1.2 0 0 1-2.4 0v-3.6A1.2 1.2 0 0 1 12 16zm8.66-9.8a1.2 1.2 0 0 1 .44 1.64l-1.8 3.12a1.2 1.2 0 0 1-2.08-1.2l1.8-3.12a1.2 1.2 0 0 1 1.64-.44zm-12.12 7a1.2 1.2 0 0 1 .44 1.64l-1.8 3.12a1.2 1.2 0 0 1-2.08-1.2l1.8-3.12a1.2 1.2 0 0 1 1.64-.44zm12.12 3.56a1.2 1.2 0 0 1-1.64.44l-3.12-1.8a1.2 1.2 0 1 1 1.2-2.08l3.12 1.8a1.2 1.2 0 0 1 .44 1.64zm-12.12-7a1.2 1.2 0 0 1-1.64.44l-3.12-1.8a1.2 1.2 0 0 1 1.2-2.08l3.12 1.8a1.2 1.2 0 0 1 .44 1.64z"></path>
+</svg>
+</div>
+</div>
+<!-- 6. Best Buy -->
+<div data-store="bestbuy" role="button" tabindex="0" aria-label="Best Buy deals" class="store-slab h-28 rounded-2xl bg-gradient-to-br from-[#0e1726] via-[#051124] to-[#020814] border border-yellow-400/30 shadow-[0_8px_20px_rgba(2,8,20,0.5),inset_0_1px_1px_rgba(255,255,255,0.15)] flex items-center justify-center relative overflow-hidden group">
+<div class="absolute -bottom-8 -left-8 w-24 h-24 bg-yellow-400/15 rounded-full blur-xl pointer-events-none"></div>
+<div class="relative z-10 flex items-center gap-1.5 transition-transform group-hover:scale-105 duration-300">
+<div class="flex flex-col items-center">
+<span class="font-title-md text-[18px] font-black tracking-tight text-white leading-none drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
+              BEST BUY
+            </span>
+</div>
+<div class="w-4 h-4 bg-[#fff200] rounded-[2.5px] shadow-[0_0_8px_rgba(255,242,0,0.6)] transform rotate-12 flex items-center justify-center shrink-0 ml-0.5">
+<span class="w-1 h-1 rounded-full bg-black/80 -mt-1.5 -ml-1.5"></span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Today Hot Selling Product (AI-detected best seller of the day - demo data for now) -->
+<section class="w-full bg-surface-container-high rounded-2xl p-4 shadow-sm">
+<div class="flex items-center justify-between pb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px]">local_fire_department</span>
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary block">Today Hot🔥 Selling Product</span>
+<span class="font-title-sm text-title-sm text-on-surface">Apple Studio Display 27" 5K Retina</span>
+</div>
+</div>
+<div class="px-2 py-1 rounded bg-secondary-container text-on-secondary-container font-label-sm text-label-sm uppercase">
+        Save $310
       </div>
-    </div>
+</div>
+<div data-deal="8" role="button" tabindex="0" aria-label="Open today's hot selling product" class="grid grid-cols-3 gap-2 bg-surface-container-lowest rounded-xl p-3 shadow-sm">
+<div class="flex flex-col items-center text-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Amazon</span>
+<span class="font-title-sm text-title-sm text-on-surface mt-0.5 line-through opacity-60">$1,499</span>
+<span class="font-label-sm text-[9px] text-error font-semibold uppercase mt-0.5">List Price</span>
+</div>
+<div class="flex flex-col items-center text-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">B&amp;H Photo</span>
+<span class="font-title-sm text-title-sm text-on-surface mt-0.5">$1,389</span>
+<span class="font-label-sm text-[9px] text-outline font-semibold uppercase mt-0.5">-$110</span>
+</div>
+<div class="flex flex-col items-center text-center p-1 rounded-lg bg-surface-container-high">
+<span class="font-label-sm text-label-sm text-secondary font-bold uppercase">Best Buy</span>
+<span class="font-title-sm text-title-sm text-secondary font-extrabold mt-0.5">$1,189</span>
+<span class="font-label-sm text-[9px] text-secondary font-bold uppercase mt-0.5">Lowest Price</span>
+</div>
+</div>
+<button data-deal="8" class="w-full mt-3 py-2.5 rounded-xl bg-primary text-on-primary font-label-lg text-label-lg uppercase tracking-wider hover:opacity-95 transition-opacity flex items-center justify-center gap-1.5">
+<span>VIEW HOT DEAL</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</section>
+<!-- Today TrendTop Deals (AI-ranked best-selling deals across every store - demo data for now) -->
+<section class="w-full space-y-3">
+<div class="flex items-center justify-between"><div class="flex items-center gap-1.5"><span class="w-1.5 h-3 bg-secondary rounded-full"></span><h2 class="font-title-md text-title-md uppercase tracking-wider text-on-surface">Today TrendTop Deals</h2></div><button data-action="viewall" class="font-label-sm text-label-sm text-secondary uppercase hover:underline">View All (9)</button></div><div class="space-y-3"><div data-deal="1" role="button" tabindex="0" aria-label="Open Sony WH-1000XM5 Wireless" class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm flex gap-3.5 items-center"><div class="w-24 h-24 rounded-lg bg-surface-container-high shrink-0 bg-cover bg-center overflow-hidden" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuArffHhqLC3WzgZ3sd9WUCX88xYJLZEK-c7xtginGWpN87zrrEsdlbKMbDfA4--ecejGGYUcsDDd2iYVkJFnemHEyE0QQKjlmZfhmRRvHb6R_utbYIuy-KH8NrU2O9WUegQes1PZJth6mHVRUQT1EHllPPWLt9yzAFgjYd5NU3lkbcq-zxMPOfNXlObQd7hs1U5wWuxa6GZ7DIKnySQaT41hYCAjJCS2B4_Z2TSwqLt8BTJtYxC0Ln_XQ')"></div><div class="flex flex-col justify-between flex-1 min-w-0"><div><div class="flex items-center justify-between gap-1"><span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Audio • Amazon Verified</span><span class="px-1.5 py-0.5 rounded bg-error-container text-on-error-container font-label-sm text-[9px] font-bold">-31%</span></div><h3 class="font-title-sm text-title-sm text-on-surface truncate mt-0.5">Sony WH-1000XM5 Wireless</h3><p class="font-body-md text-[11px] text-on-surface-variant">Active noise cancellation • 4 stores synced</p></div><div class="flex items-center justify-between mt-2 pt-1.5"><div><span class="font-title-md text-title-md text-on-surface font-bold">$278.00</span><span class="font-label-sm text-label-sm text-on-surface-variant line-through ml-1">$399.99</span></div><button data-deal="1" class="px-3 py-1.5 rounded-lg bg-primary-container text-secondary-fixed font-label-sm text-label-sm uppercase tracking-wider hover:opacity-90 transition-opacity">Claim Deal</button></div></div></div><div data-deal="2" role="button" tabindex="0" aria-label="Open Apple MacBook Air M3 15&quot;" class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm flex gap-3.5 items-center"><div class="w-24 h-24 rounded-lg bg-surface-container-high shrink-0 bg-cover bg-center overflow-hidden" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA75DQ4nUDerXwbb3u1uW9iUmWeYkp9Ka7Q71yWh7kpyo3W50a2gcaV4jQT0rljUrsbaYDwcAsdAr60e1Uy7Nl4FcUmiY9c24C2UR78B1o_fpzvGzK1MPnGFM0f0MGCN55_BbP1IYhzQsrxbLL7wLxGYTWNkIZLBPWYHg2WzmGAUxOm-RScnJQV8xJYzZpmvwCX_38iTlDadtfWHhs0QV7ATMk-Osxvc_O5-bIGYu9lJIzVohQ6APW1XA')"></div><div class="flex flex-col justify-between flex-1 min-w-0"><div><div class="flex items-center justify-between gap-1"><span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Hardware • B&amp;H Vault</span><span class="px-1.5 py-0.5 rounded bg-error-container text-on-error-container font-label-sm text-[9px] font-bold">-$200 OFF</span></div><h3 class="font-title-sm text-title-sm text-on-surface truncate mt-0.5">Apple MacBook Air M3 15&quot;</h3><p class="font-body-md text-[11px] text-on-surface-variant">16GB Unified RAM • Space Black</p></div><div class="flex items-center justify-between mt-2 pt-1.5"><div><span class="font-title-md text-title-md text-on-surface font-bold">$1,099.00</span><span class="font-label-sm text-label-sm text-on-surface-variant line-through ml-1">$1,299.00</span></div><button data-deal="2" class="px-3 py-1.5 rounded-lg bg-primary-container text-secondary-fixed font-label-sm text-label-sm uppercase tracking-wider hover:opacity-90 transition-opacity">Claim Deal</button></div></div></div><div data-deal="3" role="button" tabindex="0" aria-label="Open Herman Miller Aeron Chair" class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm flex gap-3.5 items-center"><div class="w-24 h-24 rounded-lg bg-surface-container-high shrink-0 bg-cover bg-center overflow-hidden" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB6FTriAJUKPloFspy10gv81_5eImj94Q9toa2S4AfBpTOk81zKRzjkhP8QYfq4uFnSUCxCPbg8qIZHQQGiRSgsUafai-lzpO9dBn5TZk_qJ_U6BkEtJ81EjM7bE8WVA0bBWy8cVu89FdUBt0P0O5RLrGU0ckYXrtvrw0ZFreL7b405wmc4BuG_-y7csLJugzYo8hBs50AylVbSHF-aisuuAoziIVzeZNN1_MURVfc97Tmihy6fvNr6nQ')"></div><div class="flex flex-col justify-between flex-1 min-w-0"><div><div class="flex items-center justify-between gap-1"><span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Ergonomics • DWR Vault</span><span class="px-1.5 py-0.5 rounded bg-error-container text-on-error-container font-label-sm text-[9px] font-bold">-34%</span></div><h3 class="font-title-sm text-title-sm text-on-surface truncate mt-0.5">Herman Miller Aeron Chair</h3><p class="font-body-md text-[11px] text-on-surface-variant">Fully loaded Size B • Graphite</p></div><div class="flex items-center justify-between mt-2 pt-1.5"><div><span class="font-title-md text-title-md text-on-surface font-bold">$1,195.00</span><span class="font-label-sm text-label-sm text-on-surface-variant line-through ml-1">$1,805.00</span></div><button data-deal="3" class="px-3 py-1.5 rounded-lg bg-primary-container text-secondary-fixed font-label-sm text-label-sm uppercase tracking-wider hover:opacity-90 transition-opacity">Claim Deal</button></div></div></div></div>
+</section>
+<!-- Price Alerts -->
+<section class="w-full bg-primary-container rounded-2xl p-4 text-on-primary shadow-lg relative overflow-hidden">
+<div class="relative z-10 flex items-center justify-between gap-3">
+<div class="flex-1">
+<div class="flex items-center gap-1.5 mb-1">
+<span class="material-symbols-outlined text-secondary-fixed text-[18px]">lock_reset</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary-fixed">Price Alerts</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm font-semibold text-on-primary">Need a Specific Products?</h4>
+<p class="font-body-md text-body-md text-primary-fixed-dim mt-0.5">
+          Set as many automated price alerts as you like. We claim the deal the moment a target unlocks.
+        </p>
+</div>
+<button data-action="alert" class="shrink-0 px-3.5 py-2 rounded-xl bg-secondary-container text-on-secondary-fixed font-label-lg text-label-lg uppercase tracking-wider hover:bg-secondary-fixed transition-colors shadow-sm">
+        Set Alert
+      </button>
+</div>
+</section>
+</div>
 
-    <!-- Same-To-Same Metallic Plates Grid -->
-    <div class="w-full px-4 pb-8">
-      <div class="grid grid-cols-2 gap-4">
+<!-- ============ VIEW: TRENDTOP DEALS ============ -->
+<div id="view-trendtop" data-view="trendtop" hidden class="flex flex-col w-full pb-6 space-y-3 pt-3">
+<p id="trend-meta" class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant"></p>
+<div id="trend-list" class="space-y-3"></div>
+</div>
 
-        <!-- 1. Amazon Gold Metallic Plate -->
-        <div class="text-center">
-          <div class="plate-amazon-gold rounded-2xl h-24 relative flex items-center justify-center p-3 mb-2">
-            <div class="screw screw-tl"></div>
-            <div class="screw screw-tr"></div>
-            <div class="screw screw-bl"></div>
-            <div class="screw screw-br"></div>
-            
-            <div class="flex flex-col items-center pt-1">
-              <span class="text-2xl font-black text-black tracking-tighter leading-none">amazon</span>
-              <!-- Smile Arrow -->
-              <svg class="w-12 h-3.5 text-[#ff9900]" viewBox="0 0 100 30" fill="none">
-                <path d="M 10 8 Q 50 30 90 8" stroke="#ff9900" stroke-width="8" stroke-linecap="round"/>
-                <path d="M 80 4 L 95 10 L 85 20 Z" fill="#ff9900"/>
-              </svg>
-            </div>
-          </div>
-          <p class="text-[10px] font-black text-gray-900 leading-tight tracking-wider uppercase">
-            EXCLUSIVE TECH<br>DISCOUNTS
-          </p>
-        </div>
+<!-- ============ VIEW: STORES ============ -->
+<div id="view-stores" data-view="stores" hidden class="flex flex-col w-full pb-6 space-y-2.5 pt-3">
+<div id="stores-grid" class="grid grid-cols-2 gap-gutter"></div>
+</div>
 
-        <!-- 2. Nike Silver Metallic Plate -->
-        <div class="text-center">
-          <div class="plate-brushed-silver rounded-2xl h-24 relative flex items-center justify-center p-3 mb-2">
-            <div class="screw screw-tl"></div>
-            <div class="screw screw-tr"></div>
-            <div class="screw screw-bl"></div>
-            <div class="screw screw-br"></div>
-            
-            <!-- Exact Nike Swoosh SVG -->
-            <svg class="w-16 h-10 fill-black" viewBox="0 0 24 24">
-              <path d="M21.707 5.293a1 1 0 010 1.414l-11 11a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L10 15.586 20.293 5.293a1 1 0 011.414 0z"/>
-            </svg>
-          </div>
-          <p class="text-[10px] font-black text-gray-900 leading-tight tracking-wider uppercase">
-            SEASONAL<br>ATHLETIC OFFERS
-          </p>
-        </div>
+<!-- ============ VIEW: CATEGORIES ============ -->
+<div id="view-categories" data-view="categories" hidden class="flex flex-col w-full pb-6 space-y-3 pt-3">
+<div id="cat-grid" class="grid grid-cols-2 gap-gutter"></div>
+</div>
 
-        <!-- 3. Samsung Silver Metallic Plate -->
-        <div class="text-center">
-          <div class="plate-brushed-silver rounded-2xl h-24 relative flex items-center justify-center p-3 mb-2">
-            <div class="screw screw-tl"></div>
-            <div class="screw screw-tr"></div>
-            <div class="screw screw-bl"></div>
-            <div class="screw screw-br"></div>
-            
-            <span class="text-xl font-black text-[#034ea2] tracking-widest uppercase">SAMSUNG</span>
-          </div>
-          <p class="text-[10px] font-black text-gray-900 leading-tight tracking-wider uppercase">
-            PREMIUM<br>ELECTRONICS DEALS
-          </p>
-        </div>
+<!-- ============ VIEW: RESULTS (store / category tap) ============ -->
+<div id="view-results" data-view="results" hidden class="flex flex-col w-full pb-6 space-y-3 pt-3">
+<button data-action="back" class="self-start flex items-center gap-1 text-secondary font-label-lg text-label-lg uppercase tracking-wider"><span class="material-symbols-outlined text-[18px]">arrow_back</span>Back</button>
+<p id="results-meta" class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant"></p>
+<div id="results-list" class="space-y-3"></div>
+</div>
 
-        <!-- 4. Airbnb Silver Metallic Plate -->
-        <div class="text-center">
-          <div class="plate-brushed-silver rounded-2xl h-24 relative flex flex-col items-center justify-center p-3 mb-2">
-            <div class="screw screw-tl"></div>
-            <div class="screw screw-tr"></div>
-            <div class="screw screw-bl"></div>
-            <div class="screw screw-br"></div>
-            
-            <i class="fa-brands fa-airbnb text-2xl text-[#FF5A5F] mb-0.5"></i>
-            <span class="text-xs font-bold text-[#FF5A5F] tracking-tight">airbnb</span>
-          </div>
-          <p class="text-[10px] font-black text-gray-900 leading-tight tracking-wider uppercase">
-            PREMIUM<br>ATHLETIC OFFERS
-          </p>
-        </div>
+</main>
 
-        <!-- 5. Walmart Silver Metallic Plate -->
-        <div class="text-center">
-          <div class="plate-brushed-silver rounded-2xl h-24 relative flex items-center justify-center p-3 mb-2">
-            <div class="screw screw-tl"></div>
-            <div class="screw screw-tr"></div>
-            <div class="screw screw-bl"></div>
-            <div class="screw screw-br"></div>
-            
-            <div class="flex items-center">
-              <span class="text-xl font-black text-[#0071dc] tracking-tight">Walmart</span>
-              <svg class="w-5 h-5 ml-0.5" viewBox="0 0 24 24" fill="none" stroke="#ffc220" stroke-width="2.4" stroke-linecap="round">
-                <path d="M12 2v20M3.5 7l17 10M20.5 7l-17 10M2 12h20M4.5 3.5l15 17M19.5 3.5l-15 17"/>
-              </svg>
-            </div>
-          </div>
-          <p class="text-[10px] font-black text-gray-900 leading-tight tracking-wider uppercase">
-            WALMART
-          </p>
-        </div>
+<nav class="fixed bottom-0 inset-x-0 z-40 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-2px_12px_rgba(30,22,18,0.05)]" data-active-classes="text-secondary font-bold"><div class="flex justify-around items-center h-20 px-space-xs"><a class="flex flex-col items-center justify-center gap-1 w-16 h-14 text-secondary font-bold transition-all" aria-current="page" data-path="home" href="#"><span class="material-symbols-outlined text-[24px]">home</span><span class="font-label-sm text-label-sm uppercase">Home</span></a><a class="flex flex-col items-center justify-center gap-1 w-16 h-14 text-on-surface-variant transition-all" data-path="trendtop" href="#"><span class="material-symbols-outlined text-[24px]">local_fire_department</span><span class="font-label-sm text-label-sm uppercase">TrendTop</span></a><a class="flex flex-col items-center justify-center gap-1 w-16 h-14 text-on-surface-variant transition-all" data-path="stores" href="#"><span class="material-symbols-outlined text-[24px]">storefront</span><span class="font-label-sm text-label-sm uppercase">Stores</span></a><a class="flex flex-col items-center justify-center gap-1 w-16 h-14 text-on-surface-variant transition-all" data-path="categories" href="#"><span class="material-symbols-outlined text-[24px]">grid_view</span><span class="font-label-sm text-label-sm uppercase">Categories</span></a></div></nav>
 
-        <!-- 6. Best Buy Navy Blue Metallic Plate -->
-        <div class="text-center">
-          <div class="plate-bestbuy-navy rounded-2xl h-24 relative flex items-center justify-center p-3 mb-2">
-            <div class="screw screw-tl"></div>
-            <div class="screw screw-tr"></div>
-            <div class="screw screw-bl"></div>
-            <div class="screw screw-br"></div>
-            
-            <div class="relative flex flex-col items-center justify-center">
-              <span class="text-lg font-black text-white leading-none tracking-tight">BEST</span>
-              <span class="text-lg font-black text-white leading-none tracking-tight">BUY</span>
-              <!-- Yellow price-tag icon, replacing the earlier text badge -->
-              <svg class="absolute -bottom-2.5 -right-5" width="20" height="20" viewBox="0 0 24 24" fill="#fff200" stroke="#0a1d3b" stroke-width="0.6">
-                <path d="M3 4h8l10 10-8 8L3 12V4z"/>
-                <circle cx="7.5" cy="8.5" r="1.6" fill="#0a1d3b" stroke="none"/>
-              </svg>
-            </div>
-          </div>
-          <p class="text-[10px] font-black text-gray-900 leading-tight tracking-wider uppercase">
-            BEST BUY
-          </p>
-        </div>
+<!-- Bottom sheet (deal detail / alert / notifications) -->
+<div id="sheet-root" class="fixed inset-0 z-[60] hidden" role="dialog" aria-modal="true" aria-label="Details">
+<div id="sheet-backdrop" data-action="closesheet" class="absolute inset-0 bg-black/50"></div>
+<div id="sheet" class="absolute inset-x-0 bottom-0 bg-surface rounded-t-2xl max-h-[88vh] overflow-y-auto pb-safe translate-y-full">
+<div class="p-margin"><div class="flex justify-end"><button data-action="closesheet" aria-label="Close" class="w-9 h-9 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container"><span class="material-symbols-outlined text-[20px]">close</span></button></div><div id="sheet-body"></div></div>
+</div>
+</div>
 
-      </div>
-    </div>
+<!-- Toast -->
+<div id="toast" class="fixed left-1/2 -translate-x-1/2 bottom-28 z-[70] max-w-[88vw] px-4 py-2.5 rounded-xl bg-primary-container text-on-primary font-body-md text-body-md shadow-lg opacity-0 pointer-events-none text-center" role="status" aria-live="polite"></div>
 
-  </div>
+<script>
+/*
+ * GDN Mini App - clickable homepage (single file, no build step).
+ *
+ * IMPORTANT: everything below (DEALS, HOT_PRODUCT, HOT_CATS) is DEMO DATA
+ * for layout only - not real offers, prices, sales or rankings.
+ *
+ * Where the AI/ranking will plug in (backend work, not built yet):
+ *   HOT_CATS     -> the 5 best-selling product categories right now
+ *   HOT_PRODUCT  -> the single best-selling product of the day
+ *   DEALS        -> best-selling deals across ALL stores, best first
+ * Replace these three with responses from the GDN API. The order of
+ * DEALS is treated as the ranking (first = sells most).
+ *
+ * Deal buttons must NOT build affiliate links here: visitStore() is the
+ * single hand-off point to the centralized GDN Affiliate Engine
+ * (GET /api/v1/redirect/deal/:dealId).
+ */
+(function () {
+  'use strict';
 
-</body>
-</html>
+  var STORES = { amazon: 'Amazon', nike: 'Nike', samsung: 'Samsung', airbnb: 'Airbnb', walmart: 'Walmart', bestbuy: 'Best Buy' };
+
+  // ---- DEMO DATA: top 5 categories (labels kept short so they fit the 5-box row) ----
+  var HOT_CATS = [
+    { key: 'phones', name: 'Phones', icon: 'smartphone' },
+    { key: 'audio', name: 'Audio', icon: 'headphones' },
+    { key: 'sneakers', name: 'Sneakers', icon: 'directions_run' },
+    { key: 'laptops', name: 'Laptops', icon: 'laptop_mac' },
+    { key: 'watches', name: 'Watches', icon: 'watch' }
+  ];
+
+  // ---- DEMO DATA: today's hottest product, with its offers across stores ----
+  var HOT_PRODUCT = {
+    dealId: 8, name: 'Apple Studio Display 27" 5K Retina', save: 310,
+    offers: [
+      { store: 'Amazon', price: 1499, note: 'List Price', kind: 'list' },
+      { store: 'B&H Photo', price: 1389, note: '-$110', kind: 'mid' },
+      { store: 'Best Buy', price: 1189, note: 'Lowest Price', kind: 'best' }
+    ]
+  };
+
+  // ---- DEMO DATA: deals, best-selling first ----
+  var DEALS = [
+    { id: 1, store: 'amazon', storeName: 'Amazon', cat: 'audio', tag: 'Audio • Amazon Verified', title: 'Sony WH-1000XM5 Wireless', sub: 'Active noise cancellation • 4 stores synced', price: 278, was: 399.99, badge: '-31%', icon: 'headphones',
+      img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuArffHhqLC3WzgZ3sd9WUCX88xYJLZEK-c7xtginGWpN87zrrEsdlbKMbDfA4--ecejGGYUcsDDd2iYVkJFnemHEyE0QQKjlmZfhmRRvHb6R_utbYIuy-KH8NrU2O9WUegQes1PZJth6mHVRUQT1EHllPPWLt9yzAFgjYd5NU3lkbcq-zxMPOfNXlObQd7hs1U5wWuxa6GZ7DIKnySQaT41hYCAjJCS2B4_Z2TSwqLt8BTJtYxC0Ln_XQ' },
+    { id: 2, store: 'bh', storeName: 'B&H', cat: 'laptops', tag: 'Hardware • B&H Vault', title: 'Apple MacBook Air M3 15"', sub: '16GB Unified RAM • Space Black', price: 1099, was: 1299, badge: '-$200 OFF', icon: 'laptop_mac',
+      img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA75DQ4nUDerXwbb3u1uW9iUmWeYkp9Ka7Q71yWh7kpyo3W50a2gcaV4jQT0rljUrsbaYDwcAsdAr60e1Uy7Nl4FcUmiY9c24C2UR78B1o_fpzvGzK1MPnGFM0f0MGCN55_BbP1IYhzQsrxbLL7wLxGYTWNkIZLBPWYHg2WzmGAUxOm-RScnJQV8xJYzZpmvwCX_38iTlDadtfWHhs0QV7ATMk-Osxvc_O5-bIGYu9lJIzVohQ6APW1XA' },
+    { id: 3, store: 'dwr', storeName: 'DWR', cat: 'furniture', tag: 'Ergonomics • DWR Vault', title: 'Herman Miller Aeron Chair', sub: 'Fully loaded Size B • Graphite', price: 1195, was: 1805, badge: '-34%', icon: 'chair',
+      img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB6FTriAJUKPloFspy10gv81_5eImj94Q9toa2S4AfBpTOk81zKRzjkhP8QYfq4uFnSUCxCPbg8qIZHQQGiRSgsUafai-lzpO9dBn5TZk_qJ_U6BkEtJ81EjM7bE8WVA0bBWy8cVu89FdUBt0P0O5RLrGU0ckYXrtvrw0ZFreL7b405wmc4BuG_-y7csLJugzYo8hBs50AylVbSHF-aisuuAoziIVzeZNN1_MURVfc97Tmihy6fvNr6nQ' },
+    { id: 4, store: 'samsung', storeName: 'Samsung', cat: 'phones', tag: 'Phones • Samsung Vault', title: 'Samsung Galaxy S24 Ultra', sub: '256GB • Titanium Gray', price: 1099, was: 1299.99, badge: '-15%', icon: 'smartphone' },
+    { id: 5, store: 'nike', storeName: 'Nike', cat: 'sneakers', tag: 'Footwear • Nike Vault', title: 'Nike Air Max 270', sub: 'Everyday cushioning • Black/White', price: 99.99, was: 160, badge: '-37%', icon: 'directions_run' },
+    { id: 6, store: 'airbnb', storeName: 'Airbnb', cat: 'travel', tag: 'Stays • Airbnb Vault', title: 'Santorini Cliffside Villa', sub: '3 nights • Caldera view', price: 540, was: 690, badge: '-22%', icon: 'villa' },
+    { id: 7, store: 'walmart', storeName: 'Walmart', cat: 'kitchen', tag: 'Kitchen • Walmart Vault', title: 'Instant Pot Duo 7-in-1', sub: '6 Qt • Pressure cooker', price: 59, was: 99.95, badge: '-41%', icon: 'skillet' },
+    { id: 8, store: 'bestbuy', storeName: 'Best Buy', cat: 'displays', tag: 'Displays • Best Buy', title: 'Apple Studio Display 27" 5K', sub: 'Retina • Standard glass', price: 1189, was: 1499, badge: '-$310 OFF', icon: 'desktop_windows' },
+    { id: 9, store: 'amazon', storeName: 'Amazon', cat: 'watches', tag: 'Watches • Amazon Verified', title: 'Seiko Presage Automatic', sub: 'Cocktail Time • 40.5mm', price: 325, was: 425, badge: '-24%', icon: 'watch' }
+  ];
+
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var esc = function (s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+  var money = function (n) { return '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); };
+  var money0 = function (n) { return '$' + Number(n).toLocaleString('en-US'); };
+  var byId = function (id) { return DEALS.filter(function (d) { return d.id === Number(id); })[0]; };
+  var DEMO_NOTE = 'Demo data';
+
+  // ---- card templates (markup identical to the approved design) ----
+  function dealCard(d) {
+    var thumb = d.img
+      ? '<div class="w-24 h-24 rounded-lg bg-surface-container-high shrink-0 bg-cover bg-center overflow-hidden" style="background-image:url(\'' + d.img + '\')"></div>'
+      : '<div class="w-24 h-24 rounded-lg bg-surface-container-high shrink-0 flex items-center justify-center text-outline"><span class="material-symbols-outlined text-[34px]">' + d.icon + '</span></div>';
+    return '<div data-deal="' + d.id + '" role="button" tabindex="0" aria-label="Open ' + esc(d.title) + '" class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm flex gap-3.5 items-center">' + thumb +
+      '<div class="flex flex-col justify-between flex-1 min-w-0"><div>' +
+      '<div class="flex items-center justify-between gap-1"><span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">' + esc(d.tag) + '</span>' +
+      '<span class="px-1.5 py-0.5 rounded bg-error-container text-on-error-container font-label-sm text-[9px] font-bold">' + esc(d.badge) + '</span></div>' +
+      '<h3 class="font-title-sm text-title-sm text-on-surface truncate mt-0.5">' + esc(d.title) + '</h3>' +
+      '<p class="font-body-md text-[11px] text-on-surface-variant">' + esc(d.sub) + '</p></div>' +
+      '<div class="flex items-center justify-between mt-2 pt-1.5"><div><span class="font-title-md text-title-md text-on-surface font-bold">' + money(d.price) + '</span>' +
+      '<span class="font-label-sm text-label-sm text-on-surface-variant line-through ml-1">' + money(d.was) + '</span></div>' +
+      '<span class="px-3 py-1.5 rounded-lg bg-primary-container text-secondary-fixed font-label-sm text-label-sm uppercase tracking-wider">Claim Deal</span></div></div></div>';
+  }
+  function list(arr) { return arr.map(dealCard).join(''); }
+  function empty(icon, msg, hint) {
+    return '<div class="bg-surface-container-lowest rounded-xl p-6 text-center shadow-sm"><span class="material-symbols-outlined text-outline text-[32px]">' + icon + '</span><p class="font-title-sm text-title-sm text-on-surface mt-1">' + msg + '</p><p class="font-body-md text-body-md text-on-surface-variant mt-0.5">' + hint + '</p></div>';
+  }
+  function catName(key) { return HOT_CATS.filter(function (c) { return c.key === key; })[0].name; }
+
+  // Home page content (categories row, hot-product box, TrendTop deal
+  // stack) is now static HTML - not injected here - so it's guaranteed
+  // to show up even before/without this script running. This script
+  // only needs to fill the OTHER tabs (TrendTop/Stores/Categories/
+  // Results), which happens in render() below.
+
+  // ---- fill the tab pages ----
+  $('#stores-grid').innerHTML = $('#home-stores').innerHTML;   // same store slabs as Home
+  $('#cat-grid').innerHTML = HOT_CATS.map(function (c) {
+    var n = DEALS.filter(function (d) { return d.cat === c.key; }).length;
+    return '<button data-cat="' + c.key + '" class="flex flex-col items-center justify-center gap-1 p-5 rounded-2xl bg-surface-container-lowest shadow-sm active:scale-95 transition-transform">' +
+      '<span class="material-symbols-outlined text-[34px] text-on-surface">' + c.icon + '</span>' +
+      '<span class="font-title-sm text-title-sm uppercase tracking-wider text-on-surface">' + esc(c.name) + '</span>' +
+      '<span class="font-label-sm text-label-sm text-on-surface-variant">' + n + (n === 1 ? ' offer' : ' offers') + '</span></button>';
+  }).join('');
+
+  // ---- navigation: 4 tabs + one results page ----
+  var VIEWS = ['home', 'trendtop', 'stores', 'categories', 'results'];
+  var TITLES = { home: 'Home', trendtop: 'TrendTop Deals', stores: 'Stores', categories: 'Categories' };
+  var current = { view: 'home', ctx: {} }, stack = [];
+
+  function tab(view) { stack = []; current = { view: view, ctx: {} }; render(); }
+  function openResults(type, key) { stack.push(current); current = { view: 'results', ctx: { type: type, key: key, tab: current.view === 'results' ? current.ctx.tab : current.view } }; render(); }
+  function back() { current = stack.pop() || { view: 'home', ctx: {} }; render(); }
+
+  function setNav(active) {
+    Array.prototype.forEach.call(document.querySelectorAll('nav a[data-path]'), function (a) {
+      var on = a.getAttribute('data-path') === active;
+      a.classList.toggle('text-secondary', on); a.classList.toggle('font-bold', on);
+      a.classList.toggle('text-on-surface-variant', !on);
+      if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+    });
+  }
+
+  function render() {
+    VIEWS.forEach(function (v) { $('#view-' + v).hidden = v !== current.view; });
+    var v = current.view, c = current.ctx, title = TITLES[v], navKey = v;
+    if (v === 'trendtop') {
+      $('#trend-meta').textContent = DEALS.length + ' offers • Best-selling first • ' + DEMO_NOTE;
+      $('#trend-list').innerHTML = list(DEALS);
+    } else if (v === 'results') {
+      var items = DEALS.filter(function (d) { return c.type === 'store' ? d.store === c.key : d.cat === c.key; });
+      title = c.type === 'store' ? STORES[c.key] : catName(c.key);
+      navKey = c.tab;
+      $('#results-meta').textContent = items.length + (items.length === 1 ? ' offer' : ' offers') + ' • ' + DEMO_NOTE;
+      $('#results-list').innerHTML = items.length ? list(items) : empty('search_off', 'No offers yet', 'Nothing is listed here right now. Check back soon.');
+    }
+    $('#hdr-title').textContent = title;   // header shows the active tab's name
+    setNav(navKey);
+    window.scrollTo(0, 0);
+  }
+
+  // ---- toast ----
+  var toastTimer;
+  function toast(msg) {
+    var t = $('#toast'); t.textContent = msg; t.style.opacity = 1;
+    clearTimeout(toastTimer); toastTimer = setTimeout(function () { t.style.opacity = 0; }, 2600);
+  }
+  function soon() { toast('Coming soon.'); }
+
+  // ---- bottom sheet ----
+  function openSheet(html) {
+    $('#sheet-body').innerHTML = html;
+    $('#sheet-root').classList.remove('hidden');
+    requestAnimationFrame(function () { $('#sheet').classList.remove('translate-y-full'); });
+  }
+  function closeSheet() {
+    $('#sheet').classList.add('translate-y-full');
+    setTimeout(function () { $('#sheet-root').classList.add('hidden'); }, 240);
+  }
+
+  function openDeal(id) {
+    var d = byId(id); if (!d) return;
+    var pic = d.img
+      ? '<div class="w-full h-44 rounded-xl bg-cover bg-center" style="background-image:url(\'' + d.img + '\')"></div>'
+      : '<div class="w-full h-44 rounded-xl bg-surface-container-high flex items-center justify-center text-outline"><span class="material-symbols-outlined text-[56px]">' + d.icon + '</span></div>';
+    openSheet(pic +
+      '<div class="mt-3 flex items-center justify-between gap-2"><span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">' + esc(d.tag) + '</span>' +
+      '<span class="px-1.5 py-0.5 rounded bg-error-container text-on-error-container font-label-sm text-[9px] font-bold">' + esc(d.badge) + '</span></div>' +
+      '<h3 class="font-headline-sm text-headline-sm text-on-surface mt-1">' + esc(d.title) + '</h3>' +
+      '<p class="font-body-md text-body-md text-on-surface-variant">' + esc(d.sub) + '</p>' +
+      '<div class="mt-2"><span class="font-headline-sm text-headline-sm font-bold text-on-surface">' + money(d.price) + '</span><span class="font-label-lg text-label-lg text-on-surface-variant line-through ml-2">' + money(d.was) + '</span></div>' +
+      '<p class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant mt-1">Store: ' + esc(d.storeName) + ' \u2022 ' + DEMO_NOTE + '</p>' +
+      '<button data-action="visit" data-id="' + d.id + '" class="w-full mt-4 py-3 rounded-xl bg-primary text-on-primary font-label-lg text-label-lg uppercase tracking-wider flex items-center justify-center gap-1.5">Visit ' + esc(d.storeName) + '<span class="material-symbols-outlined text-[16px]">arrow_outward</span></button>' +
+      '<p class="font-body-md text-[11px] text-on-surface-variant mt-3 pb-2">Prices and availability can change at the store.</p>');
+  }
+
+  // ---- price alerts: as many as the user wants, all at once ----
+  // In memory only for now (gone on reload) - real alerts need accounts + backend.
+  var alerts = [];
+  function alertsHTML() {
+    var rows = alerts.map(function (a, i) {
+      return '<div class="flex items-center justify-between gap-2 bg-surface-container-lowest rounded-xl px-3 py-2 shadow-sm"><div class="min-w-0"><p class="font-title-sm text-title-sm text-on-surface truncate">' + esc(a.product) + '</p><p class="font-body-md text-[11px] text-on-surface-variant">Target ' + money(a.price) + '</p></div>' +
+        '<button data-action="removealert" data-i="' + i + '" aria-label="Remove alert for ' + esc(a.product) + '" class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container"><span class="material-symbols-outlined text-[18px]">close</span></button></div>';
+    }).join('');
+    return '<h3 class="font-headline-sm text-headline-sm text-on-surface">Price Alerts</h3>' +
+      '<p class="font-body-md text-body-md text-on-surface-variant mt-0.5">Add as many alerts as you like. Each one is a product and the price you want to pay.</p>' +
+      (alerts.length ? '<p class="font-label-lg text-label-lg uppercase tracking-wider text-on-surface-variant mt-3">Your alerts (' + alerts.length + ')</p><div class="space-y-2 mt-1.5">' + rows + '</div>' : '') +
+      '<label class="block mt-3 font-label-lg text-label-lg uppercase tracking-wider text-on-surface-variant" for="alert-model">Product</label>' +
+      '<input id="alert-model" class="w-full mt-1 bg-surface-container-lowest rounded-xl px-3 py-3 font-body-md text-body-md focus:outline-none shadow-sm" placeholder="e.g. Sony WH-1000XM5"/>' +
+      '<label class="block mt-3 font-label-lg text-label-lg uppercase tracking-wider text-on-surface-variant" for="alert-price">Target price (USD)</label>' +
+      '<input id="alert-price" inputmode="decimal" class="w-full mt-1 bg-surface-container-lowest rounded-xl px-3 py-3 font-body-md text-body-md focus:outline-none shadow-sm" placeholder="e.g. 250"/>' +
+      '<p id="alert-err" class="font-body-md text-[11px] text-error mt-2 hidden"></p>' +
+      '<button data-action="createalert" class="w-full mt-4 py-3 rounded-xl bg-primary text-on-primary font-label-lg text-label-lg uppercase tracking-wider">Add alert</button>' +
+      '<p class="font-body-md text-[11px] text-on-surface-variant mt-3 pb-2">Preview only: alerts are not saved or sent yet.</p>';
+  }
+  function openAlert() { openSheet(alertsHTML()); }
+
+  function openNotif() {
+    openSheet('<h3 class="font-headline-sm text-headline-sm text-on-surface">Notifications</h3>' +
+      '<div class="mt-3">' + empty('notifications_off', 'No notifications yet', 'Price alerts and deal drops will show up here.') + '</div>');
+  }
+
+  // Single hand-off point to the centralized GDN Affiliate Engine.
+  // Real version: window.open(API_BASE + '/api/v1/redirect/deal/' + dealId)
+  // Never build affiliate URLs in the frontend.
+  function visitStore(id) {
+    var d = byId(id);
+    toast('Demo deal: the live version opens ' + (d ? d.storeName : 'the store') + ' through the GDN redirect.');
+  }
+
+  // ---- Store pages (drill-down from a store slab) ----
+  // DEMO DATA - see the IMPORTANT note at the top of this file. Best
+  // Buy's three products/images are reused as-is from the reference
+  // page for that store; the other five stores use icon placeholders
+  // (no photography available) with plausible demo figures.
+  var STORE_META = {
+    amazon: { name: 'Amazon Premier Store', vault: 'Amazon Privé Vault' },
+    nike: { name: 'Nike Premier Store', vault: 'Nike Privé Vault' },
+    samsung: { name: 'Samsung Premier Store', vault: 'Samsung Privé Vault' },
+    airbnb: { name: 'Airbnb Premier Store', vault: 'Airbnb Privé Vault' },
+    walmart: { name: 'Walmart Premier Store', vault: 'Walmart Privé Vault' },
+    bestbuy: { name: 'Best Buy Premier Store', vault: 'Best Buy Privé Vault' }
+  };
+
+  var STORE_PRODUCTS = {
+    bestbuy: [
+      { id: 'bb1', brand: 'LG Electronics', rating: 4.9, title: 'LG 65" Class C3 Series OLED 4K UHD Smart TV', desc: '\u03b19 AI Processor Gen6 with infinite contrast and Dolby Vision Atmos.', price: 1239, was: 1999, discount: 38, save: 760, cat: 'OLED TVs & Home',
+        img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB-bsQSEAg3T1nclNcrvYKzRD3-ky-AjRJVHz_teWVcIoY7-SmpdeVWxQfBqM8Xsy7jFDhNqivyuUzkBJpSAMLWSlr08iuQlPzxuVitRIq0crt3Zw5-vkRFbssGpGsDZOVV1vWvHwcoX0SF9jg2aNKuqJEoZdaY-PKvkGHks5ME6B-xYls04arYgAf42YyUu4V2H9WqS8rIS259NQOIy4LkxdehDqvL7Q4kyKxMJh30NCONXdGtUpoHCg' },
+      { id: 'bb2', brand: 'Sony Interactive', rating: 4.8, title: 'Sony PlayStation 5 Slim Console', desc: '1TB storage bundled with a DualSense wireless controller.', price: 399, was: 499, discount: 20, save: 100, cat: 'Gaming & Consoles',
+        img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBYuFb1ig836nULfGfbRJXzWSx08xWPkutDMuSDEXw0VM_H_tS2yh_V0ERzOfmL2sGniEYzf7JGk792hQYLooC6PFAVHgXJ24G10gA_cAtGCjnxepzhdX-JNOc_UZ4t1woV3SXOcgB-7jIhcI1lB0ZmtwLShY6ou1GZwdBK1M4QDW53JS_JYG6mEs0GsKMcbXikD97rFIQ-BwxBeXtdUhArqkZtrWEQ5fVyTWJx5a-akBNU0s2E75HzTw' },
+      { id: 'bb3', brand: 'Dyson', rating: 4.8, title: 'Dyson V15 Detect Cordless Vacuum', desc: 'Fluffy Optic cleaner head reveals invisible dust with laser illumination.', price: 562, was: 749, discount: 25, save: 187, cat: 'Home Appliances',
+        img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBqN0yI-OYpgv_Sce85y5BZtrEEEMh34MUIIRnIE01QCtnaTrbpkArABrbrHJS1a3pBE1DnrPLb9LfVrMY0RaPRA3sdAv6IyLNV1lBjji1cDDoOxy0QOuQxYNMRtnCg8Vtz7yaXNdcbdoli6fx0eQ3ozszzD6FDgK0z-RKZBs37RZX_k4HHkGY8avS4mW3RikMKojwS2-3irAEN4VPUeasuFNlS6_e6ongK06J0rgoE86CSqR9UL6gI9w' }
+    ],
+    amazon: [
+      { id: 'am1', brand: 'Sony', rating: 4.7, title: 'Sony WH-1000XM5 Wireless', desc: 'Active noise cancellation, synced pricing across 4 stores.', price: 278, was: 399.99, discount: 31, save: 122, cat: 'Audio', icon: 'headphones' },
+      { id: 'am2', brand: 'Seiko', rating: 4.6, title: 'Seiko Presage Automatic', desc: 'Cocktail Time collection, 40.5mm stainless case.', price: 325, was: 425, discount: 24, save: 100, cat: 'Watches', icon: 'watch' }
+    ],
+    nike: [
+      { id: 'nk1', brand: 'Nike', rating: 4.7, title: 'Nike Air Max 270', desc: 'Everyday cushioning in a classic Black/White colorway.', price: 99.99, was: 160, discount: 37, save: 60, cat: 'Footwear', icon: 'directions_run' },
+      { id: 'nk2', brand: 'Nike', rating: 4.5, title: 'Nike Tech Fleece Hoodie', desc: 'Lightweight warmth without the bulk, tapered modern fit.', price: 89, was: 120, discount: 26, save: 31, cat: 'Apparel', icon: 'checkroom' }
+    ],
+    samsung: [
+      { id: 'sm1', brand: 'Samsung', rating: 4.8, title: 'Samsung Galaxy S24 Ultra', desc: '256GB Titanium Gray, 200MP camera system.', price: 1099, was: 1299.99, discount: 15, save: 201, cat: 'Phones', icon: 'smartphone' },
+      { id: 'sm2', brand: 'Samsung', rating: 4.6, title: 'Samsung Galaxy Buds3 Pro', desc: 'Adaptive noise cancelling, 24-bit Hi-Fi sound.', price: 179, was: 249.99, discount: 28, save: 71, cat: 'Audio', icon: 'headphones' }
+    ],
+    airbnb: [
+      { id: 'ab1', brand: 'Airbnb', rating: 4.9, title: 'Santorini Cliffside Villa', desc: '3 nights, private plunge pool with caldera views.', price: 540, was: 690, discount: 22, save: 150, cat: 'Villas', icon: 'villa' },
+      { id: 'ab2', brand: 'Airbnb', rating: 4.7, title: 'Kyoto Machiya Townhouse', desc: '4 nights, walking distance to the Gion district.', price: 410, was: 520, discount: 21, save: 110, cat: 'City Stays', icon: 'apartment' }
+    ],
+    walmart: [
+      { id: 'wm1', brand: 'Instant Pot', rating: 4.6, title: 'Instant Pot Duo 7-in-1', desc: '6 Qt pressure cooker, slow cooker and more.', price: 59, was: 99.95, discount: 41, save: 41, cat: 'Kitchen', icon: 'skillet' },
+      { id: 'wm2', brand: 'Bissell', rating: 4.5, title: 'Bissell CrossWave Wet/Dry Vac', desc: 'Vacuums and washes hard floors and rugs at once.', price: 179, was: 249, discount: 28, save: 70, cat: 'Home', icon: 'cleaning_services' }
+    ]
+  };
+
+  function storeCats(key) {
+    var seen = {}, cats = ['All Deals'];
+    STORE_PRODUCTS[key].forEach(function (p) { if (!seen[p.cat]) { seen[p.cat] = true; cats.push(p.cat); } });
+    return cats;
+  }
+
+  var activeStore = null, activeStoreCat = 'All Deals';
+
+  function storeProductCard(p) {
+    var media = p.img
+      ? '<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="' + p.img + '"/>'
+      : '<div class="w-full h-full flex items-center justify-center text-outline"><span class="material-symbols-outlined text-[64px]">' + p.icon + '</span></div>';
+    return '<article data-storeproduct="' + p.id + '" class="flex flex-col bg-surface-container-lowest rounded-xl shadow-md overflow-hidden relative group">' +
+      '<div class="relative w-full h-56 bg-surface-container overflow-hidden">' + media +
+      '<div class="absolute top-space-sm left-space-sm flex items-center gap-1.5 bg-primary-container/90 backdrop-blur-md px-2.5 py-1 rounded-full shadow-sm"><span class="w-1.5 h-1.5 rounded-full bg-secondary-fixed"></span><span class="font-label-sm text-label-sm uppercase text-secondary-fixed tracking-wider font-bold">' + p.discount + '% OFF</span></div>' +
+      '<div class="absolute bottom-space-sm right-space-sm bg-secondary-container text-on-secondary-container px-2.5 py-1 rounded shadow-md"><span class="font-label-sm text-label-sm font-bold tracking-tight">SAVE ' + money0(p.save) + '</span></div>' +
+      '</div>' +
+      '<div class="flex flex-col p-space-md gap-space-xs bg-surface-container-lowest">' +
+      '<div class="flex items-center justify-between"><span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary font-bold">' + esc(p.brand) + '</span><div class="flex items-center gap-0.5 text-secondary"><span class="material-symbols-outlined text-[15px]" style="font-variation-settings: \'FILL\' 1;">star</span><span class="font-label-sm text-label-sm font-bold text-on-surface">' + p.rating + '</span></div></div>' +
+      '<h2 class="font-title-md text-title-md text-on-surface leading-snug">' + esc(p.title) + '</h2>' +
+      '<p class="font-body-md text-body-md text-on-surface-variant truncate">' + esc(p.desc) + '</p>' +
+      '<div class="flex items-baseline gap-space-sm mt-space-xs"><span class="font-headline-sm text-headline-sm font-bold text-on-surface tracking-tight">' + money(p.price) + '</span><span class="font-body-md text-body-md line-through text-outline">' + money(p.was) + '</span></div>' +
+      '<button data-storeproduct="' + p.id + '" class="mt-space-sm w-full py-3 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-title-sm text-title-sm uppercase tracking-wider flex items-center justify-center gap-space-xs shadow-sm active:scale-[0.99] transition-all" type="button"><span>GET DEAL</span><span class="material-symbols-outlined text-[16px]">arrow_forward</span></button>' +
+      '</div></article>';
+  }
+
+  function renderStoreProducts() {
+    var items = STORE_PRODUCTS[activeStore].filter(function (p) { return activeStoreCat === 'All Deals' || p.cat === activeStoreCat; });
+    $('#store-products').innerHTML = items.length ? items.map(storeProductCard).join('') : empty('search_off', 'No deals in this category yet', 'Try another category above.');
+  }
+
+  function renderStoreChips() {
+    var cats = storeCats(activeStore);
+    $('#store-chips').innerHTML = cats.map(function (c) {
+      var on = c === activeStoreCat;
+      return '<button data-storecat="' + esc(c) + '" class="flex-shrink-0 px-space-md py-1.5 rounded-full font-label-sm text-label-sm uppercase tracking-wider transition-colors active:scale-95 ' +
+        (on ? 'bg-primary text-on-primary shadow-sm' : 'bg-surface-container-highest text-on-surface-variant hover:text-on-surface') + '" type="button">' + esc(c) + '</button>';
+    }).join('');
+  }
+
+  function openStorePage(key) {
+    if (!STORE_PRODUCTS[key]) return soon();
+    activeStore = key; activeStoreCat = 'All Deals';
+    $('#store-title').textContent = STORE_META[key].name;
+    $('#store-vault').textContent = STORE_META[key].vault;
+    $('#store-footer').textContent = 'Verified ' + STORES[key] + ' Concierge Pricing';
+    renderStoreChips();
+    renderStoreProducts();
+    $('#store-overlay').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+    $('#store-overlay').scrollTop = 0;
+  }
+  function closeStorePage() {
+    $('#store-overlay').classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+
+  function openStoreProduct(id) {
+    var p = null;
+    Object.keys(STORE_PRODUCTS).some(function (k) { return (p = STORE_PRODUCTS[k].filter(function (x) { return x.id === id; })[0]); });
+    if (!p) return;
+    var pic = p.img
+      ? '<div class="w-full h-44 rounded-xl bg-cover bg-center" style="background-image:url(\'' + p.img + '\')"></div>'
+      : '<div class="w-full h-44 rounded-xl bg-surface-container-high flex items-center justify-center text-outline"><span class="material-symbols-outlined text-[56px]">' + p.icon + '</span></div>';
+    openSheet(pic +
+      '<div class="mt-3 flex items-center justify-between gap-2"><span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">' + esc(p.brand) + ' \u2022 ' + esc(p.cat) + '</span>' +
+      '<span class="px-1.5 py-0.5 rounded bg-error-container text-on-error-container font-label-sm text-[9px] font-bold">' + p.discount + '% OFF</span></div>' +
+      '<h3 class="font-headline-sm text-headline-sm text-on-surface mt-1">' + esc(p.title) + '</h3>' +
+      '<p class="font-body-md text-body-md text-on-surface-variant">' + esc(p.desc) + '</p>' +
+      '<div class="mt-2"><span class="font-headline-sm text-headline-sm font-bold text-on-surface">' + money(p.price) + '</span><span class="font-label-lg text-label-lg text-on-surface-variant line-through ml-2">' + money(p.was) + '</span><span class="font-label-sm text-label-sm text-secondary font-bold ml-2">SAVE ' + money0(p.save) + '</span></div>' +
+      '<p class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant mt-1">' + p.rating + ' \u2605 rating \u2022 ' + DEMO_NOTE + '</p>' +
+      '<button data-action="storevisit" data-brand="' + esc(p.brand) + '" class="w-full mt-4 py-3 rounded-xl bg-primary text-on-primary font-label-lg text-label-lg uppercase tracking-wider flex items-center justify-center gap-1.5">Get This Deal<span class="material-symbols-outlined text-[16px]">arrow_outward</span></button>' +
+      '<p class="font-body-md text-[11px] text-on-surface-variant mt-3 pb-2">Prices and availability can change at the store.</p>');
+  }
+
+  // ---- events ----
+  document.addEventListener('click', function (e) {
+    var t = e.target;
+    var a = t.closest('[data-action]');
+    if (a) {
+      var act = a.getAttribute('data-action');
+      if (act === 'closesheet') return closeSheet();
+      if (act === 'back') return back();
+      if (act === 'notif') return openNotif();
+      if (act === 'alert') return openAlert();
+      if (act === 'currency') return toast('Market: United States \u2022 USD');
+      if (act === 'mic') return toast('Voice search is not available yet.');
+      if (act === 'lens') return toast('Visual search is not available yet.');
+      if (act === 'viewall') return tab('trendtop');
+      if (act === 'profile' || act === 'homesearch') return soon();
+      if (act === 'visit') return visitStore(a.getAttribute('data-id'));
+      if (act === 'removealert') { alerts.splice(Number(a.getAttribute('data-i')), 1); $('#sheet-body').innerHTML = alertsHTML(); return; }
+      if (act === 'storeback') return closeStorePage();
+      if (act === 'storeshare') return toast('Share link copied (demo).');
+      if (act === 'storesave') return toast('Saved to favorites (demo).');
+      if (act === 'storevisit') { closeSheet(); return toast('Demo deal: the live version opens ' + a.getAttribute('data-brand') + ' through the GDN redirect.'); }
+      if (act === 'createalert') {
+        var m = $('#alert-model').value.trim(), p = parseFloat($('#alert-price').value), err = $('#alert-err');
+        if (!m || !(p > 0)) { err.textContent = 'Enter a product and a price above 0.'; err.classList.remove('hidden'); return; }
+        alerts.push({ product: m, price: p });
+        $('#sheet-body').innerHTML = alertsHTML();
+        $('#alert-model').focus();
+        return toast('Alert added. You can add more.');
+      }
+    }
+    var deal = t.closest('[data-deal]'); if (deal) return openDeal(deal.getAttribute('data-deal'));
+    var st = t.closest('[data-store]'); if (st) return openStorePage(st.getAttribute('data-store'));
+    var sp = t.closest('[data-storeproduct]'); if (sp) return openStoreProduct(sp.getAttribute('data-storeproduct'));
+    var sc = t.closest('[data-storecat]'); if (sc) { activeStoreCat = sc.getAttribute('data-storecat'); renderStoreChips(); renderStoreProducts(); return; }
+    var ct = t.closest('[data-cat]'); if (ct) return openResults('category', ct.getAttribute('data-cat'));
+    var nv = t.closest('nav a[data-path]');
+    if (nv) { e.preventDefault(); return tab(nv.getAttribute('data-path')); }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !$('#sheet-root').classList.contains('hidden')) return closeSheet();
+    if (e.key === 'Escape' && !$('#store-overlay').classList.contains('hidden')) return closeStorePage();
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('[role=button][tabindex]')) { e.preventDefault(); e.target.click(); }
+    if (e.key === 'Enter' && e.target.id === 'dealSearchInput' && e.target.value.trim()) soon();
+  });
+
+  var home = $('#dealSearchInput');
+  home.addEventListener('focus', function () { home.parentElement.classList.add('shadow-lg'); });
+  home.addEventListener('blur', function () { home.parentElement.classList.remove('shadow-lg'); });
+
+  render();
+})();</script></body></html>
