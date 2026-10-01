@@ -23,7 +23,7 @@
     #toast { transition: opacity 0.2s ease; }
     @media (prefers-reduced-motion: reduce) { #sheet, #toast, .store-slab { transition: none; } }
   </style>
-</head><body class="bg-surface font-body-md text-on-surface flex flex-col min-h-screen selection:bg-secondary-container selection:text-on-secondary-fixed"><header class="fixed top-0 inset-x-0 z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(30,22,18,0.06)] pt-safe"><div class="h-16 px-margin flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm"><img alt="GDN Luxury Wordmark Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VG5qSch37xvv3tHnb-jySx7J4yNq-IFIXHZdVZhMumEr0Hov2vAEWNpC2dwND9r_UtydCbzvGCjRP68sQgsjMrYUtJ7QSYhpANvLxRUI-ao5e_FycHce15yaXHD3310PdaIgf6gYhBJyNfiu53KAxGVjy_vblVXX0XUNbetsrXAc_zcYJJ1R4G5sOCVdD-x4McOtsl1rRzGVPTiEsh5fM1exQAQ4rPt2bIcV_zDSvAa7Ca5JFvtQ7ZLw9c"/><div class="flex flex-col"><span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Executive Club</span><span id="hdr-title" class="font-headline-sm text-headline-sm tracking-tight text-primary leading-none">Home</span></div></div><div class="flex items-center gap-space-xs"><button data-action="currency" class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-high" aria-label="Market and currency"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span><span class="font-label-lg text-label-lg uppercase text-on-surface">USD</span></button><button data-action="notif" aria-label="Notifications" class="relative w-11 h-11 flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-secondary ring-2 ring-surface"></span></button><button data-action="profile" aria-label="Profile" class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0 ml-1"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></button></div></div></header>
+</head><body class="bg-surface font-body-md text-on-surface flex flex-col min-h-screen selection:bg-secondary-container selection:text-on-secondary-fixed"><header class="fixed top-0 inset-x-0 z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(30,22,18,0.06)] pt-safe"><div class="h-16 px-margin flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm"><img alt="GDN Luxury Wordmark Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VG5qSch37xvv3tHnb-jySx7J4yNq-IFIXHZdVZhMumEr0Hov2vAEWNpC2dwND9r_UtydCbzvGCjRP68sQgsjMrYUtJ7QSYhpANvLxRUI-ao5e_FycHce15yaXHD3310PdaIgf6gYhBJyNfiu53KAxGVjy_vblVXX0XUNbetsrXAc_zcYJJ1R4G5sOCVdD-x4McOtsl1rRzGVPTiEsh5fM1exQAQ4rPt2bIcV_zDSvAa7Ca5JFvtQ7ZLw9c"/><div class="flex flex-col"><span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Executive Club</span><span id="hdr-title" class="font-headline-sm text-headline-sm tracking-tight text-primary leading-none">Home</span></div></div><div class="flex items-center gap-space-xs"><button data-action="currency" class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-high" aria-label="Market and currency"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span><span class="font-label-lg text-label-lg uppercase text-on-surface">USD</span></button><button data-action="notif" aria-label="Notifications" class="relative w-11 h-11 flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[22px]">notifications</span></button><button data-action="profile" aria-label="Profile" class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0 ml-1"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></button></div></div></header>
 <!-- ============ STORE PAGE (drill-down from a store slab) ============ -->
 <div id="store-overlay" class="fixed inset-0 z-[55] bg-surface hidden overflow-y-auto">
 <header class="sticky top-0 w-full z-10 pt-safe bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
@@ -31,7 +31,7 @@
 <div class="flex items-center justify-between w-full h-11">
 <button data-action="storeback" aria-label="Go back" class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface hover:text-secondary active:scale-95 transition-all" type="button"><span class="material-symbols-outlined text-[20px]">arrow_back_ios_new</span></button>
 <div class="flex items-center gap-space-sm">
-<div class="w-7 h-7 rounded-full bg-secondary-fixed flex items-center justify-center shadow-inner"><span class="material-symbols-outlined text-secondary text-[16px]">verified</span></div>
+<div class="w-7 h-7 rounded-full bg-secondary-fixed flex items-center justify-center shadow-inner"><span class="material-symbols-outlined text-secondary text-[16px]">storefront</span></div>
 <h1 id="store-title" class="font-headline-sm text-headline-sm text-on-surface tracking-tight truncate max-w-[170px]"></h1>
 </div>
 <div class="flex items-center gap-space-xs">
@@ -47,12 +47,12 @@
 <div class="flex flex-col w-full">
 <div class="w-full px-margin pt-space-md pb-space-sm flex items-center justify-between">
 <div class="flex items-center gap-space-xs">
-<span class="inline-block w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span class="inline-block w-2 h-2 rounded-full bg-secondary"></span>
 <span id="store-vault" class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-bold"></span>
 </div>
 <div class="flex items-center gap-1 bg-surface-container-high px-space-sm py-0.5 rounded-full">
-<span class="material-symbols-outlined text-[14px] text-secondary">verified_user</span>
-<span class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface">Official Tier</span>
+<span class="material-symbols-outlined text-[14px] text-secondary">info</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface">Sample Data</span>
 </div>
 </div>
 <div id="store-products" class="flex flex-col px-margin gap-space-lg py-space-md"></div>
@@ -75,16 +75,15 @@
 <div class="absolute inset-0 p-margin flex flex-col justify-end">
 <div class="flex items-center gap-1.5 mb-2">
 <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-fixed text-label-sm font-label-sm uppercase tracking-wider">
-<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
-            14,820 Verified Live
+            Sample Data
           </span>
-<span class="text-on-primary-container text-label-sm font-label-sm tracking-wider uppercase">GDN Algorithmic Feed</span>
+<span class="text-on-primary-container text-label-sm font-label-sm tracking-wider uppercase">Preview</span>
 </div>
 <h1 class="font-headline-lg text-headline-lg text-on-primary leading-tight font-semibold tracking-wide">
           CURATED DEALS.<br/>EXECUTIVE CRAFTSMANSHIP.
         </h1>
 <p class="font-body-md text-body-md text-primary-fixed-dim mt-1 max-w-[280px]">
-          Machine-verified price anomalies across premier global merchants.
+          A preview of the GDN deals experience. Listings shown are sample data.
         </p>
 </div>
 </div>
@@ -107,7 +106,7 @@
 </div>
 </div>
 </section>
-<!-- Top 5 best-selling categories (demo order for now - real ranking arrives from the backend) -->
+<!-- Category shortcuts (sample order for now - no real sales ranking exists yet) -->
 <section class="w-full">
 <div class="grid grid-cols-5 gap-2">
 <button data-cat="phones" class="flex flex-col items-center justify-center p-2.5 rounded-xl bg-surface-container-lowest hover:bg-surface-container-low shadow-sm transition-transform active:scale-95 group">
@@ -213,13 +212,13 @@
 </div>
 </div>
 </section>
-<!-- Today Hot Selling Product (AI-detected best seller of the day - demo data for now) -->
+<!-- Featured product (SAMPLE data - not a real ranking or real prices) -->
 <section class="w-full bg-surface-container-high rounded-2xl p-4 shadow-sm">
 <div class="flex items-center justify-between pb-3">
 <div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-secondary text-[20px]">local_fire_department</span>
+<span class="material-symbols-outlined text-secondary text-[20px]">sell</span>
 <div>
-<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary block">Today Hot🔥 Selling Product</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary block">Featured Product &bull; Sample Data</span>
 <span class="font-title-sm text-title-sm text-on-surface">Apple Studio Display 27" 5K Retina</span>
 </div>
 </div>
@@ -227,7 +226,7 @@
         Save $310
       </div>
 </div>
-<div data-deal="8" role="button" tabindex="0" aria-label="Open today's hot selling product" class="grid grid-cols-3 gap-2 bg-surface-container-lowest rounded-xl p-3 shadow-sm">
+<div data-deal="8" role="button" tabindex="0" aria-label="Open featured product" class="grid grid-cols-3 gap-2 bg-surface-container-lowest rounded-xl p-3 shadow-sm">
 <div class="flex flex-col items-center text-center">
 <span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Amazon</span>
 <span class="font-title-sm text-title-sm text-on-surface mt-0.5 line-through opacity-60">$1,499</span>
@@ -241,39 +240,39 @@
 <div class="flex flex-col items-center text-center p-1 rounded-lg bg-surface-container-high">
 <span class="font-label-sm text-label-sm text-secondary font-bold uppercase">Best Buy</span>
 <span class="font-title-sm text-title-sm text-secondary font-extrabold mt-0.5">$1,189</span>
-<span class="font-label-sm text-[9px] text-secondary font-bold uppercase mt-0.5">Lowest Price</span>
+<span class="font-label-sm text-[9px] text-secondary font-bold uppercase mt-0.5">Lowest Shown</span>
 </div>
 </div>
 <button data-deal="8" class="w-full mt-3 py-2.5 rounded-xl bg-primary text-on-primary font-label-lg text-label-lg uppercase tracking-wider hover:opacity-95 transition-opacity flex items-center justify-center gap-1.5">
-<span>VIEW HOT DEAL</span>
+<span>VIEW SAMPLE DEAL</span>
 <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
 </button>
 </section>
-<!-- Today TrendTop Deals (AI-ranked best-selling deals across every store - demo data for now) -->
+<!-- Featured deals (SAMPLE data - not a real ranking) -->
 <section class="w-full space-y-3">
-<div class="flex items-center justify-between"><div class="flex items-center gap-1.5"><span class="w-1.5 h-3 bg-secondary rounded-full"></span><h2 class="font-title-md text-title-md uppercase tracking-wider text-on-surface">Today TrendTop Deals</h2></div><button data-action="viewall" class="font-label-sm text-label-sm text-secondary uppercase hover:underline">View All (9)</button></div><div class="space-y-3"><div data-deal="1" role="button" tabindex="0" aria-label="Open Sony WH-1000XM5 Wireless" class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm flex gap-3.5 items-center"><div class="w-24 h-24 rounded-lg bg-surface-container-high shrink-0 bg-cover bg-center overflow-hidden" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuArffHhqLC3WzgZ3sd9WUCX88xYJLZEK-c7xtginGWpN87zrrEsdlbKMbDfA4--ecejGGYUcsDDd2iYVkJFnemHEyE0QQKjlmZfhmRRvHb6R_utbYIuy-KH8NrU2O9WUegQes1PZJth6mHVRUQT1EHllPPWLt9yzAFgjYd5NU3lkbcq-zxMPOfNXlObQd7hs1U5wWuxa6GZ7DIKnySQaT41hYCAjJCS2B4_Z2TSwqLt8BTJtYxC0Ln_XQ')"></div><div class="flex flex-col justify-between flex-1 min-w-0"><div><div class="flex items-center justify-between gap-1"><span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Audio • Amazon Verified</span><span class="px-1.5 py-0.5 rounded bg-error-container text-on-error-container font-label-sm text-[9px] font-bold">-31%</span></div><h3 class="font-title-sm text-title-sm text-on-surface truncate mt-0.5">Sony WH-1000XM5 Wireless</h3><p class="font-body-md text-[11px] text-on-surface-variant">Active noise cancellation • 4 stores synced</p></div><div class="flex items-center justify-between mt-2 pt-1.5"><div><span class="font-title-md text-title-md text-on-surface font-bold">$278.00</span><span class="font-label-sm text-label-sm text-on-surface-variant line-through ml-1">$399.99</span></div><button data-deal="1" class="px-3 py-1.5 rounded-lg bg-primary-container text-secondary-fixed font-label-sm text-label-sm uppercase tracking-wider hover:opacity-90 transition-opacity">Claim Deal</button></div></div></div><div data-deal="2" role="button" tabindex="0" aria-label="Open Apple MacBook Air M3 15&quot;" class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm flex gap-3.5 items-center"><div class="w-24 h-24 rounded-lg bg-surface-container-high shrink-0 bg-cover bg-center overflow-hidden" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA75DQ4nUDerXwbb3u1uW9iUmWeYkp9Ka7Q71yWh7kpyo3W50a2gcaV4jQT0rljUrsbaYDwcAsdAr60e1Uy7Nl4FcUmiY9c24C2UR78B1o_fpzvGzK1MPnGFM0f0MGCN55_BbP1IYhzQsrxbLL7wLxGYTWNkIZLBPWYHg2WzmGAUxOm-RScnJQV8xJYzZpmvwCX_38iTlDadtfWHhs0QV7ATMk-Osxvc_O5-bIGYu9lJIzVohQ6APW1XA')"></div><div class="flex flex-col justify-between flex-1 min-w-0"><div><div class="flex items-center justify-between gap-1"><span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Hardware • B&amp;H Vault</span><span class="px-1.5 py-0.5 rounded bg-error-container text-on-error-container font-label-sm text-[9px] font-bold">-$200 OFF</span></div><h3 class="font-title-sm text-title-sm text-on-surface truncate mt-0.5">Apple MacBook Air M3 15&quot;</h3><p class="font-body-md text-[11px] text-on-surface-variant">16GB Unified RAM • Space Black</p></div><div class="flex items-center justify-between mt-2 pt-1.5"><div><span class="font-title-md text-title-md text-on-surface font-bold">$1,099.00</span><span class="font-label-sm text-label-sm text-on-surface-variant line-through ml-1">$1,299.00</span></div><button data-deal="2" class="px-3 py-1.5 rounded-lg bg-primary-container text-secondary-fixed font-label-sm text-label-sm uppercase tracking-wider hover:opacity-90 transition-opacity">Claim Deal</button></div></div></div><div data-deal="3" role="button" tabindex="0" aria-label="Open Herman Miller Aeron Chair" class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm flex gap-3.5 items-center"><div class="w-24 h-24 rounded-lg bg-surface-container-high shrink-0 bg-cover bg-center overflow-hidden" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB6FTriAJUKPloFspy10gv81_5eImj94Q9toa2S4AfBpTOk81zKRzjkhP8QYfq4uFnSUCxCPbg8qIZHQQGiRSgsUafai-lzpO9dBn5TZk_qJ_U6BkEtJ81EjM7bE8WVA0bBWy8cVu89FdUBt0P0O5RLrGU0ckYXrtvrw0ZFreL7b405wmc4BuG_-y7csLJugzYo8hBs50AylVbSHF-aisuuAoziIVzeZNN1_MURVfc97Tmihy6fvNr6nQ')"></div><div class="flex flex-col justify-between flex-1 min-w-0"><div><div class="flex items-center justify-between gap-1"><span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Ergonomics • DWR Vault</span><span class="px-1.5 py-0.5 rounded bg-error-container text-on-error-container font-label-sm text-[9px] font-bold">-34%</span></div><h3 class="font-title-sm text-title-sm text-on-surface truncate mt-0.5">Herman Miller Aeron Chair</h3><p class="font-body-md text-[11px] text-on-surface-variant">Fully loaded Size B • Graphite</p></div><div class="flex items-center justify-between mt-2 pt-1.5"><div><span class="font-title-md text-title-md text-on-surface font-bold">$1,195.00</span><span class="font-label-sm text-label-sm text-on-surface-variant line-through ml-1">$1,805.00</span></div><button data-deal="3" class="px-3 py-1.5 rounded-lg bg-primary-container text-secondary-fixed font-label-sm text-label-sm uppercase tracking-wider hover:opacity-90 transition-opacity">Claim Deal</button></div></div></div></div>
+<div class="flex items-center justify-between"><div class="flex items-center gap-1.5"><span class="w-1.5 h-3 bg-secondary rounded-full"></span><h2 class="font-title-md text-title-md uppercase tracking-wider text-on-surface">Featured Deals &bull; Sample</h2></div><button data-action="viewall" class="font-label-sm text-label-sm text-secondary uppercase hover:underline">View All (9)</button></div><div class="space-y-3"><div data-deal="1" role="button" tabindex="0" aria-label="Open Sony WH-1000XM5 Wireless" class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm flex gap-3.5 items-center"><div class="w-24 h-24 rounded-lg bg-surface-container-high shrink-0 bg-cover bg-center overflow-hidden" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuArffHhqLC3WzgZ3sd9WUCX88xYJLZEK-c7xtginGWpN87zrrEsdlbKMbDfA4--ecejGGYUcsDDd2iYVkJFnemHEyE0QQKjlmZfhmRRvHb6R_utbYIuy-KH8NrU2O9WUegQes1PZJth6mHVRUQT1EHllPPWLt9yzAFgjYd5NU3lkbcq-zxMPOfNXlObQd7hs1U5wWuxa6GZ7DIKnySQaT41hYCAjJCS2B4_Z2TSwqLt8BTJtYxC0Ln_XQ')"></div><div class="flex flex-col justify-between flex-1 min-w-0"><div><div class="flex items-center justify-between gap-1"><span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Audio • Amazon</span><span class="px-1.5 py-0.5 rounded bg-error-container text-on-error-container font-label-sm text-[9px] font-bold">-31%</span></div><h3 class="font-title-sm text-title-sm text-on-surface truncate mt-0.5">Sony WH-1000XM5 Wireless</h3><p class="font-body-md text-[11px] text-on-surface-variant">Active noise cancellation</p></div><div class="flex items-center justify-between mt-2 pt-1.5"><div><span class="font-title-md text-title-md text-on-surface font-bold">$278.00</span><span class="font-label-sm text-label-sm text-on-surface-variant line-through ml-1">$399.99</span></div><button data-deal="1" class="px-3 py-1.5 rounded-lg bg-primary-container text-secondary-fixed font-label-sm text-label-sm uppercase tracking-wider hover:opacity-90 transition-opacity">Claim Deal</button></div></div></div><div data-deal="2" role="button" tabindex="0" aria-label="Open Apple MacBook Air M3 15&quot;" class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm flex gap-3.5 items-center"><div class="w-24 h-24 rounded-lg bg-surface-container-high shrink-0 bg-cover bg-center overflow-hidden" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA75DQ4nUDerXwbb3u1uW9iUmWeYkp9Ka7Q71yWh7kpyo3W50a2gcaV4jQT0rljUrsbaYDwcAsdAr60e1Uy7Nl4FcUmiY9c24C2UR78B1o_fpzvGzK1MPnGFM0f0MGCN55_BbP1IYhzQsrxbLL7wLxGYTWNkIZLBPWYHg2WzmGAUxOm-RScnJQV8xJYzZpmvwCX_38iTlDadtfWHhs0QV7ATMk-Osxvc_O5-bIGYu9lJIzVohQ6APW1XA')"></div><div class="flex flex-col justify-between flex-1 min-w-0"><div><div class="flex items-center justify-between gap-1"><span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Hardware • B&amp;H Vault</span><span class="px-1.5 py-0.5 rounded bg-error-container text-on-error-container font-label-sm text-[9px] font-bold">-$200 OFF</span></div><h3 class="font-title-sm text-title-sm text-on-surface truncate mt-0.5">Apple MacBook Air M3 15&quot;</h3><p class="font-body-md text-[11px] text-on-surface-variant">16GB Unified RAM • Space Black</p></div><div class="flex items-center justify-between mt-2 pt-1.5"><div><span class="font-title-md text-title-md text-on-surface font-bold">$1,099.00</span><span class="font-label-sm text-label-sm text-on-surface-variant line-through ml-1">$1,299.00</span></div><button data-deal="2" class="px-3 py-1.5 rounded-lg bg-primary-container text-secondary-fixed font-label-sm text-label-sm uppercase tracking-wider hover:opacity-90 transition-opacity">Claim Deal</button></div></div></div><div data-deal="3" role="button" tabindex="0" aria-label="Open Herman Miller Aeron Chair" class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm flex gap-3.5 items-center"><div class="w-24 h-24 rounded-lg bg-surface-container-high shrink-0 bg-cover bg-center overflow-hidden" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB6FTriAJUKPloFspy10gv81_5eImj94Q9toa2S4AfBpTOk81zKRzjkhP8QYfq4uFnSUCxCPbg8qIZHQQGiRSgsUafai-lzpO9dBn5TZk_qJ_U6BkEtJ81EjM7bE8WVA0bBWy8cVu89FdUBt0P0O5RLrGU0ckYXrtvrw0ZFreL7b405wmc4BuG_-y7csLJugzYo8hBs50AylVbSHF-aisuuAoziIVzeZNN1_MURVfc97Tmihy6fvNr6nQ')"></div><div class="flex flex-col justify-between flex-1 min-w-0"><div><div class="flex items-center justify-between gap-1"><span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Ergonomics • DWR Vault</span><span class="px-1.5 py-0.5 rounded bg-error-container text-on-error-container font-label-sm text-[9px] font-bold">-34%</span></div><h3 class="font-title-sm text-title-sm text-on-surface truncate mt-0.5">Herman Miller Aeron Chair</h3><p class="font-body-md text-[11px] text-on-surface-variant">Fully loaded Size B • Graphite</p></div><div class="flex items-center justify-between mt-2 pt-1.5"><div><span class="font-title-md text-title-md text-on-surface font-bold">$1,195.00</span><span class="font-label-sm text-label-sm text-on-surface-variant line-through ml-1">$1,805.00</span></div><button data-deal="3" class="px-3 py-1.5 rounded-lg bg-primary-container text-secondary-fixed font-label-sm text-label-sm uppercase tracking-wider hover:opacity-90 transition-opacity">Claim Deal</button></div></div></div></div>
 </section>
-<!-- Price Alerts -->
+<!-- Price Alerts (preview only - not functional yet) -->
 <section class="w-full bg-primary-container rounded-2xl p-4 text-on-primary shadow-lg relative overflow-hidden">
 <div class="relative z-10 flex items-center justify-between gap-3">
 <div class="flex-1">
 <div class="flex items-center gap-1.5 mb-1">
 <span class="material-symbols-outlined text-secondary-fixed text-[18px]">lock_reset</span>
-<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary-fixed">Price Alerts</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary-fixed">Price Alerts &bull; Preview</span>
 </div>
-<h4 class="font-headline-sm text-headline-sm font-semibold text-on-primary">Need a Specific Products?</h4>
+<h4 class="font-headline-sm text-headline-sm font-semibold text-on-primary">Need a Specific Product?</h4>
 <p class="font-body-md text-body-md text-primary-fixed-dim mt-0.5">
-          Set as many automated price alerts as you like. We claim the deal the moment a target unlocks.
+          Price alerts are coming soon. Try the preview to see how a target price will work.
         </p>
 </div>
 <button data-action="alert" class="shrink-0 px-3.5 py-2 rounded-xl bg-secondary-container text-on-secondary-fixed font-label-lg text-label-lg uppercase tracking-wider hover:bg-secondary-fixed transition-colors shadow-sm">
-        Set Alert
+        Preview
       </button>
 </div>
 </section>
 </div>
 
-<!-- ============ VIEW: TRENDTOP DEALS ============ -->
+<!-- ============ VIEW: DEALS (sample) ============ -->
 <div id="view-trendtop" data-view="trendtop" hidden class="flex flex-col w-full pb-6 space-y-3 pt-3">
 <p id="trend-meta" class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant"></p>
 <div id="trend-list" class="space-y-3"></div>
@@ -298,7 +297,7 @@
 
 </main>
 
-<nav class="fixed bottom-0 inset-x-0 z-40 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-2px_12px_rgba(30,22,18,0.05)]" data-active-classes="text-secondary font-bold"><div class="flex justify-around items-center h-20 px-space-xs"><a class="flex flex-col items-center justify-center gap-1 w-16 h-14 text-secondary font-bold transition-all" aria-current="page" data-path="home" href="#"><span class="material-symbols-outlined text-[24px]">home</span><span class="font-label-sm text-label-sm uppercase">Home</span></a><a class="flex flex-col items-center justify-center gap-1 w-16 h-14 text-on-surface-variant transition-all" data-path="trendtop" href="#"><span class="material-symbols-outlined text-[24px]">local_fire_department</span><span class="font-label-sm text-label-sm uppercase">TrendTop</span></a><a class="flex flex-col items-center justify-center gap-1 w-16 h-14 text-on-surface-variant transition-all" data-path="stores" href="#"><span class="material-symbols-outlined text-[24px]">storefront</span><span class="font-label-sm text-label-sm uppercase">Stores</span></a><a class="flex flex-col items-center justify-center gap-1 w-16 h-14 text-on-surface-variant transition-all" data-path="categories" href="#"><span class="material-symbols-outlined text-[24px]">grid_view</span><span class="font-label-sm text-label-sm uppercase">Categories</span></a></div></nav>
+<nav class="fixed bottom-0 inset-x-0 z-40 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-2px_12px_rgba(30,22,18,0.05)]" data-active-classes="text-secondary font-bold"><div class="flex justify-around items-center h-20 px-space-xs"><a class="flex flex-col items-center justify-center gap-1 w-16 h-14 text-secondary font-bold transition-all" aria-current="page" data-path="home" href="#"><span class="material-symbols-outlined text-[24px]">home</span><span class="font-label-sm text-label-sm uppercase">Home</span></a><a class="flex flex-col items-center justify-center gap-1 w-16 h-14 text-on-surface-variant transition-all" data-path="trendtop" href="#"><span class="material-symbols-outlined text-[24px]">sell</span><span class="font-label-sm text-label-sm uppercase">Deals</span></a><a class="flex flex-col items-center justify-center gap-1 w-16 h-14 text-on-surface-variant transition-all" data-path="stores" href="#"><span class="material-symbols-outlined text-[24px]">storefront</span><span class="font-label-sm text-label-sm uppercase">Stores</span></a><a class="flex flex-col items-center justify-center gap-1 w-16 h-14 text-on-surface-variant transition-all" data-path="categories" href="#"><span class="material-symbols-outlined text-[24px]">grid_view</span><span class="font-label-sm text-label-sm uppercase">Categories</span></a></div></nav>
 
 <!-- Bottom sheet (deal detail / alert / notifications) -->
 <div id="sheet-root" class="fixed inset-0 z-[60] hidden" role="dialog" aria-modal="true" aria-label="Details">
@@ -315,15 +314,17 @@
 /*
  * GDN Mini App - clickable homepage (single file, no build step).
  *
- * IMPORTANT: everything below (DEALS, HOT_PRODUCT, HOT_CATS) is DEMO DATA
- * for layout only - not real offers, prices, sales or rankings.
+ * IMPORTANT: everything below (DEALS, HOT_PRODUCT, HOT_CATS, STORE_*) is
+ * SAMPLE DATA for layout only - not real offers, prices, sales,
+ * ratings or rankings, and nothing here is fetched from the GDN API yet.
+ * The UI says so wherever sample listings appear.
  *
- * Where the AI/ranking will plug in (backend work, not built yet):
- *   HOT_CATS     -> the 5 best-selling product categories right now
- *   HOT_PRODUCT  -> the single best-selling product of the day
- *   DEALS        -> best-selling deals across ALL stores, best first
- * Replace these three with responses from the GDN API. The order of
- * DEALS is treated as the ranking (first = sells most).
+ * Where real data will plug in (backend work, not wired up yet):
+ *   HOT_CATS     -> categories from GET /api/v1/categories
+ *   HOT_PRODUCT  -> a featured product + its offers from the GDN API
+ *   DEALS        -> deals/offers from the GDN API
+ * Replace these with API responses; do not add made-up rankings, counts
+ * or "verified" claims that the API/database cannot back up.
  *
  * Deal buttons must NOT build affiliate links here: visitStore() is the
  * single hand-off point to the centralized GDN Affiliate Engine
@@ -334,7 +335,7 @@
 
   var STORES = { amazon: 'Amazon', nike: 'Nike', samsung: 'Samsung', airbnb: 'Airbnb', walmart: 'Walmart', bestbuy: 'Best Buy' };
 
-  // ---- DEMO DATA: top 5 categories (labels kept short so they fit the 5-box row) ----
+  // ---- SAMPLE DATA: category shortcuts (labels kept short so they fit the 5-box row) ----
   var HOT_CATS = [
     { key: 'phones', name: 'Phones', icon: 'smartphone' },
     { key: 'audio', name: 'Audio', icon: 'headphones' },
@@ -343,19 +344,9 @@
     { key: 'watches', name: 'Watches', icon: 'watch' }
   ];
 
-  // ---- DEMO DATA: today's hottest product, with its offers across stores ----
-  var HOT_PRODUCT = {
-    dealId: 8, name: 'Apple Studio Display 27" 5K Retina', save: 310,
-    offers: [
-      { store: 'Amazon', price: 1499, note: 'List Price', kind: 'list' },
-      { store: 'B&H Photo', price: 1389, note: '-$110', kind: 'mid' },
-      { store: 'Best Buy', price: 1189, note: 'Lowest Price', kind: 'best' }
-    ]
-  };
-
-  // ---- DEMO DATA: deals, best-selling first ----
+  // ---- SAMPLE DATA: deals ----
   var DEALS = [
-    { id: 1, store: 'amazon', storeName: 'Amazon', cat: 'audio', tag: 'Audio • Amazon Verified', title: 'Sony WH-1000XM5 Wireless', sub: 'Active noise cancellation • 4 stores synced', price: 278, was: 399.99, badge: '-31%', icon: 'headphones',
+    { id: 1, store: 'amazon', storeName: 'Amazon', cat: 'audio', tag: 'Audio • Amazon', title: 'Sony WH-1000XM5 Wireless', sub: 'Active noise cancellation', price: 278, was: 399.99, badge: '-31%', icon: 'headphones',
       img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuArffHhqLC3WzgZ3sd9WUCX88xYJLZEK-c7xtginGWpN87zrrEsdlbKMbDfA4--ecejGGYUcsDDd2iYVkJFnemHEyE0QQKjlmZfhmRRvHb6R_utbYIuy-KH8NrU2O9WUegQes1PZJth6mHVRUQT1EHllPPWLt9yzAFgjYd5NU3lkbcq-zxMPOfNXlObQd7hs1U5wWuxa6GZ7DIKnySQaT41hYCAjJCS2B4_Z2TSwqLt8BTJtYxC0Ln_XQ' },
     { id: 2, store: 'bh', storeName: 'B&H', cat: 'laptops', tag: 'Hardware • B&H Vault', title: 'Apple MacBook Air M3 15"', sub: '16GB Unified RAM • Space Black', price: 1099, was: 1299, badge: '-$200 OFF', icon: 'laptop_mac',
       img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA75DQ4nUDerXwbb3u1uW9iUmWeYkp9Ka7Q71yWh7kpyo3W50a2gcaV4jQT0rljUrsbaYDwcAsdAr60e1Uy7Nl4FcUmiY9c24C2UR78B1o_fpzvGzK1MPnGFM0f0MGCN55_BbP1IYhzQsrxbLL7wLxGYTWNkIZLBPWYHg2WzmGAUxOm-RScnJQV8xJYzZpmvwCX_38iTlDadtfWHhs0QV7ATMk-Osxvc_O5-bIGYu9lJIzVohQ6APW1XA' },
@@ -366,7 +357,7 @@
     { id: 6, store: 'airbnb', storeName: 'Airbnb', cat: 'travel', tag: 'Stays • Airbnb Vault', title: 'Santorini Cliffside Villa', sub: '3 nights • Caldera view', price: 540, was: 690, badge: '-22%', icon: 'villa' },
     { id: 7, store: 'walmart', storeName: 'Walmart', cat: 'kitchen', tag: 'Kitchen • Walmart Vault', title: 'Instant Pot Duo 7-in-1', sub: '6 Qt • Pressure cooker', price: 59, was: 99.95, badge: '-41%', icon: 'skillet' },
     { id: 8, store: 'bestbuy', storeName: 'Best Buy', cat: 'displays', tag: 'Displays • Best Buy', title: 'Apple Studio Display 27" 5K', sub: 'Retina • Standard glass', price: 1189, was: 1499, badge: '-$310 OFF', icon: 'desktop_windows' },
-    { id: 9, store: 'amazon', storeName: 'Amazon', cat: 'watches', tag: 'Watches • Amazon Verified', title: 'Seiko Presage Automatic', sub: 'Cocktail Time • 40.5mm', price: 325, was: 425, badge: '-24%', icon: 'watch' }
+    { id: 9, store: 'amazon', storeName: 'Amazon', cat: 'watches', tag: 'Watches • Amazon', title: 'Seiko Presage Automatic', sub: 'Cocktail Time • 40.5mm', price: 325, was: 425, badge: '-24%', icon: 'watch' }
   ];
 
   var $ = function (s, r) { return (r || document).querySelector(s); };
@@ -374,7 +365,7 @@
   var money = function (n) { return '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); };
   var money0 = function (n) { return '$' + Number(n).toLocaleString('en-US'); };
   var byId = function (id) { return DEALS.filter(function (d) { return d.id === Number(id); })[0]; };
-  var DEMO_NOTE = 'Demo data';
+  var DEMO_NOTE = 'Sample data';
 
   // ---- card templates (markup identical to the approved design) ----
   function dealCard(d) {
@@ -397,10 +388,10 @@
   }
   function catName(key) { return HOT_CATS.filter(function (c) { return c.key === key; })[0].name; }
 
-  // Home page content (categories row, hot-product box, TrendTop deal
-  // stack) is now static HTML - not injected here - so it's guaranteed
+  // Home page content (categories row, featured-product box, deal
+  // stack) is static HTML - not injected here - so it's guaranteed
   // to show up even before/without this script running. This script
-  // only needs to fill the OTHER tabs (TrendTop/Stores/Categories/
+  // only needs to fill the OTHER tabs (Deals/Stores/Categories/
   // Results), which happens in render() below.
 
   // ---- fill the tab pages ----
@@ -410,12 +401,12 @@
     return '<button data-cat="' + c.key + '" class="flex flex-col items-center justify-center gap-1 p-5 rounded-2xl bg-surface-container-lowest shadow-sm active:scale-95 transition-transform">' +
       '<span class="material-symbols-outlined text-[34px] text-on-surface">' + c.icon + '</span>' +
       '<span class="font-title-sm text-title-sm uppercase tracking-wider text-on-surface">' + esc(c.name) + '</span>' +
-      '<span class="font-label-sm text-label-sm text-on-surface-variant">' + n + (n === 1 ? ' offer' : ' offers') + '</span></button>';
+      '<span class="font-label-sm text-label-sm text-on-surface-variant">' + n + (n === 1 ? ' sample offer' : ' sample offers') + '</span></button>';
   }).join('');
 
   // ---- navigation: 4 tabs + one results page ----
   var VIEWS = ['home', 'trendtop', 'stores', 'categories', 'results'];
-  var TITLES = { home: 'Home', trendtop: 'TrendTop Deals', stores: 'Stores', categories: 'Categories' };
+  var TITLES = { home: 'Home', trendtop: 'Deals', stores: 'Stores', categories: 'Categories' };
   var current = { view: 'home', ctx: {} }, stack = [];
 
   function tab(view) { stack = []; current = { view: view, ctx: {} }; render(); }
@@ -435,13 +426,13 @@
     VIEWS.forEach(function (v) { $('#view-' + v).hidden = v !== current.view; });
     var v = current.view, c = current.ctx, title = TITLES[v], navKey = v;
     if (v === 'trendtop') {
-      $('#trend-meta').textContent = DEALS.length + ' offers • Best-selling first • ' + DEMO_NOTE;
+      $('#trend-meta').textContent = DEALS.length + ' sample offers • ' + DEMO_NOTE;
       $('#trend-list').innerHTML = list(DEALS);
     } else if (v === 'results') {
       var items = DEALS.filter(function (d) { return c.type === 'store' ? d.store === c.key : d.cat === c.key; });
       title = c.type === 'store' ? STORES[c.key] : catName(c.key);
       navKey = c.tab;
-      $('#results-meta').textContent = items.length + (items.length === 1 ? ' offer' : ' offers') + ' • ' + DEMO_NOTE;
+      $('#results-meta').textContent = items.length + (items.length === 1 ? ' sample offer' : ' sample offers') + ' • ' + DEMO_NOTE;
       $('#results-list').innerHTML = items.length ? list(items) : empty('search_off', 'No offers yet', 'Nothing is listed here right now. Check back soon.');
     }
     $('#hdr-title').textContent = title;   // header shows the active tab's name
@@ -481,7 +472,7 @@
       '<div class="mt-2"><span class="font-headline-sm text-headline-sm font-bold text-on-surface">' + money(d.price) + '</span><span class="font-label-lg text-label-lg text-on-surface-variant line-through ml-2">' + money(d.was) + '</span></div>' +
       '<p class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant mt-1">Store: ' + esc(d.storeName) + ' \u2022 ' + DEMO_NOTE + '</p>' +
       '<button data-action="visit" data-id="' + d.id + '" class="w-full mt-4 py-3 rounded-xl bg-primary text-on-primary font-label-lg text-label-lg uppercase tracking-wider flex items-center justify-center gap-1.5">Visit ' + esc(d.storeName) + '<span class="material-symbols-outlined text-[16px]">arrow_outward</span></button>' +
-      '<p class="font-body-md text-[11px] text-on-surface-variant mt-3 pb-2">Prices and availability can change at the store.</p>');
+      '<p class="font-body-md text-[11px] text-on-surface-variant mt-3 pb-2">Sample listing. Prices and availability can change at the store.</p>');
   }
 
   // ---- price alerts: as many as the user wants, all at once ----
@@ -492,8 +483,8 @@
       return '<div class="flex items-center justify-between gap-2 bg-surface-container-lowest rounded-xl px-3 py-2 shadow-sm"><div class="min-w-0"><p class="font-title-sm text-title-sm text-on-surface truncate">' + esc(a.product) + '</p><p class="font-body-md text-[11px] text-on-surface-variant">Target ' + money(a.price) + '</p></div>' +
         '<button data-action="removealert" data-i="' + i + '" aria-label="Remove alert for ' + esc(a.product) + '" class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container"><span class="material-symbols-outlined text-[18px]">close</span></button></div>';
     }).join('');
-    return '<h3 class="font-headline-sm text-headline-sm text-on-surface">Price Alerts</h3>' +
-      '<p class="font-body-md text-body-md text-on-surface-variant mt-0.5">Add as many alerts as you like. Each one is a product and the price you want to pay.</p>' +
+    return '<h3 class="font-headline-sm text-headline-sm text-on-surface">Price Alerts (Preview)</h3>' +
+      '<p class="font-body-md text-body-md text-on-surface-variant mt-0.5">Each alert is a product and the price you want to pay. Alerts are not active yet.</p>' +
       (alerts.length ? '<p class="font-label-lg text-label-lg uppercase tracking-wider text-on-surface-variant mt-3">Your alerts (' + alerts.length + ')</p><div class="space-y-2 mt-1.5">' + rows + '</div>' : '') +
       '<label class="block mt-3 font-label-lg text-label-lg uppercase tracking-wider text-on-surface-variant" for="alert-model">Product</label>' +
       '<input id="alert-model" class="w-full mt-1 bg-surface-container-lowest rounded-xl px-3 py-3 font-body-md text-body-md focus:outline-none shadow-sm" placeholder="e.g. Sony WH-1000XM5"/>' +
@@ -507,7 +498,7 @@
 
   function openNotif() {
     openSheet('<h3 class="font-headline-sm text-headline-sm text-on-surface">Notifications</h3>' +
-      '<div class="mt-3">' + empty('notifications_off', 'No notifications yet', 'Price alerts and deal drops will show up here.') + '</div>');
+      '<div class="mt-3">' + empty('notifications_off', 'No notifications yet', 'Notifications are not available yet.') + '</div>');
   }
 
   // Single hand-off point to the centralized GDN Affiliate Engine.
@@ -515,51 +506,51 @@
   // Never build affiliate URLs in the frontend.
   function visitStore(id) {
     var d = byId(id);
-    toast('Demo deal: the live version opens ' + (d ? d.storeName : 'the store') + ' through the GDN redirect.');
+    toast('Sample deal: the live version opens ' + (d ? d.storeName : 'the store') + ' through the GDN redirect.');
   }
 
   // ---- Store pages (drill-down from a store slab) ----
-  // DEMO DATA - see the IMPORTANT note at the top of this file. Best
+  // SAMPLE DATA - see the IMPORTANT note at the top of this file. Best
   // Buy's three products/images are reused as-is from the reference
   // page for that store; the other five stores use icon placeholders
-  // (no photography available) with plausible demo figures.
+  // (no photography available) with sample figures.
   var STORE_META = {
-    amazon: { name: 'Amazon Premier Store', vault: 'Amazon Privé Vault' },
-    nike: { name: 'Nike Premier Store', vault: 'Nike Privé Vault' },
-    samsung: { name: 'Samsung Premier Store', vault: 'Samsung Privé Vault' },
-    airbnb: { name: 'Airbnb Premier Store', vault: 'Airbnb Privé Vault' },
-    walmart: { name: 'Walmart Premier Store', vault: 'Walmart Privé Vault' },
-    bestbuy: { name: 'Best Buy Premier Store', vault: 'Best Buy Privé Vault' }
+    amazon: { name: 'Amazon', vault: 'Sample listings' },
+    nike: { name: 'Nike', vault: 'Sample listings' },
+    samsung: { name: 'Samsung', vault: 'Sample listings' },
+    airbnb: { name: 'Airbnb', vault: 'Sample listings' },
+    walmart: { name: 'Walmart', vault: 'Sample listings' },
+    bestbuy: { name: 'Best Buy', vault: 'Sample listings' }
   };
 
   var STORE_PRODUCTS = {
     bestbuy: [
-      { id: 'bb1', brand: 'LG Electronics', rating: 4.9, title: 'LG 65" Class C3 Series OLED 4K UHD Smart TV', desc: '\u03b19 AI Processor Gen6 with infinite contrast and Dolby Vision Atmos.', price: 1239, was: 1999, discount: 38, save: 760, cat: 'OLED TVs & Home',
+      { id: 'bb1', brand: 'LG Electronics', title: 'LG 65" Class C3 Series OLED 4K UHD Smart TV', desc: '\u03b19 AI Processor Gen6 with infinite contrast and Dolby Vision Atmos.', price: 1239, was: 1999, discount: 38, save: 760, cat: 'OLED TVs & Home',
         img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB-bsQSEAg3T1nclNcrvYKzRD3-ky-AjRJVHz_teWVcIoY7-SmpdeVWxQfBqM8Xsy7jFDhNqivyuUzkBJpSAMLWSlr08iuQlPzxuVitRIq0crt3Zw5-vkRFbssGpGsDZOVV1vWvHwcoX0SF9jg2aNKuqJEoZdaY-PKvkGHks5ME6B-xYls04arYgAf42YyUu4V2H9WqS8rIS259NQOIy4LkxdehDqvL7Q4kyKxMJh30NCONXdGtUpoHCg' },
-      { id: 'bb2', brand: 'Sony Interactive', rating: 4.8, title: 'Sony PlayStation 5 Slim Console', desc: '1TB storage bundled with a DualSense wireless controller.', price: 399, was: 499, discount: 20, save: 100, cat: 'Gaming & Consoles',
+      { id: 'bb2', brand: 'Sony Interactive', title: 'Sony PlayStation 5 Slim Console', desc: '1TB storage bundled with a DualSense wireless controller.', price: 399, was: 499, discount: 20, save: 100, cat: 'Gaming & Consoles',
         img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBYuFb1ig836nULfGfbRJXzWSx08xWPkutDMuSDEXw0VM_H_tS2yh_V0ERzOfmL2sGniEYzf7JGk792hQYLooC6PFAVHgXJ24G10gA_cAtGCjnxepzhdX-JNOc_UZ4t1woV3SXOcgB-7jIhcI1lB0ZmtwLShY6ou1GZwdBK1M4QDW53JS_JYG6mEs0GsKMcbXikD97rFIQ-BwxBeXtdUhArqkZtrWEQ5fVyTWJx5a-akBNU0s2E75HzTw' },
-      { id: 'bb3', brand: 'Dyson', rating: 4.8, title: 'Dyson V15 Detect Cordless Vacuum', desc: 'Fluffy Optic cleaner head reveals invisible dust with laser illumination.', price: 562, was: 749, discount: 25, save: 187, cat: 'Home Appliances',
+      { id: 'bb3', brand: 'Dyson', title: 'Dyson V15 Detect Cordless Vacuum', desc: 'Fluffy Optic cleaner head reveals invisible dust with laser illumination.', price: 562, was: 749, discount: 25, save: 187, cat: 'Home Appliances',
         img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBqN0yI-OYpgv_Sce85y5BZtrEEEMh34MUIIRnIE01QCtnaTrbpkArABrbrHJS1a3pBE1DnrPLb9LfVrMY0RaPRA3sdAv6IyLNV1lBjji1cDDoOxy0QOuQxYNMRtnCg8Vtz7yaXNdcbdoli6fx0eQ3ozszzD6FDgK0z-RKZBs37RZX_k4HHkGY8avS4mW3RikMKojwS2-3irAEN4VPUeasuFNlS6_e6ongK06J0rgoE86CSqR9UL6gI9w' }
     ],
     amazon: [
-      { id: 'am1', brand: 'Sony', rating: 4.7, title: 'Sony WH-1000XM5 Wireless', desc: 'Active noise cancellation, synced pricing across 4 stores.', price: 278, was: 399.99, discount: 31, save: 122, cat: 'Audio', icon: 'headphones' },
-      { id: 'am2', brand: 'Seiko', rating: 4.6, title: 'Seiko Presage Automatic', desc: 'Cocktail Time collection, 40.5mm stainless case.', price: 325, was: 425, discount: 24, save: 100, cat: 'Watches', icon: 'watch' }
+      { id: 'am1', brand: 'Sony', title: 'Sony WH-1000XM5 Wireless', desc: 'Active noise cancellation.', price: 278, was: 399.99, discount: 31, save: 122, cat: 'Audio', icon: 'headphones' },
+      { id: 'am2', brand: 'Seiko', title: 'Seiko Presage Automatic', desc: 'Cocktail Time collection, 40.5mm stainless case.', price: 325, was: 425, discount: 24, save: 100, cat: 'Watches', icon: 'watch' }
     ],
     nike: [
-      { id: 'nk1', brand: 'Nike', rating: 4.7, title: 'Nike Air Max 270', desc: 'Everyday cushioning in a classic Black/White colorway.', price: 99.99, was: 160, discount: 37, save: 60, cat: 'Footwear', icon: 'directions_run' },
-      { id: 'nk2', brand: 'Nike', rating: 4.5, title: 'Nike Tech Fleece Hoodie', desc: 'Lightweight warmth without the bulk, tapered modern fit.', price: 89, was: 120, discount: 26, save: 31, cat: 'Apparel', icon: 'checkroom' }
+      { id: 'nk1', brand: 'Nike', title: 'Nike Air Max 270', desc: 'Everyday cushioning in a classic Black/White colorway.', price: 99.99, was: 160, discount: 37, save: 60, cat: 'Footwear', icon: 'directions_run' },
+      { id: 'nk2', brand: 'Nike', title: 'Nike Tech Fleece Hoodie', desc: 'Lightweight warmth without the bulk, tapered modern fit.', price: 89, was: 120, discount: 26, save: 31, cat: 'Apparel', icon: 'checkroom' }
     ],
     samsung: [
-      { id: 'sm1', brand: 'Samsung', rating: 4.8, title: 'Samsung Galaxy S24 Ultra', desc: '256GB Titanium Gray, 200MP camera system.', price: 1099, was: 1299.99, discount: 15, save: 201, cat: 'Phones', icon: 'smartphone' },
-      { id: 'sm2', brand: 'Samsung', rating: 4.6, title: 'Samsung Galaxy Buds3 Pro', desc: 'Adaptive noise cancelling, 24-bit Hi-Fi sound.', price: 179, was: 249.99, discount: 28, save: 71, cat: 'Audio', icon: 'headphones' }
+      { id: 'sm1', brand: 'Samsung', title: 'Samsung Galaxy S24 Ultra', desc: '256GB Titanium Gray, 200MP camera system.', price: 1099, was: 1299.99, discount: 15, save: 201, cat: 'Phones', icon: 'smartphone' },
+      { id: 'sm2', brand: 'Samsung', title: 'Samsung Galaxy Buds3 Pro', desc: 'Adaptive noise cancelling, 24-bit Hi-Fi sound.', price: 179, was: 249.99, discount: 28, save: 71, cat: 'Audio', icon: 'headphones' }
     ],
     airbnb: [
-      { id: 'ab1', brand: 'Airbnb', rating: 4.9, title: 'Santorini Cliffside Villa', desc: '3 nights, private plunge pool with caldera views.', price: 540, was: 690, discount: 22, save: 150, cat: 'Villas', icon: 'villa' },
-      { id: 'ab2', brand: 'Airbnb', rating: 4.7, title: 'Kyoto Machiya Townhouse', desc: '4 nights, walking distance to the Gion district.', price: 410, was: 520, discount: 21, save: 110, cat: 'City Stays', icon: 'apartment' }
+      { id: 'ab1', brand: 'Airbnb', title: 'Santorini Cliffside Villa', desc: '3 nights, private plunge pool with caldera views.', price: 540, was: 690, discount: 22, save: 150, cat: 'Villas', icon: 'villa' },
+      { id: 'ab2', brand: 'Airbnb', title: 'Kyoto Machiya Townhouse', desc: '4 nights, walking distance to the Gion district.', price: 410, was: 520, discount: 21, save: 110, cat: 'City Stays', icon: 'apartment' }
     ],
     walmart: [
-      { id: 'wm1', brand: 'Instant Pot', rating: 4.6, title: 'Instant Pot Duo 7-in-1', desc: '6 Qt pressure cooker, slow cooker and more.', price: 59, was: 99.95, discount: 41, save: 41, cat: 'Kitchen', icon: 'skillet' },
-      { id: 'wm2', brand: 'Bissell', rating: 4.5, title: 'Bissell CrossWave Wet/Dry Vac', desc: 'Vacuums and washes hard floors and rugs at once.', price: 179, was: 249, discount: 28, save: 70, cat: 'Home', icon: 'cleaning_services' }
+      { id: 'wm1', brand: 'Instant Pot', title: 'Instant Pot Duo 7-in-1', desc: '6 Qt pressure cooker, slow cooker and more.', price: 59, was: 99.95, discount: 41, save: 41, cat: 'Kitchen', icon: 'skillet' },
+      { id: 'wm2', brand: 'Bissell', title: 'Bissell CrossWave Wet/Dry Vac', desc: 'Vacuums and washes hard floors and rugs at once.', price: 179, was: 249, discount: 28, save: 70, cat: 'Home', icon: 'cleaning_services' }
     ]
   };
 
@@ -581,7 +572,7 @@
       '<div class="absolute bottom-space-sm right-space-sm bg-secondary-container text-on-secondary-container px-2.5 py-1 rounded shadow-md"><span class="font-label-sm text-label-sm font-bold tracking-tight">SAVE ' + money0(p.save) + '</span></div>' +
       '</div>' +
       '<div class="flex flex-col p-space-md gap-space-xs bg-surface-container-lowest">' +
-      '<div class="flex items-center justify-between"><span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary font-bold">' + esc(p.brand) + '</span><div class="flex items-center gap-0.5 text-secondary"><span class="material-symbols-outlined text-[15px]" style="font-variation-settings: \'FILL\' 1;">star</span><span class="font-label-sm text-label-sm font-bold text-on-surface">' + p.rating + '</span></div></div>' +
+      '<div class="flex items-center justify-between"><span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary font-bold">' + esc(p.brand) + '</span><span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">' + DEMO_NOTE + '</span></div>' +
       '<h2 class="font-title-md text-title-md text-on-surface leading-snug">' + esc(p.title) + '</h2>' +
       '<p class="font-body-md text-body-md text-on-surface-variant truncate">' + esc(p.desc) + '</p>' +
       '<div class="flex items-baseline gap-space-sm mt-space-xs"><span class="font-headline-sm text-headline-sm font-bold text-on-surface tracking-tight">' + money(p.price) + '</span><span class="font-body-md text-body-md line-through text-outline">' + money(p.was) + '</span></div>' +
@@ -608,7 +599,7 @@
     activeStore = key; activeStoreCat = 'All Deals';
     $('#store-title').textContent = STORE_META[key].name;
     $('#store-vault').textContent = STORE_META[key].vault;
-    $('#store-footer').textContent = 'Verified ' + STORES[key] + ' Concierge Pricing';
+    $('#store-footer').textContent = 'Sample listings for ' + STORES[key] + ' \u2022 not live prices';
     renderStoreChips();
     renderStoreProducts();
     $('#store-overlay').classList.remove('hidden');
@@ -633,9 +624,9 @@
       '<h3 class="font-headline-sm text-headline-sm text-on-surface mt-1">' + esc(p.title) + '</h3>' +
       '<p class="font-body-md text-body-md text-on-surface-variant">' + esc(p.desc) + '</p>' +
       '<div class="mt-2"><span class="font-headline-sm text-headline-sm font-bold text-on-surface">' + money(p.price) + '</span><span class="font-label-lg text-label-lg text-on-surface-variant line-through ml-2">' + money(p.was) + '</span><span class="font-label-sm text-label-sm text-secondary font-bold ml-2">SAVE ' + money0(p.save) + '</span></div>' +
-      '<p class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant mt-1">' + p.rating + ' \u2605 rating \u2022 ' + DEMO_NOTE + '</p>' +
+      '<p class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant mt-1">' + DEMO_NOTE + '</p>' +
       '<button data-action="storevisit" data-brand="' + esc(p.brand) + '" class="w-full mt-4 py-3 rounded-xl bg-primary text-on-primary font-label-lg text-label-lg uppercase tracking-wider flex items-center justify-center gap-1.5">Get This Deal<span class="material-symbols-outlined text-[16px]">arrow_outward</span></button>' +
-      '<p class="font-body-md text-[11px] text-on-surface-variant mt-3 pb-2">Prices and availability can change at the store.</p>');
+      '<p class="font-body-md text-[11px] text-on-surface-variant mt-3 pb-2">Sample listing. Prices and availability can change at the store.</p>');
   }
 
   // ---- events ----
@@ -656,16 +647,16 @@
       if (act === 'visit') return visitStore(a.getAttribute('data-id'));
       if (act === 'removealert') { alerts.splice(Number(a.getAttribute('data-i')), 1); $('#sheet-body').innerHTML = alertsHTML(); return; }
       if (act === 'storeback') return closeStorePage();
-      if (act === 'storeshare') return toast('Share link copied (demo).');
-      if (act === 'storesave') return toast('Saved to favorites (demo).');
-      if (act === 'storevisit') { closeSheet(); return toast('Demo deal: the live version opens ' + a.getAttribute('data-brand') + ' through the GDN redirect.'); }
+      if (act === 'storeshare') return toast('Sharing is not available yet.');
+      if (act === 'storesave') return toast('Saving favorites is not available yet.');
+      if (act === 'storevisit') { closeSheet(); return toast('Sample deal: the live version opens ' + a.getAttribute('data-brand') + ' through the GDN redirect.'); }
       if (act === 'createalert') {
         var m = $('#alert-model').value.trim(), p = parseFloat($('#alert-price').value), err = $('#alert-err');
         if (!m || !(p > 0)) { err.textContent = 'Enter a product and a price above 0.'; err.classList.remove('hidden'); return; }
         alerts.push({ product: m, price: p });
         $('#sheet-body').innerHTML = alertsHTML();
         $('#alert-model').focus();
-        return toast('Alert added. You can add more.');
+        return toast('Preview alert added (not saved).');
       }
     }
     var deal = t.closest('[data-deal]'); if (deal) return openDeal(deal.getAttribute('data-deal'));
