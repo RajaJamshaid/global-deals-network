@@ -10,6 +10,7 @@
  */
 export type ApiErrorCode =
   | "VALIDATION_ERROR"
+  | "UNAUTHORIZED"
   | "RESOURCE_NOT_FOUND"
   | "CONFLICT"
   | "RATE_LIMITED"
@@ -28,6 +29,15 @@ export class ApiError extends Error {
 
 export function badRequest(message: string): ApiError {
   return new ApiError(400, "VALIDATION_ERROR", message);
+}
+
+/**
+ * Deliberately generic: the same response is used for a missing
+ * credential, a wrong credential and a server that has no credential
+ * configured, so the response never reveals which case applied.
+ */
+export function unauthorized(): ApiError {
+  return new ApiError(401, "UNAUTHORIZED", "Unauthorized");
 }
 
 export function notFound(resource: string): ApiError {

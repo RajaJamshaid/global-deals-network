@@ -1,9 +1,46 @@
 import { randomUUID } from "node:crypto";
-import type { FastifyInstance } from "fastify";
+import type {
+  FastifyInstance,
+  InjectOptions,
+  LightMyRequestResponse,
+} from "fastify";
+import { buildServer } from "../../src/api/server.js";
 
 /** A short random suffix so parallel/repeated test runs never collide on slug/code uniqueness. */
 export function uniqueSlug(base: string): string {
   return `${base}-${randomUUID().slice(0, 8)}`;
+}
+
+/**
+ * Authorization header carrying the FIXTURE internal API key (set by
+ * tests/setup-env.ts or by CI) - needed by every write request.
+ */
+export function internalAuthHeaders(): Record<string, string> {
+  const key = process.env.GDN_INTERNAL_API_KEY;
+  if (!key) {
+    throw new Error("GDN_INTERNAL_API_KEY is not set for tests (see tests/setup-env.ts)");
+  }
+  return { authorization: `Bearer ${key}` };
+}
+
+/**
+ * buildServer() whose inject() sends the fixture internal API key on
+ * every request, so existing write tests can create/update data.
+ * Use plain buildServer() (see internal-auth.test.ts) to test the
+ * guard itself. A test may still pass its own authorization header,
+ * which takes precedence.
+ */
+export function buildAuthedServer(): FastifyInstance {
+  const app = buildServer();
+  const originalInject = app.inject.bind(app) as unknown as (
+    options: InjectOptions,
+  ) => Promise<LightMyRequestResponse>;
+  (app as unknown as { inject: typeof originalInject }).inject = (options) =>
+    originalInject({
+      ...options,
+      headers: { ...internalAuthHeaders(), ...options.headers },
+    });
+  return app;
 }
 
 interface ListResponseBody {

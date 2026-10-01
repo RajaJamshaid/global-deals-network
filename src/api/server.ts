@@ -1,6 +1,7 @@
 import Fastify, { type FastifyInstance } from "fastify";
 import { ApiError } from "./http/errors.js";
 import { corsPlugin } from "./http/cors.js";
+import { createInternalWriteGuard } from "./http/internal-auth.js";
 import { rateLimitPlugin } from "./http/rate-limit.js";
 import { healthRoutes } from "./routes/health.js";
 import { env } from "../config/env.js";
@@ -13,6 +14,14 @@ import { marketRoutes } from "../market/market.routes.js";
 import { merchantRoutes } from "../merchant/merchant.routes.js";
 import { offerRoutes } from "../offer/offer.routes.js";
 import { telegramRoutes } from "../telegram/telegram.routes.js";
+
+export interface BuildServerOptions {
+  /**
+   * Overrides GDN_INTERNAL_API_KEY (used by tests). Passing the
+   * property with an undefined value simulates "not configured".
+   */
+  internalApiKey?: string | undefined;
+}
 
 /**
  * Builds (but does not start) the GDN API server.
@@ -31,10 +40,25 @@ import { telegramRoutes } from "../telegram/telegram.routes.js";
  * past a service's translateDbError call) is logged server-side only
  * and returned to the client as a generic 500 - full details are
  * never leaked in the response body.
+ *
+ * Security: a root-level internal write guard (see
+ * api/http/internal-auth.ts) rejects every non-GET/HEAD/OPTIONS
+ * request that lacks the internal API key. The only exemption is the
+ * Telegram webhook, which keeps its own webhook-secret authentication.
  */
-export function buildServer(): FastifyInstance {
+export function buildServer(options: BuildServerOptions = {}): FastifyInstance {
+  const internalApiKey =
+    "internalApiKey" in options ? options.internalApiKey : env.internalApiKey;
+
   const app = Fastify({
-    logger: true,
+    // Credentials must never reach the logs, even if a serializer is
+    // later changed to include request headers.
+    logger: {
+      redact: [
+        "req.headers.authorization",
+        'req.headers["x-telegram-bot-api-secret-token"]',
+      ],
+    },
     // Production traffic reaches this process through Cloudflare
     // (deals.tickmarktools.com), so the raw socket address is always
     // Cloudflare's edge, not the visitor. trustProxy makes
@@ -43,6 +67,16 @@ export function buildServer(): FastifyInstance {
     // lumping every visitor into one shared bucket.
     trustProxy: true,
   });
+
+  // Registered on the root instance, before any route, so it covers
+  // every route (and unknown paths) in every plugin.
+  app.addHook(
+    "onRequest",
+    createInternalWriteGuard({
+      apiKey: internalApiKey,
+      exemptRoutes: [`/api/${env.apiVersion}/telegram/webhook`],
+    }),
+  );
 
   app.register(corsPlugin);
   app.register(rateLimitPlugin);

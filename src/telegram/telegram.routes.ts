@@ -1,4 +1,5 @@
 import type { FastifyInstance } from "fastify";
+import { constantTimeEqual } from "../api/http/constant-time.js";
 import { env } from "../config/env.js";
 import { routeUpdate } from "./update-router.js";
 import type { TelegramUpdate } from "./telegram-types.js";
@@ -13,7 +14,12 @@ import type { TelegramUpdate } from "./telegram-types.js";
  * TELEGRAM_WEBHOOK_SECRET via Telegram's own
  * X-Telegram-Bot-Api-Secret-Token header (set via setWebhook's
  * secret_token, see scripts/telegram-set-webhook.ts) before anything
- * is processed.
+ * is processed. The comparison is constant-time; behaviour is
+ * otherwise unchanged (missing/non-matching secret => 401).
+ *
+ * This route is the one exemption from the internal API key guard
+ * (see api/server.ts): it authenticates with the webhook secret, not
+ * GDN_INTERNAL_API_KEY.
  *
  * Always returns 200 once the secret check passes, even if
  * downstream processing throws - Telegram retries failed webhook
@@ -28,7 +34,10 @@ export async function telegramRoutes(app: FastifyInstance): Promise<void> {
     }
 
     const providedSecret = request.headers["x-telegram-bot-api-secret-token"];
-    if (providedSecret !== env.telegramWebhookSecret) {
+    if (
+      typeof providedSecret !== "string" ||
+      !constantTimeEqual(providedSecret, env.telegramWebhookSecret)
+    ) {
       return reply.status(401).send();
     }
 
