@@ -68,3 +68,10 @@ export async function rateLimitPlugin(app: FastifyInstance): Promise<void> {
     }
   });
 }
+
+// app.register() normally gives a plugin its own encapsulated scope, so
+// a hook added inside it would apply to nothing outside the plugin (this
+// plugin has no routes of its own) and rate limiting would silently do
+// nothing. This marker is exactly what the `fastify-plugin` package sets
+// (no dependency needed): it makes the hook apply to the whole server.
+(rateLimitPlugin as unknown as Record<symbol, boolean>)[Symbol.for("skip-override")] = true;
