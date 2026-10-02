@@ -1,8 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { afterAll, describe, expect, it } from "vitest";
-import { buildServer } from "../../src/api/server.js";
 import { closePool, getPool } from "../../src/config/database.js";
-import { getSeededMarketId, uniqueSlug } from "./test-helpers.js";
+import { buildAuthedServer, getSeededMarketId, uniqueSlug } from "./test-helpers.js";
 
 const hasDatabase = Boolean(process.env.DATABASE_URL);
 // Only set in CI (see .github/workflows/ci.yml) with a fixture value -
@@ -12,7 +11,7 @@ const hasAmazonFixtureConfig =
   process.env.AMAZON_AFFILIATE_ENABLED === "true" && Boolean(process.env.AMAZON_AFFILIATE_TAG);
 
 describe.skipIf(!hasDatabase)("Affiliate Links API", () => {
-  const app = buildServer();
+  const app = buildAuthedServer();
 
   afterAll(async () => {
     await app.close();

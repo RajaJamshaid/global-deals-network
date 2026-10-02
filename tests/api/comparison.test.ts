@@ -1,13 +1,12 @@
 import { randomUUID } from "node:crypto";
 import { afterAll, describe, expect, it } from "vitest";
-import { buildServer } from "../../src/api/server.js";
 import { closePool } from "../../src/config/database.js";
-import { getSeededMarketId, uniqueSlug } from "./test-helpers.js";
+import { buildAuthedServer, getSeededMarketId, uniqueSlug } from "./test-helpers.js";
 
 const hasDatabase = Boolean(process.env.DATABASE_URL);
 
 describe.skipIf(!hasDatabase)("Product Price Comparison API", () => {
-  const app = buildServer();
+  const app = buildAuthedServer();
 
   afterAll(async () => {
     await app.close();

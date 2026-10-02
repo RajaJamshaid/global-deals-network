@@ -46,6 +46,19 @@ function listEnv(name: string, fallback: string[]): string[] {
 
 const appUrl = optionalEnv("APP_URL", "http://localhost:8080");
 
+// Internal API key (see api/http/internal-auth.ts). A key shorter than
+// this is treated exactly like a missing key - protected writes are
+// rejected - so a weak/typo'd secret can never silently protect the
+// API. Generate one with e.g. `openssl rand -hex 32`.
+const INTERNAL_API_KEY_MIN_LENGTH = 32;
+const rawInternalApiKey = rawEnv("GDN_INTERNAL_API_KEY");
+const internalApiKeyStatus: "configured" | "missing" | "too_short" =
+  rawInternalApiKey === undefined
+    ? "missing"
+    : rawInternalApiKey.length < INTERNAL_API_KEY_MIN_LENGTH
+      ? "too_short"
+      : "configured";
+
 export const env = {
   appName: optionalEnv("APP_NAME", "Global Deals Network"),
   appEnv: optionalEnv("APP_ENV", "development"),
@@ -75,6 +88,12 @@ export const env = {
   telegramBotToken: rawEnv("TELEGRAM_BOT_TOKEN"),
   telegramWebhookSecret: rawEnv("TELEGRAM_WEBHOOK_SECRET"),
   telegramChannelId: rawEnv("TELEGRAM_CHANNEL_ID"),
+  // Internal API key guarding every write (POST/PATCH/PUT/DELETE)
+  // under /api/v1 except the Telegram webhook. Undefined when missing
+  // or too short => all protected writes return 401 (fail closed).
+  internalApiKey: internalApiKeyStatus === "configured" ? rawInternalApiKey : undefined,
+  internalApiKeyStatus,
+  internalApiKeyMinLength: INTERNAL_API_KEY_MIN_LENGTH,
   // Production hardening (FAST LAUNCH / production-readiness pass).
   // CORS_ALLOWED_ORIGINS is a comma-separated allow-list of browser
   // origins permitted to call this API cross-origin (the future

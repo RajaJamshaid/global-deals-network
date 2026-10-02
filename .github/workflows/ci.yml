@@ -31,6 +31,7 @@ jobs:
       AMAZON_AFFILIATE_ENABLED: "true"
       AMAZON_AFFILIATE_TAG: "gdn-ci-fixture-20"
       TELEGRAM_WEBHOOK_SECRET: "gdn-ci-fixture-webhook-secret"
+      GDN_INTERNAL_API_KEY: "gdn-ci-fixture-internal-api-key-0123456789ab"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
