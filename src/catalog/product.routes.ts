@@ -1,5 +1,6 @@
 import type { FastifyInstance } from "fastify";
 import { getProductComparisonService } from "./product-comparison.service.js";
+import { getProductIntelligenceService } from "./product-intelligence.service.js";
 import { getProductPriceHistoryService } from "./price-history.service.js";
 import { searchProductsService } from "./product-search.service.js";
 import { parsePagination } from "../api/http/pagination.js";
@@ -31,9 +32,26 @@ export async function productRoutes(app: FastifyInstance): Promise<void> {
     return sendList(reply, rows, { page, limit, total });
   });
 
+  // Product detail.
+  // - With ?market_id=<uuid>: the full product-intelligence response
+  //   (offers ranked by effective price, price status, Deal Score) for
+  //   that market only. Prices are never mixed across markets.
+  // - Without market_id: the original plain product record, unchanged,
+  //   so existing callers keep working. The Mini App must pass market_id.
   app.get("/products/:id", async (request, reply) => {
     const { id } = request.params as { id: string };
     const productId = requireUuidParam(id, "product_id");
+    const query = request.query as Record<string, unknown>;
+
+    if (query.market_id !== undefined) {
+      if (typeof query.market_id !== "string") {
+        throw badRequest("market_id must be a single UUID");
+      }
+      const marketId = requireUuidParam(query.market_id, "market_id");
+      const detail = await getProductIntelligenceService(productId, marketId);
+      return sendData(reply, 200, detail);
+    }
+
     const product = await getProductService(productId);
     return sendData(reply, 200, product);
   });
