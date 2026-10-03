@@ -4,7 +4,7 @@ import type {
   InjectOptions,
   LightMyRequestResponse,
 } from "fastify";
-import { buildServer } from "../../src/api/server.js";
+import { buildServer, type BuildServerOptions } from "../../src/api/server.js";
 
 /** A short random suffix so parallel/repeated test runs never collide on slug/code uniqueness. */
 export function uniqueSlug(base: string): string {
@@ -27,18 +27,18 @@ export function internalAuthHeaders(): Record<string, string> {
  * buildServer() whose inject() sends the fixture internal API key on
  * every request, so existing write tests can create/update data.
  * Use plain buildServer() (see internal-auth.test.ts) to test the
- * guard itself. A test may still pass its own authorization header,
- * which takes precedence.
+ * guard itself. A test may still pass its own authorization header
+ * (for example a Telegram `tma` credential), which takes precedence.
  */
-export function buildAuthedServer(): FastifyInstance {
-  const app = buildServer();
+export function buildAuthedServer(options: BuildServerOptions = {}): FastifyInstance {
+  const app = buildServer(options);
   const originalInject = app.inject.bind(app) as unknown as (
     options: InjectOptions,
   ) => Promise<LightMyRequestResponse>;
-  (app as unknown as { inject: typeof originalInject }).inject = (options) =>
+  (app as unknown as { inject: typeof originalInject }).inject = (injectOptions) =>
     originalInject({
-      ...options,
-      headers: { ...internalAuthHeaders(), ...options.headers },
+      ...injectOptions,
+      headers: { ...internalAuthHeaders(), ...injectOptions.headers },
     });
   return app;
 }

@@ -14,6 +14,7 @@ import { marketRoutes } from "../market/market.routes.js";
 import { merchantRoutes } from "../merchant/merchant.routes.js";
 import { offerRoutes } from "../offer/offer.routes.js";
 import { telegramRoutes } from "../telegram/telegram.routes.js";
+import { createTelegramAuthHook } from "../user/telegram-auth.js";
 
 export interface BuildServerOptions {
   /**
@@ -21,6 +22,14 @@ export interface BuildServerOptions {
    * property with an undefined value simulates "not configured".
    */
   internalApiKey?: string | undefined;
+  /**
+   * Overrides TELEGRAM_BOT_TOKEN for Mini App initData verification
+   * (used by tests, which never use a real bot token). Passing the
+   * property with an undefined value simulates "not configured".
+   */
+  telegramBotToken?: string | undefined;
+  /** Overrides TELEGRAM_INIT_DATA_MAX_AGE_SECONDS (used by tests). */
+  telegramInitDataMaxAgeSeconds?: number;
 }
 
 /**
@@ -45,10 +54,18 @@ export interface BuildServerOptions {
  * api/http/internal-auth.ts) rejects every non-GET/HEAD/OPTIONS
  * request that lacks the internal API key. The only exemption is the
  * Telegram webhook, which keeps its own webhook-secret authentication.
+ *
+ * User authentication (Mini App initData, `Authorization: tma ...`) is
+ * separate: a root hook attaches request.user when a valid credential
+ * is present, and user-scoped routes opt in with requireUser.
  */
 export function buildServer(options: BuildServerOptions = {}): FastifyInstance {
   const internalApiKey =
     "internalApiKey" in options ? options.internalApiKey : env.internalApiKey;
+  const telegramBotToken =
+    "telegramBotToken" in options ? options.telegramBotToken : env.telegramBotToken;
+  const telegramInitDataMaxAgeSeconds =
+    options.telegramInitDataMaxAgeSeconds ?? env.telegramInitDataMaxAgeSeconds;
 
   const app = Fastify({
     // Credentials must never reach the logs, even if a serializer is
@@ -75,6 +92,17 @@ export function buildServer(options: BuildServerOptions = {}): FastifyInstance {
     createInternalWriteGuard({
       apiKey: internalApiKey,
       exemptRoutes: [`/api/${env.apiVersion}/telegram/webhook`],
+    }),
+  );
+
+  // Verified Telegram Mini App user (or null). Runs after the internal
+  // guard; only acts on an `Authorization: tma <initData>` credential.
+  app.decorateRequest("user", null);
+  app.addHook(
+    "onRequest",
+    createTelegramAuthHook({
+      botToken: telegramBotToken,
+      maxAgeSeconds: telegramInitDataMaxAgeSeconds,
     }),
   );
 
