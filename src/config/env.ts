@@ -54,6 +54,10 @@ function boundedIntEnv(name: string, fallback: number, min: number, max: number)
   return Number.isInteger(value) && value >= min && value <= max ? value : fallback;
 }
 
+function stripTrailingSlashes(value: string): string {
+  return value.replace(/\/+$/, "");
+}
+
 const appUrl = optionalEnv("APP_URL", "http://localhost:8080");
 
 // Internal API key (see api/http/internal-auth.ts). A key shorter than
@@ -73,6 +77,15 @@ export const env = {
   appName: optionalEnv("APP_NAME", "Global Deals Network"),
   appEnv: optionalEnv("APP_ENV", "development"),
   appUrl,
+  // Public base URL of the website. Canonical URLs, sitemaps and Open
+  // Graph URLs are built from it. Defaults to APP_URL.
+  siteUrl: stripTrailingSlashes(optionalEnv("SITE_URL", appUrl)),
+  // Public base URL of this API as seen by a browser, used for the
+  // affiliate redirect links on server-rendered pages. Empty means
+  // "same origin as the page" (relative links).
+  publicApiUrl: stripTrailingSlashes(optionalEnv("PUBLIC_API_URL", "")),
+  // Market used for public SEO pages and sitemaps (USA first).
+  defaultMarketCode: optionalEnv("DEFAULT_MARKET_CODE", "US").toUpperCase(),
   apiVersion: optionalEnv("API_VERSION", "v1"),
   port: Number(optionalEnv("PORT", "8080")),
   host: optionalEnv("HOST", "0.0.0.0"),
