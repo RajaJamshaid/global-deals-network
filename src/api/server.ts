@@ -22,6 +22,7 @@ import {
 import { marketRoutes } from "../market/market.routes.js";
 import { merchantRoutes } from "../merchant/merchant.routes.js";
 import { offerRoutes } from "../offer/offer.routes.js";
+import { seoRoutes } from "../seo/seo.routes.js";
 import { telegramRoutes } from "../telegram/telegram.routes.js";
 import { createTelegramAuthHook } from "../user/telegram-auth.js";
 import { WATCH_ROUTE_PATTERN, watchRoutes } from "../user/watch.routes.js";
@@ -62,11 +63,10 @@ function clientErrorBody(statusCode: number): { code: string; message: string } 
 /**
  * Builds (but does not start) the GDN API server.
  *
- * All route modules are registered under /api/{version} so that future
- * modules (search, analytics, ...) can be added here as additional
- * `app.register(...)` calls without rewriting the server itself - see
- * GDN_Implementation_Master_Roadmap.md Phase 2 (Backend/API
- * Foundation).
+ * API route modules are registered under /api/{version}. The public,
+ * crawlable pages (product/category/store landing pages, sitemaps,
+ * robots.txt) are registered at the root so their URLs are the canonical
+ * site URLs.
  *
  * The centralized error handler is what turns a thrown ApiError (see
  * api/http/errors.ts) into the structured { success, error } response
@@ -195,6 +195,9 @@ export function buildServer(options: BuildServerOptions = {}): FastifyInstance {
     },
     { prefix: `/api/${env.apiVersion}` },
   );
+
+  // Public crawlable pages, sitemaps and robots.txt (canonical site URLs).
+  app.register(seoRoutes);
 
   return app;
 }
