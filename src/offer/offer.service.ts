@@ -13,6 +13,7 @@ import {
   requireUrl,
   requireUuid,
 } from "../api/http/validation.js";
+import { generatePriceAlertsSafely } from "../alert/price-alert.service.js";
 import {
   createOffer,
   deactivateOffer,
@@ -88,8 +89,9 @@ export async function createOfferService(
   if (!merchantOk) throw badRequest("merchant_id does not reference an existing merchant");
   if (!marketOk) throw badRequest("market_id does not reference an existing market");
 
+  let created: OfferRow;
   try {
-    return await createOffer({
+    created = await createOffer({
       productId,
       merchantId,
       marketId,
@@ -109,6 +111,11 @@ export async function createOfferService(
       "Invalid product_id, merchant_id or market_id",
     );
   }
+
+  // The price observation was recorded by the database trigger; now see
+  // whether any user's target price has been reached.
+  await generatePriceAlertsSafely(created.product_id, created.market_id);
+  return created;
 }
 
 export async function updateOfferService(
@@ -133,8 +140,9 @@ export async function updateOfferService(
     throw badRequest("original_price must be zero or greater");
   }
 
+  let updated: OfferRow | null;
   try {
-    const updated = await updateOffer(offerId, {
+    updated = await updateOffer(offerId, {
       offerUrl,
       price,
       originalPrice,
@@ -144,10 +152,6 @@ export async function updateOfferService(
       status,
       isFixture,
     });
-    if (!updated) {
-      throw notFound("Offer");
-    }
-    return updated;
   } catch (error) {
     throw translateDbError(
       error,
@@ -155,6 +159,21 @@ export async function updateOfferService(
       "Invalid reference",
     );
   }
+  if (!updated) {
+    throw notFound("Offer");
+  }
+
+  // Only changes that can affect whether a target price is reached.
+  if (
+    price !== undefined ||
+    currency !== undefined ||
+    availabilityStatus !== undefined ||
+    status !== undefined ||
+    isFixture !== undefined
+  ) {
+    await generatePriceAlertsSafely(updated.product_id, updated.market_id);
+  }
+  return updated;
 }
 
 export async function deactivateOfferService(offerId: string): Promise<OfferRow> {

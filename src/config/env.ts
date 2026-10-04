@@ -44,6 +44,16 @@ function listEnv(name: string, fallback: string[]): string[] {
     .filter((value) => value.length > 0);
 }
 
+/** An integer within [min, max]; anything else falls back to the default. */
+function boundedIntEnv(name: string, fallback: number, min: number, max: number): number {
+  const raw = rawEnv(name);
+  if (raw === undefined) {
+    return fallback;
+  }
+  const value = Number(raw);
+  return Number.isInteger(value) && value >= min && value <= max ? value : fallback;
+}
+
 const appUrl = optionalEnv("APP_URL", "http://localhost:8080");
 
 // Internal API key (see api/http/internal-auth.ts). A key shorter than
@@ -88,6 +98,14 @@ export const env = {
   telegramBotToken: rawEnv("TELEGRAM_BOT_TOKEN"),
   telegramWebhookSecret: rawEnv("TELEGRAM_WEBHOOK_SECRET"),
   telegramChannelId: rawEnv("TELEGRAM_CHANNEL_ID"),
+  // How long a Mini App initData credential stays valid, measured from
+  // its signed auth_date (60 seconds to 7 days, default 1 day).
+  telegramInitDataMaxAgeSeconds: boundedIntEnv(
+    "TELEGRAM_INIT_DATA_MAX_AGE_SECONDS",
+    86400,
+    60,
+    604800,
+  ),
   // Internal API key guarding every write (POST/PATCH/PUT/DELETE)
   // under /api/v1 except the Telegram webhook. Undefined when missing
   // or too short => all protected writes return 401 (fail closed).
