@@ -8,6 +8,12 @@ import { getPool } from "../config/database.js";
  * never read or change another user's watches.
  */
 
+// The batch offer query is shared with product search.
+export {
+  listActiveOffersForProducts,
+  type ActiveOfferRow,
+} from "../offer/offer-batch.repository.js";
+
 export interface WatchRow {
   watch_id: string;
   user_id: string;
@@ -156,40 +162,4 @@ export async function listWatchlist(
     ),
   ]);
   return { rows: dataResult.rows, total: Number(countResult.rows[0].count) };
-}
-
-export interface ActiveOfferRow {
-  product_id: string;
-  offer_id: string;
-  merchant_id: string;
-  merchant_name: string;
-  merchant_slug: string;
-  price: string;
-  currency: string;
-  availability_status: string;
-  is_fixture: boolean;
-}
-
-/**
- * Active offers for a whole page of products in ONE query (no N+1). The
- * watchlist ranks them with the existing effective-price logic.
- */
-export async function listActiveOffersForProducts(
-  marketId: string,
-  productIds: string[],
-): Promise<ActiveOfferRow[]> {
-  if (productIds.length === 0) {
-    return [];
-  }
-  const pool = getPool();
-  const { rows } = await pool.query<ActiveOfferRow>(
-    `SELECT o.product_id, o.offer_id, o.merchant_id,
-            m.name AS merchant_name, m.slug AS merchant_slug,
-            o.price, o.currency, o.availability_status, o.is_fixture
-     FROM offers o
-     JOIN merchants m ON m.merchant_id = o.merchant_id
-     WHERE o.market_id = $1 AND o.status = 'active' AND o.product_id = ANY($2::uuid[])`,
-    [marketId, productIds],
-  );
-  return rows;
 }
