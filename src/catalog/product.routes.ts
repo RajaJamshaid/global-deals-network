@@ -7,6 +7,7 @@ import { parsePagination } from "../api/http/pagination.js";
 import { badRequest } from "../api/http/errors.js";
 import { sendData, sendList } from "../api/http/response.js";
 import { requireUuidParam } from "../api/http/validation.js";
+import { getWatch } from "../user/watch.repository.js";
 import {
   createProductService,
   deactivateProductService,
@@ -36,6 +37,10 @@ export async function productRoutes(app: FastifyInstance): Promise<void> {
   // - With ?market_id=<uuid>: the full product-intelligence response
   //   (offers ranked by effective price, price status, Deal Score) for
   //   that market only. Prices are never mixed across markets.
+  //   If the caller is a verified Telegram user, a `watch` object
+  //   (is_watching / target_price / watch_active) about THEIR OWN watch
+  //   is added. Anonymous callers (and callers with a missing, invalid
+  //   or expired credential) get the public response, unchanged.
   // - Without market_id: the original plain product record, unchanged,
   //   so existing callers keep working. The Mini App must pass market_id.
   app.get("/products/:id", async (request, reply) => {
@@ -49,7 +54,24 @@ export async function productRoutes(app: FastifyInstance): Promise<void> {
       }
       const marketId = requireUuidParam(query.market_id, "market_id");
       const detail = await getProductIntelligenceService(productId, marketId);
-      return sendData(reply, 200, detail);
+
+      const user = request.user;
+      if (!user) {
+        return sendData(reply, 200, detail);
+      }
+      const row = await getWatch(user.userId, productId);
+      const sameMarket = row !== null && row.market_id === marketId;
+      return sendData(reply, 200, {
+        ...detail,
+        watch: {
+          is_watching: row !== null && row.is_active && sameMarket,
+          target_price:
+            row !== null && sameMarket && row.target_price !== null
+              ? Number(row.target_price)
+              : null,
+          watch_active: row !== null && row.is_active,
+        },
+      });
     }
 
     const product = await getProductService(productId);
