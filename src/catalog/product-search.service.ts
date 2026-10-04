@@ -35,6 +35,13 @@ import {
  * status is computePriceStatus and the score is computeDealScore. Three
  * queries serve a whole page of results (products, offers, observations).
  */
+export interface SearchMarket {
+  market_id: string;
+  code: string;
+  name: string;
+  currency: string;
+}
+
 export interface ProductSearchResult {
   product_id: string;
   name: string;
@@ -42,7 +49,7 @@ export interface ProductSearchResult {
   brand: string | null;
   image_url: string | null;
   category_id: string | null;
-  market: { market_id: string; code: string; name: string; currency: string };
+  market: SearchMarket;
   offer_count: number;
   /** Best active offer: in stock first, then lowest effective price. */
   best_offer: {
@@ -107,11 +114,17 @@ export async function searchProductsService(
   const marketId = requireUuid(query, "market_id");
   const categoryId = optionalUuid(query, "category_id");
 
-  const market = await getMarketById(marketId);
-  if (!market) {
+  const marketRow = await getMarketById(marketId);
+  if (!marketRow) {
     // "market unavailable" state
     throw notFound("Market");
   }
+  const market: SearchMarket = {
+    market_id: marketRow.market_id,
+    code: marketRow.code,
+    name: marketRow.name,
+    currency: marketRow.currency,
+  };
 
   const { rows, total } = await searchProducts(
     { terms, phrase, marketId, categoryId },
@@ -164,7 +177,7 @@ function toResult(
   row: ProductSearchRow,
   offers: ActiveOfferRow[],
   observationsByKey: Map<string, PriceObservation[]>,
-  market: { market_id: string; code: string; name: string; currency: string },
+  market: SearchMarket,
 ): ProductSearchResult | null {
   const config = DEFAULT_PRICE_INTELLIGENCE_CONFIG;
   const ranked = rankOffersByEffectivePrice(
