@@ -117,6 +117,10 @@ export function buildServer(options: BuildServerOptions = {}): FastifyInstance {
     // rate-limit.ts depends on to key per real client rather than
     // lumping every visitor into one shared bucket.
     trustProxy: true,
+    // Product slugs may be up to 200 characters; Fastify's default URL
+    // parameter limit (100) would answer a long slug with a bare router 404
+    // instead of the normal not-found page.
+    maxParamLength: 400,
   });
 
   // Registered on the root instance, before any route, so it covers
