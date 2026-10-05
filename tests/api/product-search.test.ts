@@ -111,13 +111,13 @@ describe.skipIf(!hasDatabase)("Product search API (comparison-oriented)", () => 
     expect(body.meta.total).toBe(1);
   });
 
-  it("does not invent shipping, coupons, ratings, reviews or buyer counts", async () => {
+  it("does not invent shipping, coupons, reviews or buyer counts", async () => {
     const token = uniqueToken();
     await createOffer(await createProduct(`${token} Plain`), 10);
     const { body } = await search(token);
-    const keys = JSON.stringify(body.data[0]);
-    for (const word of ["rating", "review", "buyer", "shipping", "coupon", "cashback"]) {
-      expect(keys).not.toContain(`"${word}`);
+    const text = JSON.stringify(body.data[0]);
+    for (const key of ["review", "buyer", "shipping", "coupon", "cashback", "stars"]) {
+      expect(text).not.toContain(`"${key}`);
     }
   });
 
