@@ -33,6 +33,7 @@ async function callTelegramApi<T>(
 
   const payload = (await response.json()) as TelegramApiResponse<T>;
   if (!payload.ok) {
+    // Only Telegram's own description - never the request URL (it contains the bot token).
     throw new Error(`Telegram API ${method} failed: ${payload.description ?? "unknown error"}`);
   }
   return payload.result as T;
@@ -41,6 +42,8 @@ async function callTelegramApi<T>(
 export interface SendMessageOptions {
   chatId: number | string;
   text: string;
+  /** Telegram reply_markup: inline keyboard buttons, force_reply, ... */
+  replyMarkup?: Record<string, unknown>;
 }
 
 export async function sendMessage(options: SendMessageOptions): Promise<void> {
@@ -48,6 +51,7 @@ export async function sendMessage(options: SendMessageOptions): Promise<void> {
     chat_id: options.chatId,
     text: options.text,
     disable_web_page_preview: true,
+    ...(options.replyMarkup ? { reply_markup: options.replyMarkup } : {}),
   });
 }
 

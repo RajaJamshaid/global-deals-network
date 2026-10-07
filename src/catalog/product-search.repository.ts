@@ -2,16 +2,15 @@ import { getPool } from "../config/database.js";
 import { escapeLikePattern } from "./search-query.js";
 
 /**
- * Product search (Phase 1). Searches the canonical products table and
- * joins each match to its best (lowest-priced) ACTIVE offer in one
- * market. Merchant-agnostic: nothing here knows about Amazon or any
- * specific store. Products with no active offer in the requested
- * market are not returned, so results are always buyable in that
- * market and prices are never mixed across markets/currencies.
+ * Product text search (the discovery entry point). Finds canonical
+ * products only; offers, pricing and intelligence for the matches come
+ * from the shared offer/price modules in product-search.service.ts, so
+ * there is a single pricing path. Only products with at least one ACTIVE
+ * offer in the requested market are returned, so every result is
+ * comparable in that market and markets/currencies are never mixed.
  *
  * All user input is passed as bound parameters.
  */
-
 export interface ProductSearchRow {
   product_id: string;
   name: string;
@@ -19,16 +18,6 @@ export interface ProductSearchRow {
   brand: string | null;
   image_url: string | null;
   category_id: string | null;
-  offer_count: number;
-  best_offer_id: string;
-  best_merchant_id: string;
-  best_merchant_name: string;
-  best_merchant_slug: string;
-  best_price: string;
-  best_original_price: string | null;
-  best_currency: string;
-  best_availability_status: string;
-  best_is_fixture: boolean;
 }
 
 export interface ProductSearchParams {
@@ -81,33 +70,8 @@ export async function searchProducts(
   const offsetIdx = dataValues.length;
 
   const dataQuery = `
-    SELECT
-      p.product_id, p.name, p.slug, p.brand, p.image_url, p.category_id,
-      oc.offer_count,
-      best.offer_id AS best_offer_id,
-      best.merchant_id AS best_merchant_id,
-      best.merchant_name AS best_merchant_name,
-      best.merchant_slug AS best_merchant_slug,
-      best.price AS best_price,
-      best.original_price AS best_original_price,
-      best.currency AS best_currency,
-      best.availability_status AS best_availability_status,
-      best.is_fixture AS best_is_fixture
+    SELECT p.product_id, p.name, p.slug, p.brand, p.image_url, p.category_id
     FROM products p
-    JOIN LATERAL (
-      SELECT o.offer_id, o.merchant_id, m.name AS merchant_name, m.slug AS merchant_slug,
-             o.price, o.original_price, o.currency, o.availability_status, o.is_fixture
-      FROM offers o
-      JOIN merchants m ON m.merchant_id = o.merchant_id
-      WHERE o.product_id = p.product_id AND o.market_id = $1 AND o.status = 'active'
-      ORDER BY o.price ASC, o.offer_id ASC
-      LIMIT 1
-    ) best ON TRUE
-    JOIN LATERAL (
-      SELECT COUNT(*)::int AS offer_count
-      FROM offers o2
-      WHERE o2.product_id = p.product_id AND o2.market_id = $1 AND o2.status = 'active'
-    ) oc ON TRUE
     WHERE ${where}
     ORDER BY
       CASE
@@ -116,7 +80,6 @@ export async function searchProducts(
         WHEN p.name ILIKE $${containsIdx} THEN 2
         ELSE 3
       END,
-      best.price ASC,
       p.name ASC,
       p.product_id ASC
     LIMIT $${limitIdx} OFFSET $${offsetIdx}`;

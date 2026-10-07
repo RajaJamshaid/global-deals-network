@@ -20,6 +20,8 @@ export interface TelegramMessage {
   from?: TelegramUser;
   chat: TelegramChat;
   text?: string;
+  /** The message this one replies to (used by the /search prompt flow). */
+  reply_to_message?: TelegramMessage;
 }
 
 export interface TelegramCallbackQuery {

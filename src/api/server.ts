@@ -10,9 +10,19 @@ import { redirectRoutes } from "../affiliate/redirect.routes.js";
 import { categoryRoutes } from "../catalog/category.routes.js";
 import { productRoutes } from "../catalog/product.routes.js";
 import { dealRoutes } from "../deal/deal.routes.js";
+import {
+  IMAGE_SEARCH_ROUTE_PATTERN,
+  barcodeRoutes,
+  createImageSearchRoutes,
+} from "../discovery/discovery.routes.js";
+import {
+  getConfiguredImageProvider,
+  type ImageIdentificationProvider,
+} from "../discovery/image-identification.js";
 import { marketRoutes } from "../market/market.routes.js";
 import { merchantRoutes } from "../merchant/merchant.routes.js";
 import { offerRoutes } from "../offer/offer.routes.js";
+import { seoRoutes } from "../seo/seo.routes.js";
 import { telegramRoutes } from "../telegram/telegram.routes.js";
 import { createTelegramAuthHook } from "../user/telegram-auth.js";
 import { WATCH_ROUTE_PATTERN, watchRoutes } from "../user/watch.routes.js";
@@ -31,16 +41,32 @@ export interface BuildServerOptions {
   telegramBotToken?: string | undefined;
   /** Overrides TELEGRAM_INIT_DATA_MAX_AGE_SECONDS (used by tests). */
   telegramInitDataMaxAgeSeconds?: number;
+  /**
+   * Image-recognition provider for image search (used by tests to plug in
+   * a stand-in). Defaults to the configured provider, which is none today:
+   * the endpoint then answers "image identification unavailable".
+   */
+  imageIdentificationProvider?: ImageIdentificationProvider | null;
+}
+
+/** Message and code for client errors Fastify itself raises (bad JSON, oversize body, ...). */
+function clientErrorBody(statusCode: number): { code: string; message: string } {
+  if (statusCode === 413) {
+    return { code: "PAYLOAD_TOO_LARGE", message: "Request body is too large" };
+  }
+  if (statusCode === 415) {
+    return { code: "UNSUPPORTED_MEDIA_TYPE", message: "Unsupported media type" };
+  }
+  return { code: "VALIDATION_ERROR", message: "Invalid request" };
 }
 
 /**
  * Builds (but does not start) the GDN API server.
  *
- * All route modules are registered under /api/{version} so that future
- * modules (search, analytics, ...) can be added here as additional
- * `app.register(...)` calls without rewriting the server itself - see
- * GDN_Implementation_Master_Roadmap.md Phase 2 (Backend/API
- * Foundation).
+ * API route modules are registered under /api/{version}. The public,
+ * crawlable pages (product/category/store landing pages, sitemaps,
+ * robots.txt) are registered at the root so their URLs are the canonical
+ * site URLs.
  *
  * The centralized error handler is what turns a thrown ApiError (see
  * api/http/errors.ts) into the structured { success, error } response
@@ -55,8 +81,8 @@ export interface BuildServerOptions {
  * api/http/internal-auth.ts) rejects every non-GET/HEAD/OPTIONS
  * request that lacks the internal API key. The exemptions are the
  * Telegram webhook (its own webhook-secret authentication) and the
- * user-scoped watch route (verified Telegram user authentication, which
- * its plugin enforces with requireUser on every route).
+ * user-scoped routes (watch, image search), which authenticate with a
+ * verified Telegram user and enforce requireUser in their plugins.
  *
  * User authentication (Mini App initData, `Authorization: tma ...`) is
  * separate from the internal key: a root hook attaches request.user
@@ -70,6 +96,10 @@ export function buildServer(options: BuildServerOptions = {}): FastifyInstance {
     "telegramBotToken" in options ? options.telegramBotToken : env.telegramBotToken;
   const telegramInitDataMaxAgeSeconds =
     options.telegramInitDataMaxAgeSeconds ?? env.telegramInitDataMaxAgeSeconds;
+  const imageProvider =
+    "imageIdentificationProvider" in options
+      ? (options.imageIdentificationProvider ?? null)
+      : getConfiguredImageProvider();
 
   const app = Fastify({
     // Credentials must never reach the logs, even if a serializer is
@@ -87,6 +117,10 @@ export function buildServer(options: BuildServerOptions = {}): FastifyInstance {
     // rate-limit.ts depends on to key per real client rather than
     // lumping every visitor into one shared bucket.
     trustProxy: true,
+    // Product slugs may be up to 200 characters; Fastify's default URL
+    // parameter limit (100) would answer a long slug with a bare router 404
+    // instead of the normal not-found page.
+    maxParamLength: 400,
   });
 
   // Registered on the root instance, before any route, so it covers
@@ -98,6 +132,7 @@ export function buildServer(options: BuildServerOptions = {}): FastifyInstance {
       exemptRoutes: [
         `/api/${env.apiVersion}/telegram/webhook`,
         `/api/${env.apiVersion}${WATCH_ROUTE_PATTERN}`,
+        `/api/${env.apiVersion}${IMAGE_SEARCH_ROUTE_PATTERN}`,
       ],
     }),
   );
@@ -124,6 +159,18 @@ export function buildServer(options: BuildServerOptions = {}): FastifyInstance {
       });
     }
 
+    // Client errors raised by Fastify itself (malformed JSON, a body over
+    // the size limit, an unsupported media type): report them as the
+    // client errors they are, in the standard format, without echoing any
+    // of the request.
+    const statusCode = (error as { statusCode?: unknown }).statusCode;
+    if (typeof statusCode === "number" && statusCode >= 400 && statusCode < 500) {
+      return reply.status(statusCode).send({
+        success: false,
+        error: clientErrorBody(statusCode),
+      });
+    }
+
     request.log.error(error);
     return reply.status(500).send({
       success: false,
@@ -140,6 +187,8 @@ export function buildServer(options: BuildServerOptions = {}): FastifyInstance {
       await versioned.register(marketRoutes);
       await versioned.register(categoryRoutes);
       await versioned.register(productRoutes);
+      await versioned.register(barcodeRoutes);
+      await versioned.register(createImageSearchRoutes(imageProvider));
       await versioned.register(merchantRoutes);
       await versioned.register(offerRoutes);
       await versioned.register(dealRoutes);
@@ -150,6 +199,9 @@ export function buildServer(options: BuildServerOptions = {}): FastifyInstance {
     },
     { prefix: `/api/${env.apiVersion}` },
   );
+
+  // Public crawlable pages, sitemaps and robots.txt (canonical site URLs).
+  app.register(seoRoutes);
 
   return app;
 }

@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Search products | Global Deals Network</title>
+<meta name="description" content="Search products and compare real store prices on Global Deals Network.">
+<meta name="robots" content="noindex,follow">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;color:#1a1c1a;background:#faf9f6}
+  main{max-width:720px;margin:0 auto;padding:16px}
+  h1{font-size:1.4rem;margin:.2em 0 .6em}
+  form{display:flex;gap:8px;margin:8px 0}
+  input[type=search],input[type=text]{flex:1;padding:10px;border:1px solid #bbb;border-radius:6px;font-size:1rem}
+  button{padding:10px 14px;border:0;border-radius:6px;background:#1a1c1a;color:#fff;font-size:1rem}
+  button[disabled]{background:#bbb}
+  .state{padding:10px 0;color:#4e4541}
+  .error{color:#ba1a1a}
+  ul{list-style:none;padding:0}li{padding:12px 0;border-bottom:1px solid #e3e2df}
+  .muted{color:#4e4541;font-size:.9rem}a.cta{display:inline-block;margin-top:6px;padding:6px 12px;border:1px solid #1a1c1a;border-radius:6px;color:#1a1c1a;text-decoration:none}
+  .disclosure{margin-top:24px;font-size:.85rem;color:#4e4541}
+</style>
+</head>
+<body>
+<main>
+  <h1>Find a product, compare prices</h1>
+
+  <form id="text-form">
+    <input id="q" type="search" placeholder="Search products..." aria-label="Search products" maxlength="100" autocomplete="off">
+    <button type="submit">Search</button>
+  </form>
+
+  <form id="barcode-form">
+    <input id="barcode" type="text" inputmode="numeric" placeholder="Barcode (UPC / EAN)" aria-label="Barcode" maxlength="14" autocomplete="off">
+    <button type="submit">Look up</button>
+  </form>
+
+  <p>
+    <button type="button" disabled>Search by image &mdash; coming soon</button>
+    <button type="button" disabled>Scan barcode with camera &mdash; coming soon</button>
+  </p>
+
+  <div id="state" class="state" role="status" aria-live="polite"></div>
+  <ul id="results"></ul>
+
+  <p class="disclosure">Prices and availability may change. GDN may earn a commission from qualifying purchases.</p>
+</main>
+
+<script>
+/*
+ * Functional search page for the web and the Telegram Mini App (no final
+ * design). It only calls the public GDN API (no credentials of any kind)
+ * and links every result to the server-rendered product page, which holds
+ * the price comparison and the Shop links (the central affiliate
+ * redirect). All data is rendered with textContent, never innerHTML.
+ *
+ * API_BASE is where the GDN API lives. Override it by defining
+ * window.GDN_API_BASE before this script.
+ */
+(function () {
+  "use strict";
+  var API_BASE = (window.GDN_API_BASE || "https://global-deals-network.onrender.com").replace(/\/+$/, "");
+  var marketId = null;
+  var marketName = "";
+
+  var stateEl = document.getElementById("state");
+  var listEl = document.getElementById("results");
+
+  if (window.Telegram && window.Telegram.WebApp) {
+    try { window.Telegram.WebApp.ready(); window.Telegram.WebApp.expand(); } catch (e) { /* not in Telegram */ }
+  }
+
+  function setState(text, isError) {
+    stateEl.textContent = text || "";
+    stateEl.className = isError ? "state error" : "state";
+  }
+  function clearResults() { while (listEl.firstChild) listEl.removeChild(listEl.firstChild); }
+
+  function api(path) {
+    return fetch(API_BASE + path, { headers: { Accept: "application/json" } }).then(function (response) {
+      return response.json().catch(function () { return {}; }).then(function (body) {
+        return { status: response.status, body: body };
+      });
+    });
+  }
+
+  function loadMarket() {
+    if (marketId) return Promise.resolve(marketId);
+    return api("/api/v1/markets?limit=100").then(function (res) {
+      var markets = (res.body && res.body.data) || [];
+      var chosen = markets.filter(function (m) { return m.code === "US"; })[0] || markets[0];
+      if (!chosen) throw new Error("market-unavailable");
+      marketId = chosen.market_id;
+      marketName = chosen.name;
+      return marketId;
+    });
+  }
+
+  function money(amount, currency) { return currency + " " + Number(amount).toFixed(2); }
+
+  function renderProduct(product) {
+    var li = document.createElement("li");
+    var link = document.createElement("a");
+    link.href = "/product/" + encodeURIComponent(product.slug);
+    var strong = document.createElement("strong");
+    strong.textContent = product.name;
+    link.appendChild(strong);
+    li.appendChild(link);
+
+    if (product.brand) {
+      var brand = document.createElement("span");
+      brand.className = "muted";
+      brand.textContent = " " + product.brand;
+      li.appendChild(brand);
+    }
+    var best = product.best_offer;
+    var details = [money(best.effective_price, best.currency) + " at " + best.merchant.name,
+      product.offer_count + (product.offer_count === 1 ? " offer" : " offers")];
+    if (product.price_status.status === "low") details.push("lower than usual");
+    if (product.price_status.status === "normal") details.push("normal price");
+    if (product.price_status.status === "high") details.push("higher than usual");
+    if (product.deal_score.score !== null) details.push("Deal Score " + product.deal_score.score + "/100");
+    var line = document.createElement("div");
+    line.className = "muted";
+    line.textContent = details.join(" \u00b7 ");
+    li.appendChild(line);
+
+    var cta = document.createElement("a");
+    cta.className = "cta";
+    cta.href = link.href;
+    cta.textContent = "Compare prices";
+    li.appendChild(cta);
+    return li;
+  }
+
+  function search(query) {
+    clearResults();
+    var q = (query || "").trim();
+    if (q.length < 2) { setState("Please enter at least 2 characters.", true); return; }
+    setState("Searching...");
+    loadMarket()
+      .then(function (id) { return api("/api/v1/products/search?q=" + encodeURIComponent(q) + "&market_id=" + encodeURIComponent(id) + "&limit=20"); })
+      .then(function (res) {
+        if (res.status === 404) { setState("This market is not available.", true); return; }
+        if (res.status !== 200) { setState("Search failed. Please try again.", true); return; }
+        var products = res.body.data || [];
+        if (products.length === 0) { setState('No products found for "' + q + '" in ' + marketName + "."); return; }
+        setState(res.body.meta.total + (res.body.meta.total === 1 ? " product" : " products") + " in " + marketName + ".");
+        products.forEach(function (product) { listEl.appendChild(renderProduct(product)); });
+      })
+      .catch(function (error) {
+        setState(error && error.message === "market-unavailable" ? "No market is available yet." : "Could not reach GDN. Please try again.", true);
+      });
+  }
+
+  function lookupBarcode(code) {
+    clearResults();
+    var value = (code || "").trim();
+    if (!/^\d{8}$|^\d{12,14}$/.test(value)) { setState("Enter a valid barcode (8, 12, 13 or 14 digits).", true); return; }
+    setState("Looking up barcode...");
+    loadMarket()
+      .then(function (id) { return api("/api/v1/products/search/barcode?code=" + encodeURIComponent(value) + "&market_id=" + encodeURIComponent(id)); })
+      .then(function (res) {
+        if (res.status === 400) { setState("That barcode is not valid.", true); return; }
+        if (res.status === 404) { setState("No product found for that barcode."); return; }
+        if (res.status !== 200) { setState("Barcode lookup failed. Please try again.", true); return; }
+        var comparison = res.body.data.comparison;
+        setState("Found 1 product.");
+        var li = document.createElement("li");
+        var link = document.createElement("a");
+        link.href = "/product/" + encodeURIComponent(comparison.slug);
+        var strong = document.createElement("strong");
+        strong.textContent = comparison.name;
+        link.appendChild(strong);
+        li.appendChild(link);
+        var line = document.createElement("div");
+        line.className = "muted";
+        line.textContent = comparison.offer_count === 0 ? "No store offers right now." : comparison.offer_count + (comparison.offer_count === 1 ? " offer" : " offers");
+        li.appendChild(line);
+        listEl.appendChild(li);
+      })
+      .catch(function () { setState("Could not reach GDN. Please try again.", true); });
+  }
+
+  document.getElementById("text-form").addEventListener("submit", function (event) {
+    event.preventDefault();
+    search(document.getElementById("q").value);
+  });
+  document.getElementById("barcode-form").addEventListener("submit", function (event) {
+    event.preventDefault();
+    lookupBarcode(document.getElementById("barcode").value);
+  });
+
+  var initial = new URLSearchParams(window.location.search).get("q");
+  if (initial) { document.getElementById("q").value = initial; search(initial); }
+})();
+</script>
+</body>
+</html>

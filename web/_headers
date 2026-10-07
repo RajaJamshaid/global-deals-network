@@ -1,16 +1,15 @@
 /*
   Cache-Control for the Mini App.
 
-  index.html is now the only file in web/ (CSS is inlined, JS/CDN
-  libraries are loaded from cdn.tailwindcss.com / cdnjs.cloudflare.com
-  by full versioned URLs, which are safe to let browsers cache
-  normally). This just protects index.html itself from the same
-  stale-cache bug that hit the old separate main.css: Cloudflare
-  Pages serves it at a fixed URL across every deploy, so without this
-  a browser could keep showing an old version after a new deploy.
+  index.html and search.html are small standalone files served at fixed
+  URLs across every deploy; without this a browser could keep showing an
+  old version after a new deploy.
 */
 /
   Cache-Control: no-cache
 
 /index.html
+  Cache-Control: no-cache
+
+/search.html
   Cache-Control: no-cache
